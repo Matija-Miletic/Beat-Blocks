@@ -1,8 +1,7 @@
-import React from 'react';
 import { IconButton } from '@chakra-ui/react';
 import { AiFillPlayCircle, AiOutlinePause, AiOutlineStop, AiOutlineSync, AiOutlineAudio } from 'react-icons/ai'; // Importing additional icons
 
-// Play Button
+// Play
 export const PlayButton = () => {
   return (
     <IconButton
@@ -15,7 +14,7 @@ export const PlayButton = () => {
   );
 };
 
-// Pause Button
+// Pause
 export const PauseButton = () => {
   return (
     <IconButton
@@ -28,7 +27,7 @@ export const PauseButton = () => {
   );
 };
 
-// Stop Button
+// Stop
 export const StopButton = () => {
   return (
     <IconButton
@@ -41,7 +40,7 @@ export const StopButton = () => {
   );
 };
 
-// Loop Button
+// Loop
 export const LoopButton = () => {
   return (
     <IconButton
@@ -54,7 +53,7 @@ export const LoopButton = () => {
   );
 };
 
-// Record Button
+// Record
 export const RecordButton = () => {
   return (
     <IconButton
@@ -66,3 +65,10 @@ export const RecordButton = () => {
     />
   );
 };
+
+
+
+
+
+
+
