@@ -6,9 +6,9 @@ import {
   StopButton,
   LoopButton,
   RecordButton,
-} from './Buttons/BasicButtons.tsx'
-import TempoSlider from './TempoSlider.tsx'
-import InstrumentSelector from './BeatBoxes.tsx'
+} from './Buttons/BasicButtons' // Make sure the import paths are correct
+import TempoSlider from './TempoSlider'
+import InstrumentSelector from './InstrumentSelector'
 
 function App() {
   const handleTempoChange = (newTempo) => {
@@ -29,8 +29,13 @@ function App() {
         <div>
           <TempoSlider onChange={handleTempoChange} />
         </div>
-        <div>
-          <InstrumentSelector />
+        <div className="App">
+          <header className="App-header">
+            <h1>Instrument Selector</h1>
+          </header>
+          <main>
+            <InstrumentSelector />
+          </main>
         </div>
       </ChakraProvider>
     </>
