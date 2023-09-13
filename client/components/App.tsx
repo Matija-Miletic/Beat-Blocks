@@ -8,16 +8,25 @@ import {
   SliderThumb,
   SliderTrack,
 } from '@chakra-ui/react'
+import {
+  PlayButton,
+  PauseButton,
+  StopButton,
+  LoopButton,
+  RecordButton,
+} from './Buttons/BasicButtons.tsx'
 
 function App() {
-  const { data } = useFruits()
-
   return (
     <>
       <ChakraProvider>
         <div className="app">
-          <h1>Fullstack Boilerplate - with Fruits!</h1>
-          <ul>{data && data.map((fruit) => <li key={fruit}>{fruit}</li>)}</ul>
+          <h1>Beat Those Blocks!</h1>
+          <PlayButton />
+          <PauseButton />
+          <StopButton />
+          <LoopButton />
+          <RecordButton />
         </div>
       </ChakraProvider>
     </>
