@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Slider,
   SliderTrack,
@@ -14,13 +14,27 @@ import {
   NumberDecrementStepper,
 } from '@chakra-ui/react'
 
-const TempoSlider = ({ onChange }) => {
-  const [tempo, setTempo] = React.useState(40) // default tempo
+interface TempoSliderProps {
+  id?: string
+  bpm?: number
+  onChange?: (value: number) => void
+}
+
+const TempoSlider: React.FC<TempoSliderProps> = ({
+  id,
+  bpm = 40,
+  onChange,
+}) => {
+  const [tempo, setTempo] = React.useState<number>(bpm) // Initialize tempo with bpm prop
   const minTempo = 40
   const maxTempo = 240
   const stepTempo = 10
 
-  const handleChange = (value) => {
+  useEffect(() => {
+    setTempo(bpm)
+  }, [bpm])
+
+  const handleChange = (value: number) => {
     setTempo(value)
     if (onChange) {
       onChange(value)
@@ -33,6 +47,7 @@ const TempoSlider = ({ onChange }) => {
         Tempo: {minTempo} - {maxTempo} BPM
       </Text>
       <NumberInput
+        id={id ? `${id}-number-input` : undefined}
         maxW="100px"
         value={tempo}
         onChange={(valueStr, valueNum) => handleChange(valueNum)}
@@ -44,6 +59,7 @@ const TempoSlider = ({ onChange }) => {
         </NumberInputStepper>
       </NumberInput>
       <Slider
+        id={id ? `${id}-slider` : undefined}
         ml={4}
         flex="1"
         defaultValue={minTempo}
