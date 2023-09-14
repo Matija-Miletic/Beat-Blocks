@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useMemo } from 'react'
 import { useSpring, animated } from '@react-spring/web'
 import * as Tone from 'tone'
 
-const Animator = () => {
+const Animate = () => {
   const { x } = useSpring({
     from: { x: 0 },
     to: { x: 100 },
@@ -55,4 +55,4 @@ const Animator = () => {
   )
 }
 
-export default Animator
+export default Animate
