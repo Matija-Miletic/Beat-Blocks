@@ -29,6 +29,7 @@
     "@chakra-ui/react": "^2.8.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@react-spring/web": "^9.7.3",
     "express": "^4.17.2",
     "framer-motion": "^10.16.4",
     "knex": "^2.5.1",
