@@ -7,7 +7,7 @@ export default function Sequencer() {
   const stepNumber = 16
   const [isPlaying, setIsPlaying] = useState(false)
 
-  const clap = new Tone.Player('/samples/clap.wav').toDestination()
+  const clap = new Tone.Player('/samples/clap.wav').toDestination() //This is where the one clap sound comes from
   Tone.Transport.bpm.value = 60
 
   function handleClick() {
