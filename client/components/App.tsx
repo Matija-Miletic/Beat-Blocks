@@ -4,6 +4,7 @@ import Sequencer from './Sequencer'
 import * as Buttons from './PlaybackButtons'
 import { ResetButton } from './ResetButton'
 import TempoSlider from './TempoSlider'
+import Oscillator from './Freeform'
 
 function App() {
   const handleTempoChange = (newTempo: number) => {
@@ -22,6 +23,7 @@ function App() {
         <Sequencer />
         <TempoSlider onChange={handleTempoChange} />
         <ResetButton />
+        <Oscillator />
       </div>
     </ChakraProvider>
   )

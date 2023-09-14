@@ -25,3 +25,20 @@ h1 {
   text-align: center;
   border: 1px solid black;
 }
+
+.synth-box {
+  width: 50vw;
+  height: 50vw; /* Set the height equal to the width to create a square */
+  background-color: #3498db; /* Example background color */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  color: #fff; /* Text color */
+  font-size: 18px; /* Text font size */
+}
+
+.synth-box:active {
+  background-color: #2980b9; /* Change background color when clicked */
+}

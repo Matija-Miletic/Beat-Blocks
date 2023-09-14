@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap');
+
+html,
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Step Sequencer Styles */
+.sequencer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* Adjust the gap between step boxes as needed */
+}
+
+.step {
+  width: 30px; /* Adjust the width of each step box */
+  height: 30px; /* Adjust the height of each step box */
+  background-color: #ddd; /* Default background color */
+  border: 1px solid #ccc; /* Border around each step box */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.step.active {
+  background-color: #007bff; /* Active step background color */
+  color: #fff; /* Text color for active step */
+  border-color: #0056b3; /* Border color for active step */
+}
+
+/* Play/Pause Button Style */
+button {
+  margin-top: 20px; /* Adjust the margin as needed */
+  padding: 10px 20px; /* Adjust padding as needed */
+  background-color: #007bff; /* Button background color */
+  color: #fff; /* Button text color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3; /* Button background color on hover */
+}
