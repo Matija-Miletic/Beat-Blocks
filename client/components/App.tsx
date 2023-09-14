@@ -8,6 +8,7 @@ import TempoSlider from './TempoSlider'
 import Oscillator from './Freeform'
 import { Lasers } from './Lasers'
 import { LaserButton } from './LaserButton'
+import { Britney } from './Britney'
 
 function App() {
   const [isLaserActive, setIsLaserActive] = useState(false) // New state variable
@@ -25,6 +26,7 @@ function App() {
       <div className="app">
         <div className="app-content">
           <h1>Beat Those Blocks!</h1>
+
           <div className="button-container">
             <Buttons.PlayButton />
             <Buttons.PauseButton />
