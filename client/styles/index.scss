@@ -25,3 +25,22 @@ h1 {
   text-align: center;
   border: 1px solid black;
 }
+
+/* New or Updated Styles */
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.button-container button,
+.icon-button {
+  margin: 5px;
+}
+
+.slider-container {
+  width: 66%;  /* 2/3 of the screen */
+}
