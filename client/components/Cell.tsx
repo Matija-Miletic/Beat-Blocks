@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
+import { RiCheckboxBlankFill, RiCheckboxBlankLine } from 'react-icons/ri' // Import icons
 
 interface Props {
   trackNumber: number
@@ -12,14 +13,29 @@ export default function Cell({ trackNumber, cellNumber }: Props) {
     setIsActive(!isActive)
   }
 
+  const iconStyle = {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+
   return (
-    <div className="cell">
+    <div className="cell" style={{ position: 'relative' }}>
       <button
         className="cell"
         onClick={handleClick}
         id={`cell-${trackNumber}-${cellNumber}`}
+        style={{ width: '100%', height: '100%', padding: 0 }}
       >
-        {isActive ? 'X' : ' '}
+        <div style={iconStyle}>
+          {isActive ? (
+            <RiCheckboxBlankFill size="100%" />
+          ) : (
+            <RiCheckboxBlankLine size="100%" />
+          )}
+        </div>
       </button>
     </div>
   )

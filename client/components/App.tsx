@@ -1,4 +1,3 @@
-import React from 'react'
 import { ChakraProvider } from '@chakra-ui/react'
 import Sequencer from './Sequencer'
 import * as Buttons from './PlaybackButtons'
@@ -15,13 +14,17 @@ function App() {
     <ChakraProvider>
       <div className="app">
         <h1>Beat Those Blocks!</h1>
-        <Buttons.PlayButton />
-        <Buttons.PauseButton />
-        <Buttons.StopButton />
-        <Buttons.LoopButton />
-        <Buttons.RecordButton />
+        <div className="button-container">
+          <Buttons.PlayButton />
+          <Buttons.PauseButton />
+          <Buttons.StopButton />
+          <Buttons.LoopButton />
+          <Buttons.RecordButton />
+        </div>
         <Sequencer />
-        <TempoSlider onChange={handleTempoChange} />
+        <div className="slider-container">
+          <TempoSlider onChange={handleTempoChange} />
+        </div>
         <ResetButton />
         <Oscillator />
       </div>
