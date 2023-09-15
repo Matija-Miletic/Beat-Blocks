@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   Box,
   Center,
@@ -8,7 +9,7 @@ import {
   SliderTrack,
   Text,
 } from '@chakra-ui/react'
-import { useState, useEffect, useRef, SetStateAction } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import * as Tone from 'tone'
 
 const SynthComponent = () => {
@@ -30,10 +31,10 @@ const SynthComponent = () => {
       synth.dispose()
     }
 
-    // const newSynth: SetStateAction<Tone.Synth<Tone.SynthOptions>>
-
+    // @ts-ignore: 7053
     const newSynth = Tone[selectedSynth]
-      ? new Tone[selectedSynth]().connect(distortion)
+      ? // @ts-ignore: 7053
+        new Tone[selectedSynth]().connect(distortion)
       : new Tone.Synth().connect(distortion)
 
     setSynth(newSynth)
@@ -47,7 +48,7 @@ const SynthComponent = () => {
     setIsPlaying(true)
 
     if (boxRef.current) {
-      const box = boxRef.current.getBoundingClientRect()
+      const box = (boxRef.current as HTMLElement)?.getBoundingClientRect()
       const mouseY = initialMouseY - box.top
       const boxHeight = box.height
 
@@ -70,12 +71,11 @@ const SynthComponent = () => {
   }
 
   const playSynthNote = (
+    // THis function selects the note to play based on the relative y postion of the mouse
     synth: Tone.Synth<Tone.SynthOptions>,
     mouseY: number,
     boxHeight: number,
   ) => {
-    // const minNote = 'C1'
-    // const maxNote = 'C8'
     const noteRange = [
       'C',
       'D',
@@ -94,13 +94,14 @@ const SynthComponent = () => {
     const selectedOctave = Math.floor(3 + (mouseY / boxHeight) * 3)
     const initialNote = selectedNote + selectedOctave
 
+    // Trigger attack causes the sound to play
     synth.triggerAttack(initialNote)
   }
 
   useEffect(() => {
     const handleMouseMove = (e: { clientY: number }) => {
       if (boxRef.current) {
-        const box = boxRef.current.getBoundingClientRect()
+        const box = (boxRef.current as HTMLElement)?.getBoundingClientRect()
         const mouseY = e.clientY - box.top
         const boxHeight = box.height
 
@@ -129,7 +130,7 @@ const SynthComponent = () => {
     }
   }, [synth, isPlaying])
 
-  const handleDistortionChange = (newDist) => {
+  const handleDistortionChange = (newDist: number) => {
     setDist(newDist)
 
     // Dispose the current distortion effect
