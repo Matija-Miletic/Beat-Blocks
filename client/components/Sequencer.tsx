@@ -9,6 +9,7 @@ export default function Sequencer() {
   const stepNumber = 16
   const cellIds: string[] = []
 
+
   const kick = new Tone.Player('/samples/kick.wav').toDestination()
   const snare = new Tone.Player('/samples/snare.wav').toDestination()
   const hihat = new Tone.Player('/samples/hihat.wav').toDestination()
