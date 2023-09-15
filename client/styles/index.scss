@@ -42,3 +42,77 @@ h1 {
 .synth-box:active {
   background-color: #2980b9; /* Change background color when clicked */
 }
+
+$brick-peg-size: 15px;
+$brick-wall-thickness: 6px;
+$brick-square:  $brick-peg-size + $brick-wall-thickness * 2;
+
+.board {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  box-pack: end;
+ 
+  filter: drop-shadow(6px 6px 4px rgba(0,0,0,0.6)) drop-shadow(0 0 6px rgba(0,0,0,0.5));
+}
+.border {
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(12 * #{$brick-square} + 2 * #{$brick-wall-thickness});
+  height: calc(12 * #{$brick-square} + 2 * #{$brick-wall-thickness});
+  background-color: transparent; /* Adjust this to your background color */
+  border: 1px solid #f63; /* Border color matches brick color */
+}
+
+.brick {
+  color: #f63;
+  background-color: currentColor;
+  padding: $brick-wall-thickness;
+  min-width: $brick-square;
+  min-height: $brick-square;
+  box-shadow: inset -1px -1px 0 rgba(0,0,0,.2), inset 1px 1px 0 rgba(#fff, .2);
+  background-image: radial-gradient(currentColor $brick-peg-size/2, transparent $brick-peg-size/2 + 1px),
+                      radial-gradient(rgba(#fff, .6) $brick-peg-size/2, transparent $brick-peg-size/2 + 1px),
+                    radial-gradient(rgba(#000, .2) $brick-peg-size/2, transparent $brick-peg-size/2 + $brick-wall-thickness/2),
+                  radial-gradient(rgba(#000, .2) $brick-peg-size/2, transparent $brick-peg-size/2 + $brick-wall-thickness/2);
+  background-size: $brick-square $brick-square;
+  background-position: 0px 0px, -.5px -.5px, 0px 0px, $brick-wall-thickness/2 $brick-wall-thickness/2;
+  background-repeat: repeat;
+}
+
+$brick-colors: (
+    'red':  #e53935,
+'pink':  #d81b60,
+'purple':  #8e24aa,
+'deep-purple':  #5e35b1,
+'indigo':  #3949ab,
+'blue':  #1e88e5,
+'light-blue':  #039be5,
+'cyan':  #00acc1,
+'teal':  #00897b,
+'green':  #43a047,
+'light-green':  #7cb342,
+'lime':  #c0ca33,
+'yellow':  #fdd835,
+'amber':  #ffb300,
+'orange':  #fb8c00,
+'deep-orange':  #f4511e,
+'brown':  #6d4c41,
+'grey':  #757575,
+'blue-grey':  #546e7a
+);
+
+@each $name, $color in $brick-colors {
+    .b-#{$name} {
+        color: $color;
+    }
+}
+
+@for $x from 1 through 12 {
+    @for $y from 1 through 12 {
+        .b-#{$x}x#{$y} {
+            width: $brick-peg-size * $x + (($brick-wall-thickness*2) * $x);
+            height: $brick-peg-size * $y + (($brick-wall-thickness*2) * $y);
+        }
+    }
+}
