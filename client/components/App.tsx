@@ -6,6 +6,7 @@ import * as Buttons from './PlaybackButtons'
 import { ResetButton } from './ResetButton'
 import TempoSlider from './TempoSlider'
 import Oscillator from './Freeform'
+import Animate from './Animate'
 import { Lasers } from './Lasers'
 import { LaserButton } from './LaserButton'
 
@@ -45,6 +46,9 @@ function App() {
             <Oscillator />
           </div>
         </div>
+        <ResetButton />
+        <Oscillator />
+        <Animate />
         {isLaserActive && <Lasers />}{' '}
         {/* Conditionally render based on state */}
       </div>
