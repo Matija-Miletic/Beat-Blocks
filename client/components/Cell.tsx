@@ -17,6 +17,7 @@ export default function Cell({ trackNumber, cellNumber }: Props) {
       <button
         className="cell"
         onClick={handleClick}
+        value={isActive ? 'active' : 'inactive'}
         id={`cell-${trackNumber}-${cellNumber}`}
       >
         {isActive ? 'X' : ' '}
