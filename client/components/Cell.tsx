@@ -26,6 +26,7 @@ export default function Cell({ trackNumber, cellNumber }: Props) {
       <button
         className="cell"
         onClick={handleClick}
+        value={isActive ? 'active' : 'inactive'}
         id={`cell-${trackNumber}-${cellNumber}`}
         style={{ width: '100%', height: '100%', padding: 0 }}
       >

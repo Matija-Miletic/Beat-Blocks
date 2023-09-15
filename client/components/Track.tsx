@@ -6,6 +6,9 @@ interface Props {
   steps: number
 }
 
+// TODO: pass in available sounds as props for sound selection
+// TODO: populate sound selection with available sounds
+
 export default function Track({ trackNumber, steps }: Props) {
   const [sound, setSound] = useState(1)
   const cells = [...Array(steps).keys()]
@@ -15,8 +18,13 @@ export default function Track({ trackNumber, steps }: Props) {
   }
 
   return (
-    <div className="track">
-      <select name="soundselection" id="soundselection" onChange={onChange}>
+    <div id={`track-${trackNumber}`} className="track">
+      <select
+        name="soundselection"
+        id={`soundselection-${trackNumber}`}
+        onChange={onChange}
+        value={sound}
+      >
         <option value="1">Clap</option>
         <option value="2">Hihat</option>
         <option value="3">Snare</option>
