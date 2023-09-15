@@ -1,5 +1,4 @@
-// App.tsx
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { ChakraProvider } from '@chakra-ui/react'
 import Sequencer from './Sequencer'
 import * as Buttons from './PlaybackButtons'
@@ -8,6 +7,7 @@ import TempoSlider from './TempoSlider'
 import Oscillator from './Freeform'
 import { Lasers } from './Lasers'
 import { LaserButton } from './LaserButton'
+import { Fonts } from './Fonts'
 
 function App() {
   const [isLaserActive, setIsLaserActive] = useState(false) // New state variable
@@ -47,6 +47,10 @@ function App() {
         </div>
         {isLaserActive && <Lasers />}{' '}
         {/* Conditionally render based on state */}
+      </div>
+      <div className="fonts-container">
+        <h3>Fonts Showcase:</h3>
+        <Fonts />
       </div>
     </ChakraProvider>
   )
