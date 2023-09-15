@@ -13,15 +13,12 @@ export default function Cell({ trackNumber, cellNumber }: Props) {
   function handleClick() {
     setIsActive(!isActive)
 
-    // Show the image immediately
     setShowImage(true)
 
-    // Hide the image after 3 seconds, but start fading after 1 second
     setTimeout(() => {
       setShowImage(false)
     }, 3000)
 
-    // Start the fade-out after 1 second
     setTimeout(() => {
       setShowImage(false)
     }, 1000)
@@ -33,7 +30,7 @@ export default function Cell({ trackNumber, cellNumber }: Props) {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'relative', // Add relative positioning to the container
+    position: 'relative',
   }
 
   return (
@@ -58,8 +55,8 @@ export default function Cell({ trackNumber, cellNumber }: Props) {
               className="animated-image"
               style={{
                 position: 'absolute',
-                width: '80px', // Adjust the size as needed
-                height: 'auto', // Adjust the size as needed
+                width: '80px',
+                height: 'auto',
                 animation: 'moveDown 2s ease-in-out, fadeOut 2s ease-in-out',
                 top: '0',
                 left: '0',
