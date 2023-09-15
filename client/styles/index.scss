@@ -269,3 +269,23 @@ $brick-colors: (
 		border-width: 5px;
 	}
 }
+
+/////////////
+@keyframes moveDown {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(200px); /* Adjust the distance to move */
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+////////////
