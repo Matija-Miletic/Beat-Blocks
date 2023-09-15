@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { RiCheckboxBlankFill, RiCheckboxBlankLine } from 'react-icons/ri' // Import icons
 
 interface Props {

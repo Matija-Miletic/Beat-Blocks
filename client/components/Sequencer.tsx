@@ -9,7 +9,6 @@ export default function Sequencer() {
   const stepNumber = 16
   const cellIds: string[] = []
 
-
   const kick = new Tone.Player('/samples/kick.wav').toDestination()
   const snare = new Tone.Player('/samples/snare.wav').toDestination()
   const hihat = new Tone.Player('/samples/hihat.wav').toDestination()
@@ -49,17 +48,26 @@ export default function Sequencer() {
     Tone.Transport.scheduleRepeat((time) => {
       // console.log(`Quarter note at ${time}`)
 
+      /////// CODE GOES HERE
+      //  REMOVE THIS COMMENT
+      ///////
+
       // Get the current cell for this iteration and check if it is active
       const cellElement = document.getElementById(cellIds[currentStep])
       if (cellElement?.getAttribute('value') === 'active') {
         // console.log(cellElement)
+
+        /////// IF DEPENDANT ON ACTIVE CELL, CODE GOES HERE
+        // REMOVE THIS COMMENT
+        ///////
 
         // Get sound then play the corresponding sound
         const soundSelectElement = document.getElementById('soundselection-0')
 
         // const sound = soundSelectElement?.getAttribute('value')
         const soundCollection = soundSelectElement?.getAttributeNames()
-        // console.log(soundCollection)
+        console.log(soundCollection)
+
         kick.start(time).stop(time + 0.1)
 
         // if (sound === '1') clap.start(time).stop(time + 0.1)
