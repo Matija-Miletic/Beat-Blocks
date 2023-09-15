@@ -1,31 +1,42 @@
-import React, { useState, useEffect, useRef } from 'react'
+import {
+  Box,
+  Heading,
+  Slider,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderTrack,
+} from '@chakra-ui/react'
+import { useState, useEffect, useRef } from 'react'
 import * as Tone from 'tone'
 
 const SynthComponent = () => {
-  const [synth, setSynth] = useState(new Tone.Synth().toDestination()) // Initialize with a default synth
+  const [dist, setDist] = useState(0)
+
+  const [distortion, setDistortion] = useState(
+    new Tone.Distortion(dist).toDestination(),
+  )
+
+  const [synth, setSynth] = useState(new Tone.Synth().connect(distortion))
   const [isPlaying, setIsPlaying] = useState(false)
-  const [selectedSynth, setSelectedSynth] = useState('Synth') // Default to 'Synth'
+  const [selectedSynth, setSelectedSynth] = useState('Synth')
   const boxRef = useRef(null)
   const isInsideBox = useRef(false)
   let stopSynthTimeout
 
-  // Function to create and set the active synth based on the selected type
   const createAndSetSynth = () => {
     if (synth) {
-      synth.dispose() // Dispose of the previous synth
+      synth.dispose()
     }
 
     let newSynth
 
-    // Create the selected synth type
     newSynth = Tone[selectedSynth]
-      ? new Tone[selectedSynth]().toDestination()
-      : new Tone.Synth().toDestination()
+      ? new Tone[selectedSynth]().connect(distortion)
+      : new Tone.Synth().connect(distortion)
 
     setSynth(newSynth)
   }
 
-  // Handle changes in the selected synth type
   useEffect(() => {
     createAndSetSynth()
   }, [selectedSynth])
@@ -33,10 +44,9 @@ const SynthComponent = () => {
   const startSynth = (initialMouseY) => {
     setIsPlaying(true)
 
-    // Trigger the note immediately when starting the synth
     if (boxRef.current) {
       const box = boxRef.current.getBoundingClientRect()
-      const mouseY = initialMouseY - box.top // Get relative Y position in the box
+      const mouseY = initialMouseY - box.top
       const boxHeight = box.height
 
       playSynthNote(synth, mouseY, boxHeight)
@@ -45,24 +55,21 @@ const SynthComponent = () => {
 
   const stopSynth = () => {
     if (synth) {
-      // Clear any existing stopSynthTimeout
       if (stopSynthTimeout) {
         clearTimeout(stopSynthTimeout)
       }
 
-      // Delay the synth stop for a short period (e.g., 100 milliseconds)
       stopSynthTimeout = setTimeout(() => {
         synth.triggerRelease()
         setIsPlaying(false)
         isInsideBox.current = false
-      }, 1) // Adjust the delay duration as needed
+      }, 1)
     }
   }
 
   const playSynthNote = (synth, mouseY, boxHeight) => {
-    // Calculate note and octave based on relative Y position (you can adjust the note range)
-    const minNote = 'C1'
-    const maxNote = 'C8'
+    // const minNote = 'C1'
+    // const maxNote = 'C8'
     const noteRange = [
       'C',
       'D',
@@ -75,10 +82,10 @@ const SynthComponent = () => {
       'Eb',
       'Gb',
       'Ab',
-    ] // Include intermediate notes
+    ]
     const noteIndex = Math.floor((mouseY / boxHeight) * noteRange.length)
     const selectedNote = noteRange[noteIndex]
-    const selectedOctave = Math.floor(3 + (mouseY / boxHeight) * 3) // Adjust octave based on Y position
+    const selectedOctave = Math.floor(3 + (mouseY / boxHeight) * 3)
     const initialNote = selectedNote + selectedOctave
 
     synth.triggerAttack(initialNote)
@@ -88,22 +95,18 @@ const SynthComponent = () => {
     const handleMouseMove = (e) => {
       if (boxRef.current) {
         const box = boxRef.current.getBoundingClientRect()
-        const mouseY = e.clientY - box.top // Get relative Y position in the box
+        const mouseY = e.clientY - box.top
         const boxHeight = box.height
 
         if (mouseY >= 0 && mouseY <= boxHeight) {
-          // Mouse is inside the box
           isInsideBox.current = true
 
-          // If the synth was not playing, start it
           if (!isPlaying) {
             startSynth(e.clientY)
           } else {
-            // Synth is already playing, update the note
             playSynthNote(synth, mouseY, boxHeight)
           }
         } else if (isInsideBox.current && isPlaying) {
-          // Mouse was inside but has moved outside, stop the synth
           stopSynth()
         }
       }
@@ -120,6 +123,22 @@ const SynthComponent = () => {
     }
   }, [synth, isPlaying])
 
+  const handleDistortionChange = (newDist) => {
+    setDist(newDist)
+
+    // Dispose the current distortion effect
+    distortion.dispose()
+
+    // Create a new distortion effect with the updated dist value
+    const newDistortion = new Tone.Distortion(newDist).toDestination()
+
+    // Reconnect the new distortion effect to the synth
+    synth.disconnect()
+    synth.connect(newDistortion)
+
+    setDistortion(newDistortion)
+  }
+
   return (
     <div>
       <h2>~~~ Interactive Synth ~~~</h2>
@@ -128,6 +147,7 @@ const SynthComponent = () => {
         <label id="select-synth" htmlFor="synthSelect">
           Select Synth Type:{' '}
         </label>
+        <label htmlFor="synthSelect">Select Synth Type: </label>
         <select
           id="synthSelect"
           value={selectedSynth}
@@ -150,6 +170,22 @@ const SynthComponent = () => {
       >
         <p>Hold Mouse Button to Play Notes (X Dimension Has No Effect)</p>
       </div>
+      <Heading as="h3">Distortion:</Heading>
+      <Slider
+        aria-label="slider-ex-4"
+        defaultValue={dist}
+        min={0}
+        max={10}
+        step={0.1} // Adjust the step as needed
+        onChange={handleDistortionChange}
+      >
+        <SliderTrack bg="red.100">
+          <SliderFilledTrack bg="tomato" />
+        </SliderTrack>
+        <SliderThumb boxSize={6}>
+          <Box color="tomato" />
+        </SliderThumb>
+      </Slider>
     </div>
   )
 }
