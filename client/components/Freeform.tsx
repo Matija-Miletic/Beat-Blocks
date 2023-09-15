@@ -141,8 +141,12 @@ const SynthComponent = () => {
 
   return (
     <div>
-      <h1>Interactive Synth</h1>
+      <h2>~~~ Interactive Synth ~~~</h2>
       <div>
+        {/* Dropdown menu to select the synth type */}
+        <label id="select-synth" htmlFor="synthSelect">
+          Select Synth Type:{' '}
+        </label>
         <label htmlFor="synthSelect">Select Synth Type: </label>
         <select
           id="synthSelect"

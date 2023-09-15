@@ -35,11 +35,15 @@ function App() {
             <LaserButton toggleLaser={toggleLaser} />{' '}
             {/* Passing the toggle function */}
           </div>
-          <Sequencer />
+          <div className="sequencer">
+            <Sequencer />
+          </div>
           <div className="slider-container">
             <TempoSlider onChange={handleTempoChange} />
           </div>
-          <Oscillator />
+          <div className="oscillator-container">
+            <Oscillator />
+          </div>
         </div>
         {isLaserActive && <Lasers />}{' '}
         {/* Conditionally render based on state */}
