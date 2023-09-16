@@ -1,98 +1,103 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as Tone from 'tone'
 
 import Track from './Track'
 
 export default function Sequencer() {
   const [isPlaying, setIsPlaying] = useState(false)
-  const trackNumber = [...Array(1).keys()]
+  const trackNumber = [...Array(4).keys()]
   const stepNumber = 16
-  const cellIds: string[] = []
-
-  const kick = new Tone.Player('/samples/kick.wav').toDestination()
-  const snare = new Tone.Player('/samples/snare.wav').toDestination()
-  const hihat = new Tone.Player('/samples/hihat.wav').toDestination()
-  const clap = new Tone.Player('/samples/clap.wav').toDestination()
-
   let currentStep = 0
+
+  const drumPart = new Tone.Players({
+    0: '/samples/clap.wav',
+    1: '/samples/hihat.wav',
+    2: '/samples/snare.wav',
+    3: '/samples/kick.wav',
+  }).toDestination()
+
+  const cellIds: string[][] = getCellIds()
 
   // 4 beats per bar, 4 bars per loop = 16 beats
   // Quarter note = 1 beat
   // Interval = 60 / BPM
+  Tone.Transport.timeSignature = [4, 4]
+  // Tone.Transport.bpm.value = 120
+  const interval = 60 / Tone.Transport.bpm.value
 
+  // Could be obsolete as tracks and steps are fixed
   function getCellIds() {
+    const arr: string[][] = []
+    console.log(arr)
     for (let i = 0; i < trackNumber.length; i++) {
+      arr.push([])
       for (let j = 0; j < stepNumber; j++) {
-        cellIds.push(`cell-${i}-${j}`)
+        arr[i].push(`cell-${i}-${j}`)
       }
     }
+    return arr
   }
 
-  async function handlePlayPause() {
-    // Sets Audio Context from suspended state to running state
-    Tone.getContext().resume()
+  console.log(cellIds)
 
-    // Get bpm from slider/number input
-    // const tempo = document.getElementById('tempo') as HTMLInputElement
+  // drumPart.player(String(currentStep)).start(time).stop(time + 0.1)
 
-    // Set BPM
-    // Tone.Transport.bpm.value = Number(tempo.getAttribute('value'))
-    Tone.Transport.bpm.value = 240
-
-    getCellIds()
-
-    const interval = 60 / Tone.Transport.bpm.value
-    console.log(`Interval: ${interval} seconds`)
-
-    // Schedule a repeated sequence and iterate through each track then cell and play the corresponding sound if active
-    Tone.Transport.scheduleRepeat((time) => {
-      // console.log(`Quarter note at ${time}`)
-
-      /////// CODE GOES HERE
-      //  REMOVE THIS COMMENT
-      ///////
-
-      // Get the current cell for this iteration and check if it is active
-      const cellElement = document.getElementById(cellIds[currentStep])
-      if (cellElement?.getAttribute('value') === 'active') {
-        // console.log(cellElement)
-
-        /////// IF DEPENDANT ON ACTIVE CELL, CODE GOES HERE
-        // REMOVE THIS COMMENT
-        ///////
-
-        // Get sound then play the corresponding sound
-        const soundSelectElement = document.getElementById('soundselection-0')
-
-        // const sound = soundSelectElement?.getAttribute('value')
-        const soundCollection = soundSelectElement?.getAttributeNames()
-        console.log(soundCollection)
-
-        kick.start(time).stop(time + 0.1)
-
-        // if (sound === '1') clap.start(time).stop(time + 0.1)
-        // if (sound === '2') hihat.start(time).stop(time + 0.1)
-        // if (sound === '3') snare.start(time).stop(time + 0.1)
-        // if (sound === '4') kick.start(time).stop(time + 0.1)
-        // Sample is not disposed or stopped properly, causing the previous sample to play on top of the same sample at the next interval
+  // Setup main loop
+  const mainLoop = new Tone.Loop()
+  mainLoop.callback = (time) => {
+    // loop through each track
+    for (let track = 0; track < trackNumber.length; track++) {
+      // loop through each step
+      if (
+        document
+          .getElementById(`cell-${track}-${currentStep}`)
+          ?.getAttribute('value') === 'active'
+      ) {
+        // Play sample
+        drumPart
+          .player(String(track))
+          .sync()
+          .start(time)
+          .stop(time + 0.1)
       }
-      currentStep > 15 ? (currentStep = 0) : currentStep++
-    }, interval)
+    }
+    currentStep < stepNumber - 1 ? currentStep++ : (currentStep = 0)
 
-    // transport must be started before it starts invoking events
-    isPlaying ? Tone.Transport.stop() : Tone.Transport.start()
+    //vvvvv ADD CODE BELOW vvvvv
+
+    //^^^^^ ADD CODE ABOVE ^^^^^
+  }
+  // Start this outside of the play/pause function otherwise it will start another loop
+  mainLoop.interval = interval
+  mainLoop.start()
+
+  function handlePlayPause() {
+    // Dispose of previous loop
+    mainLoop.dispose()
+
+    // Resume audio context on user interaction otherwise audio will not play
+    Tone.context.resume()
+
+    // Set isPlaying state: true | false
     setIsPlaying((prevState) => !prevState)
+
+    // Set transport state: .start() | .stop() | .pause()
+    if (isPlaying) {
+      Tone.Transport.pause()
+      drumPart.stopAll()
+    } else {
+      Tone.Transport.start('+0.001')
+    }
+    console.log(`Transport state: ${Tone.Transport.state}`)
   }
 
   return (
     <>
       <div className="sequencer"></div>
-      <button onClick={handlePlayPause}>{isPlaying ? 'STOP' : 'PLAY'}</button>
+      <button onClick={handlePlayPause}>{isPlaying ? 'PAUSE' : 'PLAY'}</button>
       {trackNumber.map((track) => {
         return <Track key={track} trackNumber={track} steps={stepNumber} />
       })}
     </>
   )
 }
-
-// State:
