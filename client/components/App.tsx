@@ -5,14 +5,16 @@ import Sequencer from './Sequencer'
 import * as Buttons from './PlaybackButtons'
 import { ResetButton } from './ResetButton'
 import TempoSlider from './TempoSlider'
-import Oscillator from './Freeform'
+import Synth from './Synth'
 import { Lasers } from './Lasers'
 import { LaserButton } from './LaserButton'
 
 function App() {
+  const [tempo, setTempo] = useState(100)
   const [isLaserActive, setIsLaserActive] = useState(false) // New state variable
   const handleTempoChange = (newTempo: number) => {
     console.log(`New Tempo: ${newTempo} BPM`)
+    setTempo(newTempo)
   }
 
   // Function to toggle laser state
@@ -36,13 +38,13 @@ function App() {
             {/* Passing the toggle function */}
           </div>
           <div className="sequencer">
-            <Sequencer />
+            <Sequencer tempo={tempo} />
           </div>
           <div className="slider-container">
             <TempoSlider onChange={handleTempoChange} />
           </div>
           <div className="oscillator-container">
-            <Oscillator />
+            <Synth />
           </div>
         </div>
         {isLaserActive && <Lasers />}{' '}

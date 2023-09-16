@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   Box,
   Center,
   Heading,
+  Select,
   Slider,
   SliderFilledTrack,
   SliderThumb,
   SliderTrack,
   Text,
 } from '@chakra-ui/react'
-import { useState, useEffect, useRef, SetStateAction } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import * as Tone from 'tone'
 
 const SynthComponent = () => {
@@ -30,10 +32,10 @@ const SynthComponent = () => {
       synth.dispose()
     }
 
-    // const newSynth: SetStateAction<Tone.Synth<Tone.SynthOptions>>
-
+    // @ts-ignore: 7053
     const newSynth = Tone[selectedSynth]
-      ? new Tone[selectedSynth]().connect(distortion)
+      ? // @ts-ignore: 7053
+        new Tone[selectedSynth]().connect(distortion)
       : new Tone.Synth().connect(distortion)
 
     setSynth(newSynth)
@@ -47,7 +49,7 @@ const SynthComponent = () => {
     setIsPlaying(true)
 
     if (boxRef.current) {
-      const box = boxRef.current.getBoundingClientRect()
+      const box = (boxRef.current as HTMLElement)?.getBoundingClientRect()
       const mouseY = initialMouseY - box.top
       const boxHeight = box.height
 
@@ -65,17 +67,16 @@ const SynthComponent = () => {
         synth.triggerRelease()
         setIsPlaying(false)
         isInsideBox.current = false
-      }, 10)
+      }, 1)
     }
   }
 
   const playSynthNote = (
+    // THis function selects the note to play based on the relative y postion of the mouse
     synth: Tone.Synth<Tone.SynthOptions>,
     mouseY: number,
     boxHeight: number,
   ) => {
-    // const minNote = 'C1'
-    // const maxNote = 'C8'
     const noteRange = [
       'C',
       'D',
@@ -94,13 +95,14 @@ const SynthComponent = () => {
     const selectedOctave = Math.floor(3 + (mouseY / boxHeight) * 3)
     const initialNote = selectedNote + selectedOctave
 
+    // Trigger attack causes the sound to play
     synth.triggerAttack(initialNote)
   }
 
   useEffect(() => {
     const handleMouseMove = (e: { clientY: number }) => {
       if (boxRef.current) {
-        const box = boxRef.current.getBoundingClientRect()
+        const box = (boxRef.current as HTMLElement)?.getBoundingClientRect()
         const mouseY = e.clientY - box.top
         const boxHeight = box.height
 
@@ -129,7 +131,7 @@ const SynthComponent = () => {
     }
   }, [synth, isPlaying])
 
-  const handleDistortionChange = (newDist) => {
+  const handleDistortionChange = (newDist: number) => {
     setDist(newDist)
 
     // Dispose the current distortion effect
@@ -146,15 +148,15 @@ const SynthComponent = () => {
   }
 
   return (
-    <div>
-      <h2>~~~ Interactive Synth ~~~</h2>
-      <div>
+    <Box>
+      <Heading>~~~ Interactive Synth ~~~</Heading>
+      <Box>
         {/* Dropdown menu to select the synth type */}
+
         <label id="select-synth" htmlFor="synthSelect">
           Select Synth Type:{' '}
         </label>
-        <label htmlFor="synthSelect">Select Synth Type: </label>
-        <select
+        <Select
           id="synthSelect"
           value={selectedSynth}
           onChange={(e) => setSelectedSynth(e.target.value)}
@@ -165,52 +167,56 @@ const SynthComponent = () => {
           <option value="FMSynth">FMSynth</option>
           <option value="MembraneSynth">MembraneSynth</option>
           <option value="PluckSynth">PluckSynth</option>
-        </select>
-      </div>
-      <Box className="board">
-        <Box className="brick b-7x1 b-orange"></Box>
-        <Box className="brick b-7x1 b-orange"></Box>
+        </Select>
       </Box>
-      <Box className="board">
-        {/* Your 12x12 box code goes here */}
-        <Box className="brick b-1x12 b-orange"></Box>
-        <Box
-          ref={boxRef}
-          className="brick b-12x12 b-blue"
-          onMouseDown={(e) => startSynth(e.clientY)}
-          onMouseUp={stopSynth}
-          onMouseLeave={stopSynth}
-        >
-          <Center>
-            <Heading size="sm" color="black">
-              Press and move mouse to Play
-            </Heading>
-          </Center>
-        </Box>
-        <Box className="brick b-1x12 b-orange"></Box>
-      </Box>
-      <Box className="board">
-        <Box className="brick b-7x1 b-orange"></Box>
-        <Box className="brick b-7x1 b-orange"></Box>
-      </Box>
+      <Center>
+        <Box>
+          <Box className="board">
+            <Box className="brick b-7x1 b-orange"></Box>
+            <Box className="brick b-7x1 b-orange"></Box>
+          </Box>
+          <Box className="board">
+            {/* Your 12x12 box code goes here */}
+            <Box className="brick b-1x12 b-orange"></Box>
+            <Box
+              ref={boxRef}
+              className="brick b-12x12 b-blue"
+              onMouseDown={(e) => startSynth(e.clientY)}
+              onMouseUp={stopSynth}
+              onMouseLeave={stopSynth}
+            >
+              <Center>
+                <Heading size="sm" color="black">
+                  Press and move mouse to Play
+                </Heading>
+              </Center>
+            </Box>
+            <Box className="brick b-1x12 b-orange"></Box>
+          </Box>
+          <Box className="board">
+            <Box className="brick b-7x1 b-orange"></Box>
+            <Box className="brick b-7x1 b-orange"></Box>
+          </Box>
 
-      <Heading as="h3">Distortion:</Heading>
-      <Slider
-        aria-label="slider-ex-4"
-        defaultValue={dist}
-        min={0}
-        max={10}
-        step={0.1} // Adjust the step as needed
-        onChange={handleDistortionChange}
-      >
-        <SliderTrack bg="red.100">
-          <SliderFilledTrack bg="tomato" />
-        </SliderTrack>
-        <SliderThumb boxSize={6}>
-          <Box color="tomato" />
-        </SliderThumb>
-      </Slider>
-    </div>
+          <Heading as="h3">Distortion:</Heading>
+          <Slider
+            aria-label="slider-ex-4"
+            defaultValue={dist}
+            min={0}
+            max={10}
+            step={0.1} // Adjust the step as needed
+            onChange={handleDistortionChange}
+          >
+            <SliderTrack bg="red.100">
+              <SliderFilledTrack bg="tomato" />
+            </SliderTrack>
+            <SliderThumb boxSize={6}>
+              <Box color="tomato" />
+            </SliderThumb>
+          </Slider>
+        </Box>
+      </Center>
+    </Box>
   )
 }
 

@@ -3,7 +3,11 @@ import * as Tone from 'tone'
 
 import Track from './Track'
 
-export default function Sequencer() {
+interface Tempo {
+  tempo: number
+}
+
+export default function Sequencer({ tempo }: Tempo) {
   const [isPlaying, setIsPlaying] = useState(false)
   const trackNumber = [...Array(1).keys()]
   const stepNumber = 16
@@ -27,7 +31,7 @@ export default function Sequencer() {
       }
     }
   }
-
+  console.log(`this is the tempo ${tempo}`)
   async function handlePlayPause() {
     // Sets Audio Context from suspended state to running state
     Tone.getContext().resume()
@@ -37,7 +41,7 @@ export default function Sequencer() {
 
     // Set BPM
     // Tone.Transport.bpm.value = Number(tempo.getAttribute('value'))
-    Tone.Transport.bpm.value = 240
+    Tone.Transport.bpm.value = tempo
 
     getCellIds()
 
