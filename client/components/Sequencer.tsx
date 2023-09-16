@@ -2,6 +2,7 @@ import { useState } from 'react'
 import * as Tone from 'tone'
 
 import Track from './Track'
+import lighting from '../lighting'
 
 interface Tempo {
   tempo: number
@@ -60,6 +61,10 @@ export default function Sequencer({ tempo }: Tempo) {
       const cellElement = document.getElementById(cellIds[currentStep])
       if (cellElement?.getAttribute('value') === 'active') {
         // console.log(cellElement)
+
+        Tone.Draw.schedule(() => {
+          lighting()
+        }, time)
 
         /////// IF DEPENDANT ON ACTIVE CELL, CODE GOES HERE
         // REMOVE THIS COMMENT
