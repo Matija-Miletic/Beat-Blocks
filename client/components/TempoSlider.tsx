@@ -22,7 +22,7 @@ interface TempoSliderProps {
 
 const TempoSlider: React.FC<TempoSliderProps> = ({
   id,
-  bpm = 40,
+  bpm = 100,
   onChange,
 }) => {
   const [tempo, setTempo] = React.useState<number>(bpm) // Initialize tempo with bpm prop
