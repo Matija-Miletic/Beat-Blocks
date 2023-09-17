@@ -3,7 +3,7 @@ import * as Tone from 'tone'
 
 import Track from './Track'
 
-const TRACK_COUNT = 4
+const TRACK_COUNT = 5
 const STEP_COUNT = 16
 
 export default function Sequencer() {
@@ -17,6 +17,8 @@ export default function Sequencer() {
     1: '/samples/hihat.wav',
     2: '/samples/snare.wav',
     3: '/samples/kick.wav',
+    // add in a track to connect tracker animation to
+    4: '/samples/hihat.wav',
   }).toDestination()
 
   console.log(drumPart)
@@ -26,23 +28,36 @@ export default function Sequencer() {
     for (let track = 0; track < trackNumber.length; track++) {
       //Check cell of each track for current step then play drum part if active
       const cell = document.getElementById(`cell-${track}-${currentStep}`)
-      if (cell?.getAttribute('value') === 'active') {
-        {
-          drumPart
-            .player(String(track))
-            .sync()
-            .start(time)
-            .stop(time + 0.1)
+      if (cell?.getAttribute('value') === 'active' && track !== 4) {
+        drumPart
+          .player(String(track))
+          .sync()
+          .start(time)
+          .stop(time + 0.1)
 
-          Tone.Draw.schedule(function () {
-            //this callback is invoked from a requestAnimationFrame
-            //and will be invoked close to AudioContext time
-            cell.classList.add('animate')
-            setTimeout(() => {
-              cell.classList.remove('animate')
-            }, 99)
-          }, time)
-        }
+        Tone.Draw.schedule(function () {
+          //this callback is invoked from a requestAnimationFrame
+          //and will be invoked close to AudioContext time
+          cell.classList.add('animate')
+          setTimeout(() => {
+            cell.classList.remove('animate')
+          }, 99)
+        }, time)
+      } else if (track === 4) {
+        // drumPart
+        //   .player(String(track))
+        //   .sync()
+        //   .start(time)
+        //   .stop(time + 0.1)
+
+        Tone.Draw.schedule(function () {
+          //this callback is invoked from a requestAnimationFrame
+          //and will be invoked close to AudioContext time
+          cell.classList.add('animate')
+          setTimeout(() => {
+            cell.classList.remove('animate')
+          }, 99)
+        }, time)
       }
     }
     currentStep < STEP_COUNT - 1 ? currentStep++ : (currentStep = 0)
