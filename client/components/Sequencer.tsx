@@ -2,6 +2,10 @@ import { useState } from 'react'
 import * as Tone from 'tone'
 
 import Track from './Track'
+import lighting from '../lighting'
+import { Button } from '@chakra-ui/react'
+import TempoSlider from './TempoSlider'
+import { ClassNames } from '@emotion/react'
 
 const TRACK_COUNT = 4
 const STEP_COUNT = 16
@@ -9,7 +13,13 @@ const STEP_COUNT = 16
 export default function Sequencer() {
   const [isPlaying, setIsPlaying] = useState(false)
   const trackNumber = [...Array(TRACK_COUNT).keys()]
+  // Sets state for showing flashing colours
+  const [lights, setLights] = useState(false)
 
+  // Sets tempo state used to determine speed of sequencer and animation timeout
+  const [tempo, setTempo] = useState(100)
+
+  const [sliderInteraction, setSliderInteraction] = useState(true)
   let currentStep = 0
 
   const drumPart = new Tone.Players({
@@ -37,6 +47,7 @@ export default function Sequencer() {
           Tone.Draw.schedule(function () {
             //this callback is invoked from a requestAnimationFrame
             //and will be invoked close to AudioContext time
+            if (lights) lighting()
             cell.classList.add('animate')
             setTimeout(() => {
               cell.classList.remove('animate')
@@ -48,11 +59,11 @@ export default function Sequencer() {
     currentStep < STEP_COUNT - 1 ? currentStep++ : (currentStep = 0)
 
     //vvvvv ADD CODE BELOW vvvvv
-
+    console.log(time)
     //^^^^^ ADD CODE ABOVE ^^^^^
   }
   // Start this outside of the play/pause function otherwise it will start another loop
-  mainLoop.interval = '8n'
+  mainLoop.interval = 1 / (tempo / 60)
   mainLoop.start()
 
   function handlePlayPause() {
@@ -70,21 +81,40 @@ export default function Sequencer() {
       drumPart.stopAll()
     } else {
       Tone.Transport.start('+0.001')
-      const beatsPerLoop = STEP_COUNT / 8 // Assuming one step is 8n
-      const tempo = Tone.Transport.bpm.value // Get the tempo in beats per minute
-      const loopDurationSeconds = (beatsPerLoop / tempo) * 60
-      console.log('tempo (bpm):', tempo)
-      console.log('Loop duration (seconds):', loopDurationSeconds)
+      setSliderInteraction(false)
     }
   }
+  console.log('lights', lights)
 
+  // Set BPM to match tempo slider
+  const handleTempoChange = (newTempo: number) => {
+    console.log(`New Tempo: ${newTempo} BPM`)
+    mainLoop.dispose()
+    setTempo(newTempo)
+  }
   return (
     <>
       <div className="sequencer"></div>
+      <Button
+        onClick={() => {
+          setLights(!lights)
+        }}
+      >
+        Lights?
+      </Button>
       <button onClick={handlePlayPause}>{isPlaying ? 'PAUSE' : 'PLAY'}</button>
       {trackNumber.map((track) => {
         return <Track key={track} trackNumber={track} steps={STEP_COUNT} />
       })}
+      {isPlaying ? (
+        <div className="slider-container no-interaction">
+          <TempoSlider onChange={handleTempoChange} />
+        </div>
+      ) : (
+        <div className="slider-container">
+          <TempoSlider onChange={handleTempoChange} />
+        </div>
+      )}
     </>
   )
 }

@@ -11,9 +11,6 @@ import { LaserButton } from './LaserButton'
 
 function App() {
   const [isLaserActive, setIsLaserActive] = useState(false) // New state variable
-  const handleTempoChange = (newTempo: number) => {
-    console.log(`New Tempo: ${newTempo} BPM`)
-  }
 
   // Function to toggle laser state
   const toggleLaser = () => {
@@ -38,9 +35,7 @@ function App() {
           <div className="sequencer">
             <Sequencer />
           </div>
-          <div className="slider-container">
-            <TempoSlider onChange={handleTempoChange} />
-          </div>
+
           <div className="oscillator-container">
             <Oscillator />
           </div>
