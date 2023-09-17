@@ -3,7 +3,7 @@ import * as Tone from 'tone'
 
 import Track from './Track'
 
-const TRACK_COUNT = 4
+const TRACK_COUNT = 5
 const STEP_COUNT = 16
 
 export default function Sequencer() {
@@ -17,12 +17,15 @@ export default function Sequencer() {
     1: '/samples/hihat.wav',
     2: '/samples/snare.wav',
     3: '/samples/kick.wav',
+    4: '/samples/shout.wav',
   }).toDestination()
+
+  console.log(drumPart)
 
   const mainLoop = new Tone.Loop()
   mainLoop.callback = (time) => {
     for (let track = 0; track < trackNumber.length; track++) {
-      // Check cell of each track for current step then play drum part if active
+      //Check cell of each track for current step then play drum part if active
       if (
         document
           .getElementById(`cell-${track}-${currentStep}`)
@@ -34,6 +37,24 @@ export default function Sequencer() {
           .start(time)
           .stop(time + 0.1)
       }
+      //   if (
+      //     document
+      //       .getElementById(`cell-${track}-${currentStep}`)
+      //       ?.getAttribute('value') === 'active' &&
+      //     drumPart.index !== 4
+      //   ) {
+      //     drumPart
+      //       .player(String(track))
+      //       .sync()
+      //       .start(time)
+      //       .stop(time + 0.1)
+      //   } else {
+      //     drumPart
+      //       .player(String(track))
+      //       .sync()
+      //       .start(time)
+      //       .stop(time + 0.5)
+      //   }
     }
     currentStep < STEP_COUNT - 1 ? currentStep++ : (currentStep = 0)
 
@@ -60,6 +81,11 @@ export default function Sequencer() {
       drumPart.stopAll()
     } else {
       Tone.Transport.start('+0.001')
+      const beatsPerLoop = STEP_COUNT / 8 // Assuming one step is 8n
+      const tempo = Tone.Transport.bpm.value // Get the tempo in beats per minute
+      const loopDurationSeconds = (beatsPerLoop / tempo) * 60
+      console.log('tempo (bpm):', tempo)
+      console.log('Loop duration (seconds):', loopDurationSeconds)
     }
   }
 

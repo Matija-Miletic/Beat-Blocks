@@ -276,3 +276,23 @@ $brick-colors: (
 // 		border-width: 5px;
 // 	}
 // }
+
+@keyframes moveDown {
+  0% {
+    transform: translateY(0); /* Start with no vertical translation */
+    opacity: 1; /* Fully visible */
+  }
+  100% {
+    transform: translateY(100px); /* Move downward by 100px */
+    opacity: 0; /* Fully transparent */
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1; /* Start with full visibility */
+  }
+  100% {
+    opacity: 0; /* Fade out to fully transparent */
+  }
+}
