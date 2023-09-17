@@ -3,7 +3,7 @@ import * as Tone from 'tone'
 
 import Track from './Track'
 
-const TRACK_COUNT = 5
+const TRACK_COUNT = 4
 const STEP_COUNT = 16
 
 export default function Sequencer() {
@@ -17,7 +17,6 @@ export default function Sequencer() {
     1: '/samples/hihat.wav',
     2: '/samples/snare.wav',
     3: '/samples/kick.wav',
-    4: '/samples/shout.wav',
   }).toDestination()
 
   console.log(drumPart)
