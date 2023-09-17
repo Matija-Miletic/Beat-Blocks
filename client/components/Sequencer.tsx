@@ -19,7 +19,6 @@ export default function Sequencer() {
   // Sets tempo state used to determine speed of sequencer and animation timeout
   const [tempo, setTempo] = useState(100)
 
-  const [sliderInteraction, setSliderInteraction] = useState(true)
   let currentStep = 0
 
   const drumPart = new Tone.Players({
@@ -81,7 +80,6 @@ export default function Sequencer() {
       drumPart.stopAll()
     } else {
       Tone.Transport.start('+0.001')
-      setSliderInteraction(false)
     }
   }
   console.log('lights', lights)
