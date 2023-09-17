@@ -15,7 +15,7 @@ export default function Track({ trackNumber, steps }: Props) {
         {['Clap', 'Hihat', 'Snare', 'Kick', 'Shout'][trackNumber]}
       </button>
       {cells.map((cell) => {
-        return <Cell2 key={cell} trackNumber={trackNumber} cellNumber={cell} />
+        return <Cell key={cell} trackNumber={trackNumber} cellNumber={cell} />
       })}
     </div>
   )

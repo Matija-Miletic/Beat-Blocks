@@ -26,35 +26,25 @@ export default function Sequencer() {
   mainLoop.callback = (time) => {
     for (let track = 0; track < trackNumber.length; track++) {
       //Check cell of each track for current step then play drum part if active
-      if (
-        document
-          .getElementById(`cell-${track}-${currentStep}`)
-          ?.getAttribute('value') === 'active'
-      ) {
-        drumPart
-          .player(String(track))
-          .sync()
-          .start(time)
-          .stop(time + 0.1)
+      const cell = document.getElementById(`cell-${track}-${currentStep}`)
+      if (cell?.getAttribute('value') === 'active') {
+        {
+          drumPart
+            .player(String(track))
+            .sync()
+            .start(time)
+            .stop(time + 0.1)
+
+          Tone.Draw.schedule(function () {
+            //this callback is invoked from a requestAnimationFrame
+            //and will be invoked close to AudioContext time
+            cell.classList.add('animate')
+            setTimeout(() => {
+              cell.classList.remove('animate')
+            }, 99)
+          }, time)
+        }
       }
-      //   if (
-      //     document
-      //       .getElementById(`cell-${track}-${currentStep}`)
-      //       ?.getAttribute('value') === 'active' &&
-      //     drumPart.index !== 4
-      //   ) {
-      //     drumPart
-      //       .player(String(track))
-      //       .sync()
-      //       .start(time)
-      //       .stop(time + 0.1)
-      //   } else {
-      //     drumPart
-      //       .player(String(track))
-      //       .sync()
-      //       .start(time)
-      //       .stop(time + 0.5)
-      //   }
     }
     currentStep < STEP_COUNT - 1 ? currentStep++ : (currentStep = 0)
 
