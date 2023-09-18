@@ -1,98 +1,185 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import * as Tone from 'tone'
 
+import * as Buttons from './PlaybackButtons'
+import { ResetButton } from './ResetButton'
+import { LaserButton } from './LaserButton'
 import Track from './Track'
+import lighting from '../lighting'
+import TempoSlider from './TempoSlider'
+import { Lasers } from './Lasers'
+
+const TRACK_COUNT = 6
+const STEP_COUNT = 16
+
 
 export default function Sequencer() {
-  const [isPlaying, setIsPlaying] = useState(false)
-  const trackNumber = [...Array(1).keys()]
-  const stepNumber = 16
-  const cellIds: string[] = []
 
-  const kick = new Tone.Player('/samples/kick.wav').toDestination()
-  const snare = new Tone.Player('/samples/snare.wav').toDestination()
-  const hihat = new Tone.Player('/samples/hihat.wav').toDestination()
-  const clap = new Tone.Player('/samples/clap.wav').toDestination()
+  const [isPlaying, setIsPlaying] = useState(false)
+  const trackNumber = [...Array(TRACK_COUNT).keys()]
+  // Sets tempo state used to determine speed of sequencer and animation timeout
+  const [tempo, setTempo] = useState(100)
+
+  // Sets state for showing flashing colours
+  const [lights, setLights] = useState(false)
+
+  const [isLaserActive, setIsLaserActive] = useState(false) // New state variable
+
+  const [reset, setReset] = useState(false)
 
   let currentStep = 0
+  // TODO: Get BPM from tempo slider component
+  
+  Tone.Transport.bpm.value = tempo
 
-  // 4 beats per bar, 4 bars per loop = 16 beats
-  // Quarter note = 1 beat
-  // Interval = 60 / BPM
+  // TODO: add more drum samples => clap, hihat-closed, hihat-open, snare, kick, 808, percussion, melody
 
-  function getCellIds() {
-    for (let i = 0; i < trackNumber.length; i++) {
-      for (let j = 0; j < stepNumber; j++) {
-        cellIds.push(`cell-${i}-${j}`)
+  const drumPart = new Tone.Players({
+    0: '/samples/808.wav',
+    1: '/samples/clap-alt.wav',
+    2: '/samples/percussion-alt.wav',
+    3: '/samples/hihat-alt.wav',
+    4: '/samples/snare-alt.wav',
+    5: '/samples/kick-alt.wav',
+  }).toDestination()
+
+  const mainLoop = new Tone.Loop()
+  mainLoop.callback = (time) => {
+    for (let track = 0; track < trackNumber.length; track++) {
+      //Check cell of each track for current step then play drum part if active
+      const cell = document.getElementById(`cell-${track}-${currentStep}`)
+      if (cell?.getAttribute('value') === 'active') {
+        {
+          drumPart.player(String(track)).sync().start(time).stop()
+
+          Tone.Draw.schedule(function () {
+            //this callback is invoked from a requestAnimationFrame
+            //and will be invoked close to AudioContext time
+            if (lights) lighting()
+            cell.classList.add('animate')
+            setTimeout(() => {
+              cell.classList.remove('animate')
+            }, 99)
+          }, time)
+        }
       }
+
+      //vvvvv ADD CODE BELOW vvvvv
+
+      //^^^^^ ADD CODE ABOVE ^^^^^
     }
+    currentStep < STEP_COUNT - 1 ? currentStep++ : (currentStep = 0)
+
+    //vvvvv ADD CODE BELOW vvvvv
+
+    //^^^^^ ADD CODE ABOVE ^^^^^
+  }
+  // Start this outside of the play/pause function otherwise it will start another loop
+
+  mainLoop.interval = '16n'
+
+  mainLoop.start()
+
+  function handlePlay() {
+    // Dispose of previous loop to prevent multiple loops from running
+    mainLoop.dispose()
+
+    // Resume audio context on user interaction otherwise audio will not play
+    Tone.context.resume()
+
+    setIsPlaying(true)
+
+    Tone.Transport.start('+0.1')
   }
 
-  async function handlePlayPause() {
-    // Sets Audio Context from suspended state to running state
-    Tone.getContext().resume()
+  function handlePause() {
+    // Dispose of previous loop to prevent multiple loops from running
+    mainLoop.dispose()
 
-    // Get bpm from slider/number input
-    // const tempo = document.getElementById('tempo') as HTMLInputElement
+    // Resume audio context on user interaction otherwise audio will not play
+    // Tone.context.resume()
 
-    // Set BPM
-    // Tone.Transport.bpm.value = Number(tempo.getAttribute('value'))
-    Tone.Transport.bpm.value = 240
+    setIsPlaying(false)
 
-    getCellIds()
-
-    const interval = 60 / Tone.Transport.bpm.value
-    console.log(`Interval: ${interval} seconds`)
-
-    // Schedule a repeated sequence and iterate through each track then cell and play the corresponding sound if active
-    Tone.Transport.scheduleRepeat((time) => {
-      // console.log(`Quarter note at ${time}`)
-
-      /////// CODE GOES HERE
-      //  REMOVE THIS COMMENT
-      ///////
-
-      // Get the current cell for this iteration and check if it is active
-      const cellElement = document.getElementById(cellIds[currentStep])
-      if (cellElement?.getAttribute('value') === 'active') {
-        // console.log(cellElement)
-
-        /////// IF DEPENDANT ON ACTIVE CELL, CODE GOES HERE
-        // REMOVE THIS COMMENT
-        ///////
-
-        // Get sound then play the corresponding sound
-        const soundSelectElement = document.getElementById('soundselection-0')
-
-        // const sound = soundSelectElement?.getAttribute('value')
-        const soundCollection = soundSelectElement?.getAttributeNames()
-        console.log(soundCollection)
-
-        kick.start(time).stop(time + 0.1)
-
-        // if (sound === '1') clap.start(time).stop(time + 0.1)
-        // if (sound === '2') hihat.start(time).stop(time + 0.1)
-        // if (sound === '3') snare.start(time).stop(time + 0.1)
-        // if (sound === '4') kick.start(time).stop(time + 0.1)
-        // Sample is not disposed or stopped properly, causing the previous sample to play on top of the same sample at the next interval
-      }
-      currentStep > 15 ? (currentStep = 0) : currentStep++
-    }, interval)
-
-    // transport must be started before it starts invoking events
-    isPlaying ? Tone.Transport.stop() : Tone.Transport.start()
-    setIsPlaying((prevState) => !prevState)
+    drumPart.stopAll()
+    Tone.Transport.pause()
   }
+
+  // Function to toggle laser state
+  const toggleLaser = () => {
+    setIsLaserActive((prevState) => !prevState)
+  }
+  console.log('lights', lights)
+
+  // Set BPM to match tempo slider
+  const handleTempoChange = (newTempo: number) => {
+    console.log(`New Tempo: ${newTempo} BPM`)
+
+    mainLoop.dispose()
+
+    setTempo(newTempo)
+  }
+
+
+  const [cellData, setCellData] = useState<CellData[][]>(() =>
+    Array(TRACK_COUNT)
+      .fill([])
+      .map(() => Array(STEP_COUNT).fill({ isActive: false })),
+  )
+
+  const handleReset = () => {
+    console.log('reset has triggered')
+
+    // Iterate over cell data and set isActive to false for active cells
+    //const updatedCellData: CellData[][] = cellData.map((trackData) =>
+      /*trackData.map((cell) => ({
+        ...cell,
+        isActive: false,
+
+      /})), */
+   // )
+
+    setReset(true) 
+    setTimeout(() => {
+      setReset(false)
+    }, 100)
+
+    // setCellData(updatedCellData)
+    // console.log(updatedCellData)
+  }
+
 
   return (
     <>
-      <div className="sequencer"></div>
-      <button onClick={handlePlayPause}>{isPlaying ? 'STOP' : 'PLAY'}</button>
+      <div className="button-container">
+        {isPlaying ? (
+          <Buttons.PauseButton onClick={handlePause} />
+        ) : (
+          <Buttons.PlayButton onClick={handlePlay} />
+        )}
+        <Buttons.RecordButton />
+        <ResetButton onClick={handleReset} />
+        <LaserButton toggleLaser={toggleLaser} />
+        {/* Passing the toggle function */}
+      </div>
       {trackNumber.map((track) => {
-        return <Track key={track} trackNumber={track} steps={stepNumber} />
+        return <Track
+        key={track}
+        trackNumber={track}
+        steps={STEP_COUNT}
+        reset={reset} // Pass the handleReset function
+      />
       })}
+      {isPlaying ? (
+        <div className="slider-container no-interaction">
+          <TempoSlider onChange={handleTempoChange} />
+        </div>
+      ) : (
+        <div className="slider-container">
+          <TempoSlider onChange={handleTempoChange} />
+        </div>
+      )}
+      {isLaserActive && <Lasers />} {/* Conditionally render based on state */}
     </>
   )
 }
-
-// State:
