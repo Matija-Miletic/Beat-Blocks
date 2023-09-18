@@ -30,9 +30,13 @@ h2 {
   justify-content: center;
 }
 
+.track > :nth-child(4n + 1) {
+  margin-right: 8px;
+}
+
 .cell {
-  width: 40px;
-  height: 40px;
+  width: 25px;
+  height: 25px;
   text-align: center;
   border: 1px solid black;
 }
