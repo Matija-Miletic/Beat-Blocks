@@ -12,22 +12,28 @@ import { Lasers } from './Lasers'
 const TRACK_COUNT = 6
 const STEP_COUNT = 16
 
+
 export default function Sequencer() {
+
   const [isPlaying, setIsPlaying] = useState(false)
   const trackNumber = [...Array(TRACK_COUNT).keys()]
+  // Sets tempo state used to determine speed of sequencer and animation timeout
+  const [tempo, setTempo] = useState(100)
 
   // Sets state for showing flashing colours
   const [lights, setLights] = useState(false)
 
-  // Sets tempo state used to determine speed of sequencer and animation timeout
-  const [tempo, setTempo] = useState(120)
   const [isLaserActive, setIsLaserActive] = useState(false) // New state variable
+
+  const [reset, setReset] = useState(false)
 
   let currentStep = 0
   // TODO: Get BPM from tempo slider component
-  Tone.Transport.bpm.value = 240
+  
+  Tone.Transport.bpm.value = tempo
 
   // TODO: add more drum samples => clap, hihat-closed, hihat-open, snare, kick, 808, percussion, melody
+
   const drumPart = new Tone.Players({
     0: '/samples/808.wav',
     1: '/samples/clap-alt.wav',
@@ -69,8 +75,9 @@ export default function Sequencer() {
     //^^^^^ ADD CODE ABOVE ^^^^^
   }
   // Start this outside of the play/pause function otherwise it will start another loop
-  // mainLoop.interval = 1 / (tempoProp / 60)
-  mainLoop.interval = '4n'
+
+  mainLoop.interval = '16n'
+
   mainLoop.start()
 
   function handlePlay() {
@@ -107,9 +114,40 @@ export default function Sequencer() {
   // Set BPM to match tempo slider
   const handleTempoChange = (newTempo: number) => {
     console.log(`New Tempo: ${newTempo} BPM`)
-    // mainLoop.dispose()
+
+    mainLoop.dispose()
+
     setTempo(newTempo)
   }
+
+
+  const [cellData, setCellData] = useState<CellData[][]>(() =>
+    Array(TRACK_COUNT)
+      .fill([])
+      .map(() => Array(STEP_COUNT).fill({ isActive: false })),
+  )
+
+  const handleReset = () => {
+    console.log('reset has triggered')
+
+    // Iterate over cell data and set isActive to false for active cells
+    //const updatedCellData: CellData[][] = cellData.map((trackData) =>
+      /*trackData.map((cell) => ({
+        ...cell,
+        isActive: false,
+
+      /})), */
+   // )
+
+    setReset(true) 
+    setTimeout(() => {
+      setReset(false)
+    }, 100)
+
+    // setCellData(updatedCellData)
+    // console.log(updatedCellData)
+  }
+
 
   return (
     <>
@@ -120,12 +158,17 @@ export default function Sequencer() {
           <Buttons.PlayButton onClick={handlePlay} />
         )}
         <Buttons.RecordButton />
-        <ResetButton />
+        <ResetButton onClick={handleReset} />
         <LaserButton toggleLaser={toggleLaser} />
         {/* Passing the toggle function */}
       </div>
       {trackNumber.map((track) => {
-        return <Track key={track} trackNumber={track} steps={STEP_COUNT} />
+        return <Track
+        key={track}
+        trackNumber={track}
+        steps={STEP_COUNT}
+        reset={reset} // Pass the handleReset function
+      />
       })}
       {isPlaying ? (
         <div className="slider-container no-interaction">
