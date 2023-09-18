@@ -11,7 +11,11 @@ import { Lasers } from './Lasers'
 const TRACK_COUNT = 6
 const STEP_COUNT = 32
 
-export default function Sequencer() {
+interface Tempo {
+  tempo: number
+}
+
+export default function Sequencer({ tempo }: Tempo) {
   const [isPlaying, setIsPlaying] = useState(false)
   const trackNumber = [...Array(TRACK_COUNT).keys()]
   const [isLaserActive, setIsLaserActive] = useState(false) // New state variable
@@ -44,6 +48,7 @@ export default function Sequencer() {
       ) {
         drumParts.player(String(track)).sync().start(time).stop()
       }
+      
       //vvvvv ADD CODE BELOW vvvvv
 
       //^^^^^ ADD CODE ABOVE ^^^^^
