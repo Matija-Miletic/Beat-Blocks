@@ -33,12 +33,12 @@ export default function Sequencer({ tempoProp }: Props) {
 
   // TODO: add more drum samples => clap, hihat-closed, hihat-open, snare, kick, 808, percussion, melody
   const drumPart = new Tone.Players({
-    0: '/samples/808.wav',
-    1: '/samples/clap-alt.wav',
-    2: '/samples/percussion-alt.wav',
-    3: '/samples/hihat-alt.wav',
-    4: '/samples/snare-alt.wav',
-    5: '/samples/kick-alt.wav',
+    0: '/samples/kick-alt.wav',
+    1: '/samples/808.wav',
+    2: '/samples/clap-alt.wav',
+    3: '/samples/percussion-alt.wav',
+    4: '/samples/hihat-alt.wav',
+    5: '/samples/snare-alt.wav',
   }).toDestination()
 
   console.log(drumPart)
@@ -48,14 +48,14 @@ export default function Sequencer({ tempoProp }: Props) {
     for (let track = 0; track < trackNumber.length; track++) {
       //Check cell of each track for current step then play drum part if active
       const cell = document.getElementById(`cell-${track}-${currentStep}`)
-      if (track === 6) {
+      if (track === 0 && cell) {
         Tone.Draw.schedule(function () {
           //this callback is invoked from a requestAnimationFrame
           //and will be invoked close to AudioContext time
           if (lights) lighting()
           cell.classList.add('light-up')
           setTimeout(() => {
-            cell.classList.remove('light-up')
+            cell.classList.add('light-down')
           }, 99)
         }, time)
       } else if (cell?.getAttribute('value') === 'active') {

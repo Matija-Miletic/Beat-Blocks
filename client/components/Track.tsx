@@ -12,7 +12,7 @@ export default function Track({ trackNumber, steps }: Props) {
     <div id={`track-${trackNumber}`} className="track">
       <button style={{ minWidth: '60px', textAlign: 'left' }}>
         {
-          ['808', 'Clap', 'Tap', 'Hihat', 'Snare', 'Kick', 'Progress'][
+          ['Progress', '808', 'Clap', 'Tap', 'Hihat', 'Snare', 'Kick'][
             trackNumber
           ]
         }
