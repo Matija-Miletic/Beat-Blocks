@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import * as Tone from 'tone'
 
 import * as Buttons from './PlaybackButtons'
@@ -10,13 +10,9 @@ import TempoSlider from './TempoSlider'
 import { Lasers } from './Lasers'
 
 const TRACK_COUNT = 6
-const STEP_COUNT = 32
+const STEP_COUNT = 16
 
-interface Props {
-  tempoProp: number
-}
-
-export default function Sequencer({ tempoProp }: Props) {
+export default function Sequencer() {
   const [isPlaying, setIsPlaying] = useState(false)
   const trackNumber = [...Array(TRACK_COUNT).keys()]
 
@@ -24,12 +20,12 @@ export default function Sequencer({ tempoProp }: Props) {
   const [lights, setLights] = useState(false)
 
   // Sets tempo state used to determine speed of sequencer and animation timeout
-  const [tempo, setTempo] = useState(100)
+  const [tempo, setTempo] = useState(120)
   const [isLaserActive, setIsLaserActive] = useState(false) // New state variable
 
   let currentStep = 0
   // TODO: Get BPM from tempo slider component
-  Tone.Transport.bpm.value = 120
+  Tone.Transport.bpm.value = 240
 
   // TODO: add more drum samples => clap, hihat-closed, hihat-open, snare, kick, 808, percussion, melody
   const drumPart = new Tone.Players({
@@ -41,8 +37,6 @@ export default function Sequencer({ tempoProp }: Props) {
     5: '/samples/kick-alt.wav',
   }).toDestination()
 
-  console.log(drumPart)
-
   const mainLoop = new Tone.Loop()
   mainLoop.callback = (time) => {
     for (let track = 0; track < trackNumber.length; track++) {
@@ -50,11 +44,7 @@ export default function Sequencer({ tempoProp }: Props) {
       const cell = document.getElementById(`cell-${track}-${currentStep}`)
       if (cell?.getAttribute('value') === 'active') {
         {
-          drumPart
-            .player(String(track))
-            .sync()
-            .start(time)
-            .stop(time + 0.1)
+          drumPart.player(String(track)).sync().start(time).stop()
 
           Tone.Draw.schedule(function () {
             //this callback is invoked from a requestAnimationFrame
@@ -79,13 +69,11 @@ export default function Sequencer({ tempoProp }: Props) {
     //^^^^^ ADD CODE ABOVE ^^^^^
   }
   // Start this outside of the play/pause function otherwise it will start another loop
-  mainLoop.interval = 1 / (tempoProp / 60)
-  // mainLoop.interval = '16n'
+  // mainLoop.interval = 1 / (tempoProp / 60)
+  mainLoop.interval = '4n'
   mainLoop.start()
 
   function handlePlay() {
-    console.log('play')
-
     // Dispose of previous loop to prevent multiple loops from running
     mainLoop.dispose()
 
@@ -94,22 +82,20 @@ export default function Sequencer({ tempoProp }: Props) {
 
     setIsPlaying(true)
 
-    Tone.Transport.start('+0.001')
+    Tone.Transport.start('+0.1')
   }
 
   function handlePause() {
-    console.log('pause')
-
     // Dispose of previous loop to prevent multiple loops from running
     mainLoop.dispose()
 
     // Resume audio context on user interaction otherwise audio will not play
-    Tone.context.resume()
+    // Tone.context.resume()
 
     setIsPlaying(false)
 
-    Tone.Transport.pause()
     drumPart.stopAll()
+    Tone.Transport.pause()
   }
 
   // Function to toggle laser state
@@ -121,9 +107,10 @@ export default function Sequencer({ tempoProp }: Props) {
   // Set BPM to match tempo slider
   const handleTempoChange = (newTempo: number) => {
     console.log(`New Tempo: ${newTempo} BPM`)
-    mainLoop.dispose()
+    // mainLoop.dispose()
     setTempo(newTempo)
   }
+
   return (
     <>
       <div className="button-container">
