@@ -1,7 +1,7 @@
 import { ChakraProvider } from '@chakra-ui/react'
-import Sequencer from './Sequencer'
 
-import Oscillator from './Freeform'
+import Sequencer from './Sequencer'
+import Synth from './Synth'
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
         <div className="app-content">
           <h1>Beat Those Blocks!</h1>
           <div className="sequencer">
-            <Sequencer />
+            <Sequencer tempoProp={100} />
           </div>
           <div className="oscillator-container">
             <Synth />

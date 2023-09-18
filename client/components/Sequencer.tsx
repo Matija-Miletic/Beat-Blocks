@@ -6,21 +6,20 @@ import { ResetButton } from './ResetButton'
 import { LaserButton } from './LaserButton'
 import Track from './Track'
 import lighting from '../lighting'
-import { Button } from '@chakra-ui/react'
 import TempoSlider from './TempoSlider'
 import { Lasers } from './Lasers'
 
 const TRACK_COUNT = 6
 const STEP_COUNT = 32
 
-interface Tempo {
-  tempo: number
+interface Props {
+  tempoProp: number
 }
 
-export default function Sequencer({ tempo }: Tempo) {
+export default function Sequencer({ tempoProp }: Props) {
   const [isPlaying, setIsPlaying] = useState(false)
   const trackNumber = [...Array(TRACK_COUNT).keys()]
-  
+
   // Sets state for showing flashing colours
   const [lights, setLights] = useState(false)
 
@@ -33,7 +32,7 @@ export default function Sequencer({ tempo }: Tempo) {
   Tone.Transport.bpm.value = 120
 
   // TODO: add more drum samples => clap, hihat-closed, hihat-open, snare, kick, 808, percussion, melody
-  const drumParts = new Tone.Players({
+  const drumPart = new Tone.Players({
     0: '/samples/808.wav',
     1: '/samples/clap-alt.wav',
     2: '/samples/percussion-alt.wav',
@@ -68,7 +67,7 @@ export default function Sequencer({ tempo }: Tempo) {
           }, time)
         }
       }
-      
+
       //vvvvv ADD CODE BELOW vvvvv
 
       //^^^^^ ADD CODE ABOVE ^^^^^
@@ -80,7 +79,7 @@ export default function Sequencer({ tempo }: Tempo) {
     //^^^^^ ADD CODE ABOVE ^^^^^
   }
   // Start this outside of the play/pause function otherwise it will start another loop
-  mainLoop.interval = 1 / (tempo / 60)
+  mainLoop.interval = 1 / (tempoProp / 60)
   // mainLoop.interval = '16n'
   mainLoop.start()
 
@@ -110,7 +109,7 @@ export default function Sequencer({ tempo }: Tempo) {
     setIsPlaying(false)
 
     Tone.Transport.pause()
-    drumParts.stopAll()
+    drumPart.stopAll()
   }
 
   // Function to toggle laser state
