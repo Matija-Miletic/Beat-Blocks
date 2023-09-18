@@ -9,7 +9,7 @@ import lighting from '../lighting'
 import TempoSlider from './TempoSlider'
 import { Lasers } from './Lasers'
 
-const TRACK_COUNT = 6
+const TRACK_COUNT = 7
 const STEP_COUNT = 32
 
 interface Props {
@@ -48,7 +48,17 @@ export default function Sequencer({ tempoProp }: Props) {
     for (let track = 0; track < trackNumber.length; track++) {
       //Check cell of each track for current step then play drum part if active
       const cell = document.getElementById(`cell-${track}-${currentStep}`)
-      if (cell?.getAttribute('value') === 'active') {
+      if (track === 6) {
+        Tone.Draw.schedule(function () {
+          //this callback is invoked from a requestAnimationFrame
+          //and will be invoked close to AudioContext time
+          if (lights) lighting()
+          cell.classList.add('light-up')
+          setTimeout(() => {
+            cell.classList.remove('light-up')
+          }, 99)
+        }, time)
+      } else if (cell?.getAttribute('value') === 'active') {
         {
           drumPart
             .player(String(track))

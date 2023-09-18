@@ -30,9 +30,17 @@ h2 {
   justify-content: center;
 }
 
+.light-up {
+  background-color: yellow; /* Adjust the color as needed */
+}
+
+
+
 .track > :nth-child(4n + 1) {
   margin-right: 8px;
 }
+
+
 
 .cell {
   width: 25px;

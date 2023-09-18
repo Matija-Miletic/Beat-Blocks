@@ -11,7 +11,11 @@ export default function Track({ trackNumber, steps }: Props) {
   return (
     <div id={`track-${trackNumber}`} className="track">
       <button style={{ minWidth: '60px', textAlign: 'left' }}>
-        {['808', 'Clap', 'Tap', 'Hihat', 'Snare', 'Kick'][trackNumber]}
+        {
+          ['808', 'Clap', 'Tap', 'Hihat', 'Snare', 'Kick', 'Progress'][
+            trackNumber
+          ]
+        }
       </button>
       {cells.map((cell) => {
         return <Cell key={cell} trackNumber={trackNumber} cellNumber={cell} />

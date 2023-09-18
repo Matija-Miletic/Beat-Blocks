@@ -44,7 +44,7 @@ export default function Cell({ trackNumber, cellNumber }: Props) {
       >
         <div style={iconStyle}>
           {isActive ? (
-            <RiCheckboxBlankFill size="100%" />
+            <RiCheckboxBlankFill size="80%" />
           ) : (
             <RiCheckboxBlankLine size="100%" />
           )}
