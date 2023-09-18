@@ -58,7 +58,7 @@ export default function Sequencer() {
     currentStep < STEP_COUNT - 1 ? currentStep++ : (currentStep = 0)
 
     //vvvvv ADD CODE BELOW vvvvv
-    console.log(time)
+
     //^^^^^ ADD CODE ABOVE ^^^^^
   }
   // Start this outside of the play/pause function otherwise it will start another loop
