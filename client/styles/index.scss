@@ -98,6 +98,15 @@ h2 {
   background-color: #e65c00;
 }
 
+.pixel-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  border: 1px solid #fff;
+}
 
 $brick-peg-size: 15px;
 $brick-wall-thickness: 6px;
