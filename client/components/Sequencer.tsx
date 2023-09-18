@@ -16,15 +16,16 @@ interface Props {
   tempoProp: number
 }
 
-export default function Sequencer({ tempoProp }: Props) {
+export default function Sequencer() {
   const [isPlaying, setIsPlaying] = useState(false)
   const trackNumber = [...Array(TRACK_COUNT).keys()]
+  // Sets tempo state used to determine speed of sequencer and animation timeout
+  const [tempo, setTempo] = useState(100)
+  const timing = 1 / (tempo / 60)
 
   // Sets state for showing flashing colours
   const [lights, setLights] = useState(false)
 
-  // Sets tempo state used to determine speed of sequencer and animation timeout
-  const [tempo, setTempo] = useState(100)
   const [isLaserActive, setIsLaserActive] = useState(false) // New state variable
 
   let currentStep = 0
@@ -32,6 +33,7 @@ export default function Sequencer({ tempoProp }: Props) {
   Tone.Transport.bpm.value = 120
 
   // TODO: add more drum samples => clap, hihat-closed, hihat-open, snare, kick, 808, percussion, melody
+
   const drumPart = new Tone.Players({
     0: '/samples/808.wav',
     1: '/samples/clap-alt.wav',
@@ -50,11 +52,7 @@ export default function Sequencer({ tempoProp }: Props) {
       const cell = document.getElementById(`cell-${track}-${currentStep}`)
       if (cell?.getAttribute('value') === 'active') {
         {
-          drumPart
-            .player(String(track))
-            .sync()
-            .start(time)
-            .stop(time + 0.1)
+          drumPart.player(String(track)).sync().start(time).stop()
 
           Tone.Draw.schedule(function () {
             //this callback is invoked from a requestAnimationFrame
@@ -79,7 +77,8 @@ export default function Sequencer({ tempoProp }: Props) {
     //^^^^^ ADD CODE ABOVE ^^^^^
   }
   // Start this outside of the play/pause function otherwise it will start another loop
-  mainLoop.interval = 1 / (tempoProp / 60)
+  mainLoop.interval = timing
+  console.log(`timing`, timing)
   // mainLoop.interval = '16n'
   mainLoop.start()
 
@@ -122,6 +121,7 @@ export default function Sequencer({ tempoProp }: Props) {
   const handleTempoChange = (newTempo: number) => {
     console.log(`New Tempo: ${newTempo} BPM`)
     mainLoop.dispose()
+
     setTempo(newTempo)
   }
   return (
