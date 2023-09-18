@@ -60,7 +60,7 @@ export default function Cell({ trackNumber, cellNumber }: Props) {
           )}
           {showImage && (
             <img
-              src={`../../public/images/lego${cellNumber}.png`}
+              src={`/images/lego${cellNumber}.png`}
               alt="Small"
               className="animated-image"
               style={{

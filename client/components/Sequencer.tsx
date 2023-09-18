@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import * as Tone from 'tone'
 
 import * as Buttons from './PlaybackButtons'
@@ -10,11 +10,7 @@ import TempoSlider from './TempoSlider'
 import { Lasers } from './Lasers'
 
 const TRACK_COUNT = 6
-const STEP_COUNT = 32
-
-interface Props {
-  tempoProp: number
-}
+const STEP_COUNT = 16
 
 export default function Sequencer() {
   const [isPlaying, setIsPlaying] = useState(false)
@@ -29,6 +25,7 @@ export default function Sequencer() {
 
   let currentStep = 0
   // TODO: Get BPM from tempo slider component
+  
   Tone.Transport.bpm.value = tempo
 
   // TODO: add more drum samples => clap, hihat-closed, hihat-open, snare, kick, 808, percussion, melody
@@ -41,8 +38,6 @@ export default function Sequencer() {
     4: '/samples/snare-alt.wav',
     5: '/samples/kick-alt.wav',
   }).toDestination()
-
-  console.log(drumPart)
 
   const mainLoop = new Tone.Loop()
   mainLoop.callback = (time) => {
@@ -76,14 +71,12 @@ export default function Sequencer() {
     //^^^^^ ADD CODE ABOVE ^^^^^
   }
   // Start this outside of the play/pause function otherwise it will start another loop
-  // mainLoop.interval = timing
-  // console.log(`timing`, timing)
+
   mainLoop.interval = '16n'
+
   mainLoop.start()
 
   function handlePlay() {
-    console.log('play')
-
     // Dispose of previous loop to prevent multiple loops from running
     mainLoop.dispose()
 
@@ -92,22 +85,20 @@ export default function Sequencer() {
 
     setIsPlaying(true)
 
-    Tone.Transport.start('+0.001')
+    Tone.Transport.start('+0.1')
   }
 
   function handlePause() {
-    console.log('pause')
-
     // Dispose of previous loop to prevent multiple loops from running
     mainLoop.dispose()
 
     // Resume audio context on user interaction otherwise audio will not play
-    Tone.context.resume()
+    // Tone.context.resume()
 
     setIsPlaying(false)
 
-    Tone.Transport.pause()
     drumPart.stopAll()
+    Tone.Transport.pause()
   }
 
   // Function to toggle laser state
@@ -119,10 +110,12 @@ export default function Sequencer() {
   // Set BPM to match tempo slider
   const handleTempoChange = (newTempo: number) => {
     console.log(`New Tempo: ${newTempo} BPM`)
+
     mainLoop.dispose()
 
     setTempo(newTempo)
   }
+
   return (
     <>
       <div className="button-container">
