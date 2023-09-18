@@ -28,35 +28,38 @@ export default function Sequencer() {
     for (let track = 0; track < trackNumber.length; track++) {
       //Check cell of each track for current step then play drum part if active
       const cell = document.getElementById(`cell-${track}-${currentStep}`)
-      if (cell?.getAttribute('value') === 'active' && track !== 4) {
-        drumPart
-          .player(String(track))
-          .sync()
-          .start(time)
-          .stop(time + 0.1)
+      if (cell?.getAttribute('value') === 'active') {
+        if (track !== 4) {
+          drumPart
+            .player(String(track))
+            .sync()
+            .start(time)
+            .stop(time + 0.1)
+
+          Tone.Draw.schedule(function () {
+            //this callback is invoked from a requestAnimationFrame
+            //and will be invoked close to AudioContext time
+            cell.classList.add('animate')
+            setTimeout(() => {
+              cell.classList.remove('animate')
+            }, 99)
+          }, time)
+        }
+
+        // Tone.Draw.schedule(function () {
+        //   //this callback is invoked from a requestAnimationFrame
+        //   //and will be invoked close to AudioContext time
+        //   cell.classList.add('animate')
+        //   setTimeout(() => {
+        //     cell.classList.remove('animate')
+        //   }, 99)
+        // }, time)
 
         Tone.Draw.schedule(function () {
-          //this callback is invoked from a requestAnimationFrame
-          //and will be invoked close to AudioContext time
-          cell.classList.add('animate')
+          cell.classList.add('light-up')
           setTimeout(() => {
-            cell.classList.remove('animate')
-          }, 99)
-        }, time)
-      } else if (track === 4) {
-        // drumPart
-        //   .player(String(track))
-        //   .sync()
-        //   .start(time)
-        //   .stop(time + 0.1)
-
-        Tone.Draw.schedule(function () {
-          //this callback is invoked from a requestAnimationFrame
-          //and will be invoked close to AudioContext time
-          cell.classList.add('animate')
-          setTimeout(() => {
-            cell.classList.remove('animate')
-          }, 99)
+            cell.classList.remove('light-up')
+          }, 100) // Adjust the duration as needed
         }, time)
       }
     }
@@ -95,10 +98,19 @@ export default function Sequencer() {
 
   return (
     <>
-      <div className="sequencer"></div>
+      {/* <div className="sequencer"></div>
       <button onClick={handlePlayPause}>{isPlaying ? 'PAUSE' : 'PLAY'}</button>
       {trackNumber.map((track) => {
         return <Track key={track} trackNumber={track} steps={STEP_COUNT} />
+      })} */}
+      <div className="sequencer"></div>
+      <button onClick={handlePlayPause}>{isPlaying ? 'PAUSE' : 'PLAY'}</button>
+      {trackNumber.map((track) => {
+        return (
+          <div key={track} className={track === 4 ? 'invisible' : ''}>
+            <Track trackNumber={track} steps={STEP_COUNT} />
+          </div>
+        )
       })}
     </>
   )

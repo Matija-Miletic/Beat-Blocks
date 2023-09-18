@@ -287,6 +287,14 @@ $brick-colors: (
   left: 0;
 }
 
+.invisible {
+  visibility: hidden;
+}
+
+.light-up {
+  background-color: yellow; /* Adjust the color as needed */
+}
+
 
 @keyframes moveDown {
   0% {
