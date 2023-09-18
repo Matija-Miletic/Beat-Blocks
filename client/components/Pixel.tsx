@@ -42,7 +42,8 @@ export default function Pixel(props: { id: number }) {
         release: 1.6,
       },
     }).toDestination()
-    const randomFrequency = Math.random() * (500 - 20) + 20
+
+    const randomFrequency = Math.random() * (150 - 20) + 20
 
     synth.triggerAttackRelease(randomFrequency, '8n')
   }
