@@ -4,14 +4,13 @@ import Sequencer from './Sequencer'
 import Oscillator from './Freeform'
 
 function App() {
-
   return (
     <ChakraProvider>
       <div className="app">
         <div className="app-content">
           <h1>Beat Those Blocks!</h1>
           <div className="sequencer">
-            <Sequencer tempo={tempo} />
+            <Sequencer />
           </div>
           <div className="oscillator-container">
             <Synth />

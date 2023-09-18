@@ -273,3 +273,93 @@ $brick-colors: (
 		border-width: 5px;
 	}
 }
+
+/////////////
+@keyframes moveDown {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(200px); /* Adjust the distance to move */
+  }
+}
+
+.animate {
+  
+  position: absolute;
+  width: 80px;
+  height: auto;
+  animation: moveDown 1s, fadeOut 1s forwards;
+  top: 0;
+  left: 0;
+}
+
+
+@keyframes moveDown {
+  0% {
+    transform: translateY(0); /* Start with no vertical translation */
+    opacity: 1; /* Fully visible */
+  }
+  100% {
+    transform: translateY(100px); /* Move downward by 100px */
+    opacity: 0; /* Fully transparent */
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1; /* Start with full visibility */
+  }
+  100% {
+    opacity: 0; /* Fade out to fully transparent */
+  }
+}
+
+.red {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 0, 0, 0.5); /* Red color with transparency */
+  pointer-events: none; /* Allow clicks to pass through to elements beneath the overlay */
+}
+
+.blue {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(38, 0, 255, 0.5); /* Red color with transparency */
+  pointer-events: none; /* Allow clicks to pass through to elements beneath the overlay */
+}
+
+.green {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(37, 209, 97, 0.5); /* Red color with transparency */
+  pointer-events: none; /* Allow clicks to pass through to elements beneath the overlay */
+}
+
+.yellow {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 238, 0, 0.5); /* Red color with transparency */
+  pointer-events: none; /* Allow clicks to pass through to elements beneath the overlay */
+}
+
+.no-interaction {
+  pointer-events: none;
+  opacity: 0.3
+}

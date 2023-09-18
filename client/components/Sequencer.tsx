@@ -5,6 +5,8 @@ import * as Buttons from './PlaybackButtons'
 import { ResetButton } from './ResetButton'
 import { LaserButton } from './LaserButton'
 import Track from './Track'
+import lighting from '../lighting'
+import { Button } from '@chakra-ui/react'
 import TempoSlider from './TempoSlider'
 import { Lasers } from './Lasers'
 
@@ -18,10 +20,13 @@ interface Tempo {
 export default function Sequencer({ tempo }: Tempo) {
   const [isPlaying, setIsPlaying] = useState(false)
   const trackNumber = [...Array(TRACK_COUNT).keys()]
+  
+  // Sets state for showing flashing colours
+  const [lights, setLights] = useState(false)
+
+  // Sets tempo state used to determine speed of sequencer and animation timeout
+  const [tempo, setTempo] = useState(100)
   const [isLaserActive, setIsLaserActive] = useState(false) // New state variable
-  const handleTempoChange = (newTempo: number) => {
-    console.log(`New Tempo: ${newTempo} BPM`)
-  }
 
   let currentStep = 0
   // TODO: Get BPM from tempo slider component
@@ -37,16 +42,31 @@ export default function Sequencer({ tempo }: Tempo) {
     5: '/samples/kick-alt.wav',
   }).toDestination()
 
+  console.log(drumPart)
+
   const mainLoop = new Tone.Loop()
   mainLoop.callback = (time) => {
     for (let track = 0; track < trackNumber.length; track++) {
-      // Check cell of each track for current step then play drum part if active
-      if (
-        document
-          .getElementById(`cell-${track}-${currentStep}`)
-          ?.getAttribute('value') === 'active'
-      ) {
-        drumParts.player(String(track)).sync().start(time).stop()
+      //Check cell of each track for current step then play drum part if active
+      const cell = document.getElementById(`cell-${track}-${currentStep}`)
+      if (cell?.getAttribute('value') === 'active') {
+        {
+          drumPart
+            .player(String(track))
+            .sync()
+            .start(time)
+            .stop(time + 0.1)
+
+          Tone.Draw.schedule(function () {
+            //this callback is invoked from a requestAnimationFrame
+            //and will be invoked close to AudioContext time
+            if (lights) lighting()
+            cell.classList.add('animate')
+            setTimeout(() => {
+              cell.classList.remove('animate')
+            }, 99)
+          }, time)
+        }
       }
       
       //vvvvv ADD CODE BELOW vvvvv
@@ -60,7 +80,8 @@ export default function Sequencer({ tempo }: Tempo) {
     //^^^^^ ADD CODE ABOVE ^^^^^
   }
   // Start this outside of the play/pause function otherwise it will start another loop
-  mainLoop.interval = '16n'
+  mainLoop.interval = 1 / (tempo / 60)
+  // mainLoop.interval = '16n'
   mainLoop.start()
 
   function handlePlay() {
@@ -96,7 +117,14 @@ export default function Sequencer({ tempo }: Tempo) {
   const toggleLaser = () => {
     setIsLaserActive((prevState) => !prevState)
   }
+  console.log('lights', lights)
 
+  // Set BPM to match tempo slider
+  const handleTempoChange = (newTempo: number) => {
+    console.log(`New Tempo: ${newTempo} BPM`)
+    mainLoop.dispose()
+    setTempo(newTempo)
+  }
   return (
     <>
       <div className="button-container">
@@ -113,9 +141,15 @@ export default function Sequencer({ tempo }: Tempo) {
       {trackNumber.map((track) => {
         return <Track key={track} trackNumber={track} steps={STEP_COUNT} />
       })}
-      <div className="slider-container">
-        <TempoSlider onChange={handleTempoChange} />
-      </div>
+      {isPlaying ? (
+        <div className="slider-container no-interaction">
+          <TempoSlider onChange={handleTempoChange} />
+        </div>
+      ) : (
+        <div className="slider-container">
+          <TempoSlider onChange={handleTempoChange} />
+        </div>
+      )}
       {isLaserActive && <Lasers />} {/* Conditionally render based on state */}
     </>
   )
