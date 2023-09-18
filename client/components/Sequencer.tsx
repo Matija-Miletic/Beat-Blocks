@@ -21,7 +21,6 @@ export default function Sequencer() {
   const trackNumber = [...Array(TRACK_COUNT).keys()]
   // Sets tempo state used to determine speed of sequencer and animation timeout
   const [tempo, setTempo] = useState(100)
-  const timing = 1 / (tempo / 60)
 
   // Sets state for showing flashing colours
   const [lights, setLights] = useState(false)
@@ -30,7 +29,7 @@ export default function Sequencer() {
 
   let currentStep = 0
   // TODO: Get BPM from tempo slider component
-  Tone.Transport.bpm.value = 120
+  Tone.Transport.bpm.value = tempo
 
   // TODO: add more drum samples => clap, hihat-closed, hihat-open, snare, kick, 808, percussion, melody
 
@@ -77,9 +76,9 @@ export default function Sequencer() {
     //^^^^^ ADD CODE ABOVE ^^^^^
   }
   // Start this outside of the play/pause function otherwise it will start another loop
-  mainLoop.interval = timing
-  console.log(`timing`, timing)
-  // mainLoop.interval = '16n'
+  // mainLoop.interval = timing
+  // console.log(`timing`, timing)
+  mainLoop.interval = '16n'
   mainLoop.start()
 
   function handlePlay() {
