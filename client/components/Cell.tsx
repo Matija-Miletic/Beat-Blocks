@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/react'
 import { useState } from 'react'
 import { RiCheckboxBlankFill, RiCheckboxBlankLine } from 'react-icons/ri'
 
@@ -33,10 +34,19 @@ export default function Cell({ trackNumber, cellNumber }: Props) {
     position: 'relative',
   }
 
+  const trackClassMap: { [key: number]: string } = {
+    0: 'b-purple',
+    1: 'b-red',
+    2: 'b-yellow',
+    3: 'b-green',
+    4: 'b-blue',
+    5: 'b-orange',
+  }
+  const trackClassName = trackClassMap[trackNumber] || 'b-red'
   return (
     <div className="cell" style={{ position: 'relative' }}>
       <button
-        className="cell"
+        className={`cell ${trackClassName}`}
         onClick={handleClick}
         value={isActive ? 'active' : 'inactive'}
         id={`cell-${trackNumber}-${cellNumber}`}
@@ -44,7 +54,7 @@ export default function Cell({ trackNumber, cellNumber }: Props) {
       >
         <div style={iconStyle}>
           {isActive ? (
-            <RiCheckboxBlankFill size="100%" />
+            <Box className={`brick 1x1 ${trackClassName}`} />
           ) : (
             <RiCheckboxBlankLine size="100%" />
           )}
