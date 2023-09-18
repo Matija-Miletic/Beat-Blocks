@@ -16,6 +16,10 @@ interface Props {
   tempoProp: number
 }
 
+interface CellData {
+  isActive: boolean
+}
+
 export default function Sequencer({ tempoProp }: Props) {
   const [isPlaying, setIsPlaying] = useState(false)
   const trackNumber = [...Array(TRACK_COUNT).keys()]
@@ -124,6 +128,28 @@ export default function Sequencer({ tempoProp }: Props) {
     mainLoop.dispose()
     setTempo(newTempo)
   }
+
+  const [cellData, setCellData] = useState<CellData[][]>(() =>
+    Array(TRACK_COUNT)
+      .fill([])
+      .map(() => Array(STEP_COUNT).fill({ isActive: false })),
+  )
+
+  const handleReset = () => {
+    console.log('reset has triggered')
+
+    // Iterate over cell data and set isActive to false for active cells
+    const updatedCellData: CellData[][] = cellData.map((trackData) =>
+      trackData.map((cell) => ({
+        ...cell,
+        isActive: false,
+      })),
+    )
+
+    setCellData(updatedCellData)
+    console.log(updatedCellData)
+  }
+
   return (
     <>
       <div className="button-container">
@@ -133,7 +159,7 @@ export default function Sequencer({ tempoProp }: Props) {
           <Buttons.PlayButton onClick={handlePlay} />
         )}
         <Buttons.RecordButton />
-        <ResetButton />
+        <ResetButton onClick={handleReset} />
         <LaserButton toggleLaser={toggleLaser} />
         {/* Passing the toggle function */}
       </div>
