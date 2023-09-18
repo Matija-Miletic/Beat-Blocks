@@ -1,5 +1,4 @@
 import { ChakraProvider } from '@chakra-ui/react'
-
 import Sequencer from './Sequencer'
 import Synth from './Synth'
 
@@ -16,6 +15,10 @@ function App() {
             <Synth />
           </div>
         </div>
+      </div>
+      <div className="fonts-container">
+        <h3>Fonts Showcase:</h3>
+        <Fonts />
       </div>
     </ChakraProvider>
   )

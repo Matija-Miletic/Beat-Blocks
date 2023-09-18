@@ -7,16 +7,18 @@ body {
 
 h1 {
   font-weight: bold;
-  font-size: 3.5rem;
-  color: rgb(255, 53, 53);
+  font-size: 4rem;
+  font-family: 'F3';
+  color: rgb(170, 30, 30);
   text-align: center;
   padding: 20px;
 }
 
 h2 {
   font-weight: bold;
-  font-size: 2.5rem;
-  color: rgb(255, 53, 53);
+  font-size: 4rem;
+  font-family: 'F13';
+  color: rgb(255, 140, 0);
   text-align: center;
   padding: 20px;
 }
@@ -274,6 +276,145 @@ $brick-colors: (
 	}
 }
 
+
+
+// FONTS ------------------------------------------------
+
+@font-face {
+  font-family: 'F1';
+  src: url('/fonts/F1.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F2';
+  src: url('/fonts/F2.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F3';
+  src: url('/fonts/F3.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F4';
+  src: url('/fonts/F4.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F5';
+  src: url('/fonts/F5.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F6';
+  src: url('/fonts/F6.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F7';
+  src: url('/fonts/F7.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F8';
+  src: url('/fonts/F8.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F9';
+  src: url('/fonts/F9.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F10';
+  src: url('/fonts/F10.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F11';
+  src: url('/fonts/F11.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F12';
+  src: url('/fonts/F12.ttf') format('truetype');
+}
+// Font 13 is really cool - blocks dropping off
+@font-face {
+  font-family: 'F13';
+  src: url('/fonts/F13.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F14';
+  src: url('/fonts/F14.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F15';
+  src: url('/fonts/F15.ttf') format('truetype');
+}
+
+.font-sample {
+  margin-bottom: 2rem;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.lowercase {
+  text-transform: lowercase;
+}
+
+.F1 .uppercase,
+.F1 .lowercase {
+  font-family: 'F1';
+}
+.F2 .uppercase,
+.F2 .lowercase {
+  font-family: 'F2';
+}
+.F3 .uppercase,
+.F3 .lowercase {
+  font-family: 'F3';
+}
+.F4 .uppercase,
+.F4 .lowercase {
+  font-family: 'F4';
+}
+.F5 .uppercase,
+.F5 .lowercase {
+  font-family: 'F5';
+}
+.F6 .uppercase,
+.F6 .lowercase {
+  font-family: 'F6';
+}
+.F7 .uppercase,
+.F7 .lowercase {
+  font-family: 'F7';
+}
+.F8 .uppercase,
+.F8 .lowercase {
+  font-family: 'F8';
+}
+.F9 .uppercase,
+.F9 .lowercase {
+  font-family: 'F9';
+}
+.F10 .uppercase,
+.F10 .lowercase {
+  font-family: 'F10';
+}
+.F11 .uppercase,
+.F11 .lowercase {
+  font-family: 'F11';
+}
+.F12 .uppercase,
+.F12 .lowercase {
+  font-family: 'F12';
+}
+.F13 .uppercase,
+.F13 .lowercase {
+  font-family: 'F13';
+}
+.F14 .uppercase,
+.F14 .lowercase {
+  font-family: 'F14';
+}
+.F15 .uppercase,
+.F15 .lowercase {
+  font-family: 'F15';
+}
+
 /////////////
 @keyframes moveDown {
   from {
@@ -363,4 +504,5 @@ $brick-colors: (
   pointer-events: none;
   opacity: 0.3
 }
+
 
