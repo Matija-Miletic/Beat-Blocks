@@ -31,6 +31,8 @@ export default function Sequencer({ tempoProp }: Props) {
   const [tempo, setTempo] = useState(100)
   const [isLaserActive, setIsLaserActive] = useState(false) // New state variable
 
+  const [reset, setReset] = useState(false)
+
   let currentStep = 0
   // TODO: Get BPM from tempo slider component
   Tone.Transport.bpm.value = 120
@@ -139,15 +141,21 @@ export default function Sequencer({ tempoProp }: Props) {
     console.log('reset has triggered')
 
     // Iterate over cell data and set isActive to false for active cells
-    const updatedCellData: CellData[][] = cellData.map((trackData) =>
-      trackData.map((cell) => ({
+    //const updatedCellData: CellData[][] = cellData.map((trackData) =>
+      /*trackData.map((cell) => ({
         ...cell,
         isActive: false,
-      })),
-    )
 
-    setCellData(updatedCellData)
-    console.log(updatedCellData)
+      /})), */
+   // )
+
+    setReset(true) 
+    setTimeout(() => {
+      setReset(false)
+    }, 100)
+
+    // setCellData(updatedCellData)
+    // console.log(updatedCellData)
   }
 
   return (
@@ -164,7 +172,12 @@ export default function Sequencer({ tempoProp }: Props) {
         {/* Passing the toggle function */}
       </div>
       {trackNumber.map((track) => {
-        return <Track key={track} trackNumber={track} steps={STEP_COUNT} />
+        return <Track
+        key={track}
+        trackNumber={track}
+        steps={STEP_COUNT}
+        reset={reset} // Pass the handleReset function
+      />
       })}
       {isPlaying ? (
         <div className="slider-container no-interaction">

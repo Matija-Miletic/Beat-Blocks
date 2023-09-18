@@ -1,27 +1,37 @@
-import { useState } from 'react'
-import { RiCheckboxBlankFill, RiCheckboxBlankLine } from 'react-icons/ri'
+import React, { useState, useEffect } from 'react';
+import { RiCheckboxBlankFill, RiCheckboxBlankLine } from 'react-icons/ri';
 
 interface Props {
-  trackNumber: number
-  cellNumber: number
+  trackNumber: number;
+  cellNumber: number;
+  reset: boolean; // Add a reset prop
+  //handleReset() => void
 }
 
-export default function Cell({ trackNumber, cellNumber }: Props) {
-  const [isActive, setIsActive] = useState<boolean>(false)
-  const [showImage, setShowImage] = useState<boolean>(false)
+const Cell: React.FC<Props> = ({ trackNumber, cellNumber, reset }) => {
+  const [isActive, setIsActive] = useState<boolean>(false);
+  const [showImage, setShowImage] = useState<boolean>(false);
+
+  useEffect(() => {
+    
+    if (reset) {
+      
+      setIsActive(false);
+    }
+  }, [reset]); 
 
   function handleClick() {
-    setIsActive(!isActive)
+    setIsActive(!isActive);
 
-    setShowImage(true)
-
-    setTimeout(() => {
-      setShowImage(false)
-    }, 3000)
+    setShowImage(true);
 
     setTimeout(() => {
-      setShowImage(false)
-    }, 1000)
+      setShowImage(false);
+    }, 3000);
+
+    setTimeout(() => {
+      setShowImage(false);
+    }, 1000);
   }
 
   const iconStyle: React.CSSProperties = {
@@ -31,7 +41,7 @@ export default function Cell({ trackNumber, cellNumber }: Props) {
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
-  }
+  };
 
   return (
     <div className="cell" style={{ position: 'relative' }}>
@@ -66,5 +76,7 @@ export default function Cell({ trackNumber, cellNumber }: Props) {
         </div>
       </button>
     </div>
-  )
-}
+  );
+};
+
+export default Cell;
