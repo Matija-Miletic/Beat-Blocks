@@ -1,5 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { RiCheckboxBlankFill, RiCheckboxBlankLine } from 'react-icons/ri';
+import { Box } from '@chakra-ui/react'
 
 interface Props {
   trackNumber: number;
@@ -43,10 +45,19 @@ const Cell: React.FC<Props> = ({ trackNumber, cellNumber, reset }) => {
     position: 'relative',
   };
 
+  const trackClassMap: { [key: number]: string } = {
+    0: 'b-purple',
+    1: 'b-red',
+    2: 'b-yellow',
+    3: 'b-green',
+    4: 'b-blue',
+    5: 'b-orange',
+  }
+  const trackClassName = trackClassMap[trackNumber] || 'b-red'
   return (
     <div className="cell" style={{ position: 'relative' }}>
       <button
-        className="cell"
+        className={`cell ${trackClassName}`}
         onClick={handleClick}
         value={isActive ? 'active' : 'inactive'}
         id={`cell-${trackNumber}-${cellNumber}`}
@@ -54,13 +65,13 @@ const Cell: React.FC<Props> = ({ trackNumber, cellNumber, reset }) => {
       >
         <div style={iconStyle}>
           {isActive ? (
-            <RiCheckboxBlankFill size="100%" />
+            <Box className={`brick 1x1 ${trackClassName}`} />
           ) : (
             <RiCheckboxBlankLine size="100%" />
           )}
           {showImage && (
             <img
-              src={`../../public/images/lego${cellNumber}.png`}
+              src={`/images/lego${cellNumber}.png`}
               alt="Small"
               className="animated-image"
               style={{
