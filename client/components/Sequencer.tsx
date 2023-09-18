@@ -12,7 +12,9 @@ import { Lasers } from './Lasers'
 const TRACK_COUNT = 6
 const STEP_COUNT = 16
 
+
 export default function Sequencer() {
+
   const [isPlaying, setIsPlaying] = useState(false)
   const trackNumber = [...Array(TRACK_COUNT).keys()]
   // Sets tempo state used to determine speed of sequencer and animation timeout
@@ -22,6 +24,8 @@ export default function Sequencer() {
   const [lights, setLights] = useState(false)
 
   const [isLaserActive, setIsLaserActive] = useState(false) // New state variable
+
+  const [reset, setReset] = useState(false)
 
   let currentStep = 0
   // TODO: Get BPM from tempo slider component
@@ -116,6 +120,35 @@ export default function Sequencer() {
     setTempo(newTempo)
   }
 
+
+  const [cellData, setCellData] = useState<CellData[][]>(() =>
+    Array(TRACK_COUNT)
+      .fill([])
+      .map(() => Array(STEP_COUNT).fill({ isActive: false })),
+  )
+
+  const handleReset = () => {
+    console.log('reset has triggered')
+
+    // Iterate over cell data and set isActive to false for active cells
+    //const updatedCellData: CellData[][] = cellData.map((trackData) =>
+      /*trackData.map((cell) => ({
+        ...cell,
+        isActive: false,
+
+      /})), */
+   // )
+
+    setReset(true) 
+    setTimeout(() => {
+      setReset(false)
+    }, 100)
+
+    // setCellData(updatedCellData)
+    // console.log(updatedCellData)
+  }
+
+
   return (
     <>
       <div className="button-container">
@@ -125,12 +158,17 @@ export default function Sequencer() {
           <Buttons.PlayButton onClick={handlePlay} />
         )}
         <Buttons.RecordButton />
-        <ResetButton />
+        <ResetButton onClick={handleReset} />
         <LaserButton toggleLaser={toggleLaser} />
         {/* Passing the toggle function */}
       </div>
       {trackNumber.map((track) => {
-        return <Track key={track} trackNumber={track} steps={STEP_COUNT} />
+        return <Track
+        key={track}
+        trackNumber={track}
+        steps={STEP_COUNT}
+        reset={reset} // Pass the handleReset function
+      />
       })}
       {isPlaying ? (
         <div className="slider-container no-interaction">
