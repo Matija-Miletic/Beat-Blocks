@@ -1,6 +1,7 @@
 import { ChakraProvider } from '@chakra-ui/react'
 import Sequencer from './Sequencer'
 import Synth from './Synth'
+import { Fonts } from './Fonts'
 
 function App() {
   return (
