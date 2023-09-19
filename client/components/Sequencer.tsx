@@ -15,7 +15,6 @@ const TRACK_COUNT = 7
 const STEP_COUNT = 32
 
 export default function Sequencer() {
-
   const [isPlaying, setIsPlaying] = useState(false)
   const trackNumber = [...Array(TRACK_COUNT).keys()]
 
@@ -56,7 +55,7 @@ export default function Sequencer() {
 
   let currentStep = 0
   // TODO: Get BPM from tempo slider component
-  
+
   Tone.Transport.bpm.value = tempo
 
   // TODO: add more drum samples => clap, hihat-closed, hihat-open, snare, kick, 808, percussion, melody
@@ -158,10 +157,6 @@ export default function Sequencer() {
     setTempo(newTempo)
   }
 
-
-  
-  
-
   const handleMenuSelectionChange = async (selection: string) => {
     const presetBeatArray = await getBeatByName(selection)
     const presetBeat = presetBeatArray[0]
@@ -169,27 +164,19 @@ export default function Sequencer() {
     console.log('Presetbeat at client', selectedBeat)
   }
 
-
-
-  const [cellData, setCellData] = useState<CellData[][]>(() =>
-    Array(TRACK_COUNT)
-      .fill([])
-      .map(() => Array(STEP_COUNT).fill({ isActive: false })),
-  )
-
   const handleReset = () => {
     console.log('reset has triggered')
 
     // Iterate over cell data and set isActive to false for active cells
     //const updatedCellData: CellData[][] = cellData.map((trackData) =>
-      /*trackData.map((cell) => ({
+    /*trackData.map((cell) => ({
         ...cell,
         isActive: false,
 
       /})), */
-   // )
+    // )
 
-    setReset(true) 
+    setReset(true)
     setTimeout(() => {
       setReset(false)
     }, 100)
@@ -197,8 +184,6 @@ export default function Sequencer() {
     // setCellData(updatedCellData)
     // console.log(updatedCellData)
   }
-
-
 
   return (
     <>
@@ -217,7 +202,6 @@ export default function Sequencer() {
         {/* Passing the toggle function */}
       </div>
       {trackNumber.map((track) => {
-
         return (
           <Track
             key={track}
@@ -228,7 +212,6 @@ export default function Sequencer() {
             cellStates={cellStates}
           />
         )
-
       })}
       {isPlaying ? (
         <div className="slider-container no-interaction">
