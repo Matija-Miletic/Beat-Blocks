@@ -65,7 +65,9 @@ const Cell: React.FC<Props> = ({ trackNumber, cellNumber, reset }) => {
       >
         <div style={iconStyle}>
           {isActive ? (
+
             <Box className={`brick 1x1 ${trackClassName}`} />
+
           ) : (
             <RiCheckboxBlankLine size="100%" />
           )}

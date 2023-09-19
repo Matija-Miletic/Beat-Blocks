@@ -1,4 +1,7 @@
-import Cell from './Cell';
+
+import Cell2 from './Cell2'
+import Cell from './Cell'
+
 
 interface TrackProps {
   trackNumber: number;
@@ -12,17 +15,18 @@ export default function Track({ trackNumber, steps, reset }: TrackProps) {
   return (
 <div id={`track-${trackNumber}`} className="track">
       <button style={{ minWidth: '60px', textAlign: 'left' }}>
-        {['808', 'Clap', 'Tap', 'Hihat', 'Snare', 'Kick'][trackNumber]}
+        {['', '808', 'Clap', 'Tap', 'Hihat', 'Snare', 'Kick'][trackNumber]}
       </button>
       {cells.map((cell) => {
-        return (
-          <Cell
-            key={cell}
-            trackNumber={trackNumber}
-            cellNumber={cell}
-            reset={reset} // Pass the handleReset function to Cell
-          />
-        );
+
+        if (trackNumber === 0) {
+          return (
+            <Cell2 key={cell} trackNumber={trackNumber} cellNumber={cell} />
+          )
+        } else {
+          return <Cell key={cell} trackNumber={trackNumber} cellNumber={cell} reset={reset} // Pass the handleReset function to Cell />
+        }
+
       })}
     </div>
   );

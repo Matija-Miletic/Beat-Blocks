@@ -9,8 +9,10 @@ import lighting from '../lighting'
 import TempoSlider from './TempoSlider'
 import { Lasers } from './Lasers'
 
-const TRACK_COUNT = 6
-const STEP_COUNT = 16
+
+const TRACK_COUNT = 7
+const STEP_COUNT = 32
+
 
 
 export default function Sequencer() {
@@ -35,12 +37,12 @@ export default function Sequencer() {
   // TODO: add more drum samples => clap, hihat-closed, hihat-open, snare, kick, 808, percussion, melody
 
   const drumPart = new Tone.Players({
-    0: '/samples/808.wav',
-    1: '/samples/clap-alt.wav',
-    2: '/samples/percussion-alt.wav',
-    3: '/samples/hihat-alt.wav',
-    4: '/samples/snare-alt.wav',
-    5: '/samples/kick-alt.wav',
+    0: '/samples/kick-alt.wav',
+    1: '/samples/808.wav',
+    2: '/samples/clap-alt.wav',
+    3: '/samples/percussion-alt.wav',
+    4: '/samples/hihat-alt.wav',
+    5: '/samples/snare-alt.wav',
   }).toDestination()
 
   const mainLoop = new Tone.Loop()
@@ -48,14 +50,25 @@ export default function Sequencer() {
     for (let track = 0; track < trackNumber.length; track++) {
       //Check cell of each track for current step then play drum part if active
       const cell = document.getElementById(`cell-${track}-${currentStep}`)
-      if (cell?.getAttribute('value') === 'active') {
+      if (track === 0 && cell) {
+        Tone.Draw.schedule(function () {
+          //this callback is invoked from a requestAnimationFrame
+          //and will be invoked close to AudioContext time
+
+          cell.classList.replace('light-down', 'light-up')
+          setTimeout(() => {
+            cell.classList.replace('light-up', 'light-down')
+          }, 99)
+        }, time)
+      } else if (cell?.getAttribute('value') === 'active') {
         {
           drumPart.player(String(track)).sync().start(time).stop()
 
           Tone.Draw.schedule(function () {
             //this callback is invoked from a requestAnimationFrame
             //and will be invoked close to AudioContext time
-            if (lights) lighting()
+
+            // if (lights) lighting()
             cell.classList.add('animate')
             setTimeout(() => {
               cell.classList.remove('animate')
