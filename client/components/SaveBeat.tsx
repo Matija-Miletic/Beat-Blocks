@@ -57,6 +57,7 @@ export default function SaveBeat({ cellStates }: SaveBeatProps) {
         aria-label="Save beat"
         fontSize="20px"
         icon={<AiOutlineSave />}
+        backgroundColor={'#fdd835'}
       />
       {nameInputVis && (
         <form onSubmit={handleSubmit}>

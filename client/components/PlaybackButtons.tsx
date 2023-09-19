@@ -21,6 +21,7 @@ export const PlayButton = (props: {
       fontSize="20px"
       icon={<AiFillPlayCircle />}
       onClick={props.onClick}
+      backgroundColor={'#fdd835'}
     />
   )
 }
@@ -37,6 +38,7 @@ export const PauseButton = (props: {
       fontSize="20px"
       icon={<AiOutlinePause />}
       onClick={props.onClick}
+      backgroundColor={'#fdd835'}
     />
   )
 }
@@ -50,6 +52,7 @@ export const StopButton = () => {
       aria-label="Stop Video"
       fontSize="20px"
       icon={<AiOutlineStop />}
+      backgroundColor={'#fdd835'}
     />
   )
 }
@@ -63,6 +66,7 @@ export const LoopButton = () => {
       aria-label="Loop Video"
       fontSize="20px"
       icon={<AiOutlineSync />}
+      backgroundColor={'#fdd835'}
     />
   )
 }
@@ -76,6 +80,7 @@ export const RecordButton = () => {
       aria-label="Record Video"
       fontSize="20px"
       icon={<AiOutlineAudio />}
+      backgroundColor={'#fdd835'}
     />
   )
 }
@@ -87,6 +92,7 @@ export const SaveButton = () => {
       aria-label="Record Video"
       fontSize="20px"
       icon={<AiOutlineAudio />}
+      backgroundColor={'#fdd835'}
     />
   )
 }

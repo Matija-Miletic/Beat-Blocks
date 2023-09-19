@@ -17,6 +17,7 @@ export const ResetButton: React.FC<ResetButtonProps> = ({ onClick }) => {
       aria-label="Refresh tracks"
       fontSize="20px"
       icon={<BsFillTrashFill />}
+      backgroundColor={'#fdd835'}
       // Assign the provided onClick handler
     />
   )
