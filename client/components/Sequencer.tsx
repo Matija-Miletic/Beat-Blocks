@@ -10,6 +10,7 @@ import TempoSlider from './TempoSlider'
 import { Lasers } from './Lasers'
 import BeatSelect from './BeatSelect'
 import { getBeatByName } from '../apis/beats'
+import { SelectedBeat } from '../../models/beats'
 
 const TRACK_COUNT = 7
 const STEP_COUNT = 32
@@ -28,7 +29,7 @@ export default function Sequencer() {
 
   const [reset, setReset] = useState(false)
 
-  const [selectedBeat, setSelectedBeat] = useState(null)
+  const [selectedBeat, setSelectedBeat] = useState<null | SelectedBeat>(null)
 
   // All cell isActive states so we can save
   const [cellStates, setCellStates] = useState<
@@ -50,8 +51,18 @@ export default function Sequencer() {
       setCellStates((prevCellStates) => [...prevCellStates, newCell])
     }
   }
+  // console.log('cellStates:', cellStates)
 
-  console.log('cellStates:', cellStates)
+  const handleMenuSelectionChange = async (selection: string) => {
+    const presetBeatArray = await getBeatByName(selection) //gets data from db
+    const presetBeat = {
+      ...presetBeatArray[0],
+      cell_states: JSON.parse(presetBeatArray[0].cell_states),
+    }
+    setSelectedBeat(presetBeat)
+    // const cellStateArr = JSON.parse(presetBeat.cell_states)
+    console.log('Presetbeat at client', presetBeat)
+  }
 
   let currentStep = 0
   // TODO: Get BPM from tempo slider component
@@ -120,24 +131,18 @@ export default function Sequencer() {
   function handlePlay() {
     // Dispose of previous loop to prevent multiple loops from running
     mainLoop.dispose()
-
     // Resume audio context on user interaction otherwise audio will not play
     Tone.context.resume()
-
     setIsPlaying(true)
-
     Tone.Transport.start('+0.1')
   }
 
   function handlePause() {
     // Dispose of previous loop to prevent multiple loops from running
     mainLoop.dispose()
-
     // Resume audio context on user interaction otherwise audio will not play
     // Tone.context.resume()
-
     setIsPlaying(false)
-
     drumPart.stopAll()
     Tone.Transport.pause()
   }
@@ -146,43 +151,21 @@ export default function Sequencer() {
   const toggleLaser = () => {
     setIsLaserActive((prevState) => !prevState)
   }
-  // console.log('lights', lights)
 
   // Set BPM to match tempo slider
   const handleTempoChange = (newTempo: number) => {
     console.log(`New Tempo: ${newTempo} BPM`)
-
     mainLoop.dispose()
-
     setTempo(newTempo)
-  }
-
-  const handleMenuSelectionChange = async (selection: string) => {
-    const presetBeatArray = await getBeatByName(selection)
-    const presetBeat = presetBeatArray[0]
-    setSelectedBeat(presetBeat)
-    console.log('Presetbeat at client', selectedBeat)
   }
 
   const handleReset = () => {
     console.log('reset has triggered')
-
-    // Iterate over cell data and set isActive to false for active cells
-    //const updatedCellData: CellData[][] = cellData.map((trackData) =>
-    /*trackData.map((cell) => ({
-        ...cell,
-        isActive: false,
-
-      /})), */
-    // )
-
+    setCellStates([])
     setReset(true)
     setTimeout(() => {
       setReset(false)
     }, 100)
-
-    // setCellData(updatedCellData)
-    // console.log(updatedCellData)
   }
 
   return (
@@ -194,9 +177,7 @@ export default function Sequencer() {
           <Buttons.PlayButton onClick={handlePlay} />
         )}
         <Buttons.RecordButton />
-
         <ResetButton onClick={handleReset} />
-
         <LaserButton toggleLaser={toggleLaser} />
         <BeatSelect onMenuSelectionChange={handleMenuSelectionChange} />
         {/* Passing the toggle function */}
@@ -210,6 +191,7 @@ export default function Sequencer() {
             reset={reset}
             handleCellStateChange={handleCellStateChange}
             cellStates={cellStates}
+            selectedBeat={selectedBeat}
           />
         )
       })}

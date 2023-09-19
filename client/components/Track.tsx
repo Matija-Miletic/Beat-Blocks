@@ -1,11 +1,6 @@
-
 import Cell2 from './Cell2'
 import Cell from './Cell'
-
-interface CellState {
-  id: string
-  isActive: boolean
-}
+import { CellState, SelectedBeat } from '../../models/beats'
 
 interface Props {
   trackNumber: number
@@ -13,6 +8,7 @@ interface Props {
   reset: boolean
   handleCellStateChange: (cellID: string, newIsActive: boolean) => void
   cellStates: CellState[] // Use CellState[] to define it as an array of objects
+  selectedBeat: SelectedBeat | null
 }
 
 export default function Track({
@@ -21,6 +17,7 @@ export default function Track({
   reset,
   handleCellStateChange,
   cellStates,
+  selectedBeat,
 }: Props) {
   const cells = [...Array(steps).keys()]
 
@@ -30,7 +27,6 @@ export default function Track({
         {['', '808', 'Clap', 'Tap', 'Hihat', 'Snare', 'Kick'][trackNumber]}
       </button>
       {cells.map((cell) => {
-
         if (trackNumber === 0) {
           return (
             <Cell2 key={cell} trackNumber={trackNumber} cellNumber={cell} />
@@ -42,6 +38,7 @@ export default function Track({
               trackNumber={trackNumber}
               cellNumber={cell}
               reset={reset}
+              selectedBeat={selectedBeat}
               handleCellStateChange={handleCellStateChange}
               isActive={
                 cellStates.find(
@@ -51,7 +48,6 @@ export default function Track({
             />
           )
         }
-
       })}
     </div>
   )

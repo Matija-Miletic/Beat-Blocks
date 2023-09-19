@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-
 import { Box } from '@chakra-ui/react'
 import { RiCheckboxBlankFill, RiCheckboxBlankLine } from 'react-icons/ri'
+import { SelectedBeat } from '../../models/beats'
 
 interface Props {
   trackNumber: number
@@ -9,22 +9,36 @@ interface Props {
   reset: boolean
   handleCellStateChange: (cellID: string, newIsActive: boolean) => void
   isActive: boolean
+  selectedBeat: SelectedBeat | null
 }
 
 export default function Cell({
   trackNumber,
   cellNumber,
   reset,
+  selectedBeat,
   handleCellStateChange,
 }: Props) {
-  const [isActive, setIsActive] = useState<boolean>(false)
   const [showImage, setShowImage] = useState<boolean>(false)
   const cellID = `cell-${trackNumber}-${cellNumber}`
+
+  // Use a state variable to manage the isActive state based on selectedBeat
+  const [isActive, setIsActive] = useState<boolean>(false)
+
+  useEffect(() => {
+    // When selectedBeat changes, update the isActive state based on the cell_states
+    if (selectedBeat) {
+      const presetBeat = selectedBeat.cell_states.find(
+        (cellState) => cellState.id === cellID,
+      )
+      setIsActive(presetBeat ? presetBeat.isActive : false)
+    }
+  }, [selectedBeat, cellID])
 
   function handleClick() {
     const newIsActive = !isActive
     handleCellStateChange(cellID, newIsActive)
-    setIsActive(!isActive)
+    setIsActive(newIsActive)
 
     setShowImage(true)
 
