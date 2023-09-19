@@ -13,3 +13,8 @@ export interface CellState {
   id: string
   isActive: boolean
 }
+
+export interface NewBeat {
+  name: string
+  cell_states: string
+}

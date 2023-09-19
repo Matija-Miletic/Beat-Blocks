@@ -29,3 +29,17 @@ router.get('/:name', async (req, res) => {
 })
 
 export default router
+
+router.post(`/add`, async (req, res) => {
+  console.log('at post route')
+  try {
+    const beat = req.body.newBeat
+
+    await db.addNewBeat(beat)
+
+    res.sendStatus(204)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    res.status(error.response.status || 500).json(error.response.body)
+  }
+})

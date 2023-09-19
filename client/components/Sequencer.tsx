@@ -10,7 +10,8 @@ import TempoSlider from './TempoSlider'
 import { Lasers } from './Lasers'
 import BeatSelect from './BeatSelect'
 import { getBeatByName } from '../apis/beats'
-import { SelectedBeat } from '../../models/beats'
+import { CellState, SelectedBeat } from '../../models/beats'
+import SaveBeat from './SaveBeat'
 
 const TRACK_COUNT = 7
 const STEP_COUNT = 32
@@ -32,9 +33,7 @@ export default function Sequencer() {
   const [selectedBeat, setSelectedBeat] = useState<null | SelectedBeat>(null)
 
   // All cell isActive states so we can save
-  const [cellStates, setCellStates] = useState<
-    Array<{ id: string; isActive: boolean }>
-  >([])
+  const [cellStates, setCellStates] = useState<CellState[]>([])
 
   const handleCellStateChange = (cellId: string, isActive: boolean) => {
     // Find the index of the cell in the cellStates array
@@ -179,6 +178,7 @@ export default function Sequencer() {
         <Buttons.RecordButton />
         <ResetButton onClick={handleReset} />
         <LaserButton toggleLaser={toggleLaser} />
+        <SaveBeat cellStates={cellStates} />
         <BeatSelect onMenuSelectionChange={handleMenuSelectionChange} />
         {/* Passing the toggle function */}
       </div>
