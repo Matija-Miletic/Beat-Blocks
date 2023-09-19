@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import * as Tone from 'tone'
 
 import * as Buttons from './PlaybackButtons'
@@ -9,29 +9,33 @@ import lighting from '../lighting'
 import TempoSlider from './TempoSlider'
 import { Lasers } from './Lasers'
 
+
 const TRACK_COUNT = 7
 const STEP_COUNT = 32
 
-interface Props {
-  tempoProp: number
-}
 
-export default function Sequencer({ tempoProp }: Props) {
+
+export default function Sequencer() {
+
   const [isPlaying, setIsPlaying] = useState(false)
   const trackNumber = [...Array(TRACK_COUNT).keys()]
+  // Sets tempo state used to determine speed of sequencer and animation timeout
+  const [tempo, setTempo] = useState(100)
 
   // Sets state for showing flashing colours
   const [lights, setLights] = useState(false)
 
-  // Sets tempo state used to determine speed of sequencer and animation timeout
-  const [tempo, setTempo] = useState(100)
   const [isLaserActive, setIsLaserActive] = useState(false) // New state variable
+
+  const [reset, setReset] = useState(false)
 
   let currentStep = 0
   // TODO: Get BPM from tempo slider component
-  Tone.Transport.bpm.value = 120
+  
+  Tone.Transport.bpm.value = tempo
 
   // TODO: add more drum samples => clap, hihat-closed, hihat-open, snare, kick, 808, percussion, melody
+
   const drumPart = new Tone.Players({
     0: '/samples/kick-alt.wav',
     1: '/samples/808.wav',
@@ -40,8 +44,6 @@ export default function Sequencer({ tempoProp }: Props) {
     4: '/samples/hihat-alt.wav',
     5: '/samples/snare-alt.wav',
   }).toDestination()
-
-  console.log(drumPart)
 
   const mainLoop = new Tone.Loop()
   mainLoop.callback = (time) => {
@@ -86,13 +88,12 @@ export default function Sequencer({ tempoProp }: Props) {
     //^^^^^ ADD CODE ABOVE ^^^^^
   }
   // Start this outside of the play/pause function otherwise it will start another loop
-  mainLoop.interval = 1 / (tempoProp / 60)
-  // mainLoop.interval = '16n'
+
+  mainLoop.interval = '16n'
+
   mainLoop.start()
 
   function handlePlay() {
-    console.log('play')
-
     // Dispose of previous loop to prevent multiple loops from running
     mainLoop.dispose()
 
@@ -101,22 +102,20 @@ export default function Sequencer({ tempoProp }: Props) {
 
     setIsPlaying(true)
 
-    Tone.Transport.start('+0.001')
+    Tone.Transport.start('+0.1')
   }
 
   function handlePause() {
-    console.log('pause')
-
     // Dispose of previous loop to prevent multiple loops from running
     mainLoop.dispose()
 
     // Resume audio context on user interaction otherwise audio will not play
-    Tone.context.resume()
+    // Tone.context.resume()
 
     setIsPlaying(false)
 
-    Tone.Transport.pause()
     drumPart.stopAll()
+    Tone.Transport.pause()
   }
 
   // Function to toggle laser state
@@ -128,9 +127,41 @@ export default function Sequencer({ tempoProp }: Props) {
   // Set BPM to match tempo slider
   const handleTempoChange = (newTempo: number) => {
     console.log(`New Tempo: ${newTempo} BPM`)
+
     mainLoop.dispose()
+
     setTempo(newTempo)
   }
+
+
+  const [cellData, setCellData] = useState<CellData[][]>(() =>
+    Array(TRACK_COUNT)
+      .fill([])
+      .map(() => Array(STEP_COUNT).fill({ isActive: false })),
+  )
+
+  const handleReset = () => {
+    console.log('reset has triggered')
+
+    // Iterate over cell data and set isActive to false for active cells
+    //const updatedCellData: CellData[][] = cellData.map((trackData) =>
+      /*trackData.map((cell) => ({
+        ...cell,
+        isActive: false,
+
+      /})), */
+   // )
+
+    setReset(true) 
+    setTimeout(() => {
+      setReset(false)
+    }, 100)
+
+    // setCellData(updatedCellData)
+    // console.log(updatedCellData)
+  }
+
+
   return (
     <>
       <div className="button-container">
@@ -140,12 +171,17 @@ export default function Sequencer({ tempoProp }: Props) {
           <Buttons.PlayButton onClick={handlePlay} />
         )}
         <Buttons.RecordButton />
-        <ResetButton />
+        <ResetButton onClick={handleReset} />
         <LaserButton toggleLaser={toggleLaser} />
         {/* Passing the toggle function */}
       </div>
       {trackNumber.map((track) => {
-        return <Track key={track} trackNumber={track} steps={STEP_COUNT} />
+        return <Track
+        key={track}
+        trackNumber={track}
+        steps={STEP_COUNT}
+        reset={reset} // Pass the handleReset function
+      />
       })}
       {isPlaying ? (
         <div className="slider-container no-interaction">

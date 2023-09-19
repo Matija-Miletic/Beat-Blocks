@@ -12,6 +12,8 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  SliderMark,
+  Image,
 } from '@chakra-ui/react'
 
 interface TempoSliderProps {
@@ -40,7 +42,14 @@ const TempoSlider: React.FC<TempoSliderProps> = ({
       onChange(value)
     }
   }
-
+  const sliderMarks = []
+  for (let i = minTempo; i <= maxTempo - 10; i += 10) {
+    sliderMarks.push(
+      <SliderMark key={i} value={i} mt="1" ml="2.5" fontSize="sm">
+        |
+      </SliderMark>,
+    )
+  }
   return (
     <Flex alignItems="center">
       <Text mb={2} mr={4}>
@@ -68,12 +77,17 @@ const TempoSlider: React.FC<TempoSliderProps> = ({
         step={stepTempo}
         value={tempo}
         onChange={handleChange}
+        position="relative"
       >
         <SliderTrack bg="red.100">
           <Box position="relative" right={10} />
+
           <SliderFilledTrack bg="tomato" />
         </SliderTrack>
-        <SliderThumb boxSize={6} />
+        <SliderThumb boxSize={8}>
+          <Box className="brick 1x1" />
+        </SliderThumb>
+        {sliderMarks}
       </Slider>
     </Flex>
   )
