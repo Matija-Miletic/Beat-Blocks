@@ -1,3 +1,4 @@
+import Cell2 from './Cell2'
 import Cell from './Cell'
 
 interface Props {
@@ -18,7 +19,13 @@ export default function Track({ trackNumber, steps }: Props) {
         }
       </button>
       {cells.map((cell) => {
-        return <Cell key={cell} trackNumber={trackNumber} cellNumber={cell} />
+        if (trackNumber === 0) {
+          return (
+            <Cell2 key={cell} trackNumber={trackNumber} cellNumber={cell} />
+          )
+        } else {
+          return <Cell key={cell} trackNumber={trackNumber} cellNumber={cell} />
+        }
       })}
     </div>
   )

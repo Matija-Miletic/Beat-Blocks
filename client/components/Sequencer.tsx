@@ -53,9 +53,9 @@ export default function Sequencer({ tempoProp }: Props) {
           //this callback is invoked from a requestAnimationFrame
           //and will be invoked close to AudioContext time
           if (lights) lighting()
-          cell.classList.add('light-up')
+          cell.classList.replace('light-down','light-up')
           setTimeout(() => {
-            cell.classList.add('light-down')
+            cell.classList.add('light-up','light-down')
           }, 99)
         }, time)
       } else if (cell?.getAttribute('value') === 'active') {
