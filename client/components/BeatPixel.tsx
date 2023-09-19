@@ -6,22 +6,26 @@ import * as lib from '../../lib/lib.ts'
 
 let prevPixelId = ''
 
+// Needs to sit outside of component so it doesn't reinitialize on every render
+const synth = new Tone.Synth({
+  oscillator: {
+    type: 'fatcustom',
+    partials: [0.2, 1, 0, 0.5, 0.1],
+    spread: 40,
+    count: 3,
+  },
+  envelope: {
+    attack: 0.001,
+    decay: 1.6,
+    sustain: 0,
+    release: 1.6,
+  },
+}).toDestination()
+
 export default function BeatPixel() {
   const pixelCount = 64
   const pixelGrid = [...Array(pixelCount).keys()]
   const [isRunning, setIsRunning] = useState(false)
-
-  // TODO: Select a random pixel and highlight that pixel then play a sound
-  // TODO: Check all valid orthogonal pixels then move to a random one
-  // - Get all valid orthogonal pixels
-  // - Select a random one
-  // - Move to that pixel
-
-  // TODO: When a pixel is entered into, change to a random color then play a sound
-  // - Generate randomn color
-  // - Change pixel color
-  // - Generate random sound
-  // - Play sound
 
   useEffect(() => {
     if (isRunning) {
@@ -69,25 +73,15 @@ export default function BeatPixel() {
   }
 
   function playSound() {
-    Tone.context.resume()
-    const synth = new Tone.Synth({
-      oscillator: {
-        type: 'fatcustom',
-        partials: [0.2, 1, 0, 0.5, 0.1],
-        spread: 40,
-        count: 3,
-      },
-      envelope: {
-        attack: 0.001,
-        decay: 1.6,
-        sustain: 0,
-        release: 1.6,
-      },
-    }).toDestination()
+    const minFrequency = 20
+    const maxFrequency = 150
+    const randomFrequency =
+      Math.random() * (maxFrequency - minFrequency) + minFrequency
 
-    const randomFrequency = Math.random() * (150 - 20) + 20
+    Tone.context.resume()
 
     synth.triggerAttackRelease(randomFrequency, '8n')
+    Tone.context.dispose()
   }
 
   function handleClick() {
@@ -97,7 +91,9 @@ export default function BeatPixel() {
   return (
     <>
       <h2>Beat Pixel</h2>
-      <button onClick={handleClick}>START</button>
+      <button className="pixel-control" onClick={handleClick}>
+        {isRunning ? 'STOP' : 'START'}
+      </button>
       <div className="pixel-grid">
         {pixelGrid.map((pixel, index) => {
           return <Pixel key={index} id={pixel} />
