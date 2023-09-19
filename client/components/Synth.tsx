@@ -198,7 +198,7 @@ const SynthComponent = () => {
             <Box className="brick b-7x1 b-orange"></Box>
           </Box>
 
-          <Heading as="h3">Distortion:</Heading>
+          <h3>Distortion:</h3>
           <Slider
             aria-label="slider-ex-4"
             defaultValue={dist}

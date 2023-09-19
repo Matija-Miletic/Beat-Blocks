@@ -1,16 +1,16 @@
-import Cell from './Cell';
+import Cell from './Cell'
 
 interface TrackProps {
-  trackNumber: number;
-  steps: number;
-  reset: boolean;  // Add handleReset prop
+  trackNumber: number
+  steps: number
+  reset: boolean // Add handleReset prop
 }
 
 export default function Track({ trackNumber, steps, reset }: TrackProps) {
-  const cells = [...Array(steps).keys()];
+  const cells = [...Array(steps).keys()]
 
   return (
-<div id={`track-${trackNumber}`} className="track">
+    <div id={`track-${trackNumber}`} className="track">
       <button style={{ minWidth: '60px', textAlign: 'left' }}>
         {['808', 'Clap', 'Tap', 'Hihat', 'Snare', 'Kick'][trackNumber]}
       </button>
@@ -22,8 +22,8 @@ export default function Track({ trackNumber, steps, reset }: TrackProps) {
             cellNumber={cell}
             reset={reset} // Pass the handleReset function to Cell
           />
-        );
+        )
       })}
     </div>
-  );
+  )
 }
