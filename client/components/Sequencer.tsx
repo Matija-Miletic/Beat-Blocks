@@ -8,25 +8,50 @@ import Track from './Track'
 import lighting from '../lighting'
 import TempoSlider from './TempoSlider'
 import { Lasers } from './Lasers'
+import BeatSelect from './BeatSelect'
+import { getBeatByName } from '../apis/beats'
 
 const TRACK_COUNT = 6
 const STEP_COUNT = 32
 
-interface Props {
-  tempoProp: number
-}
-
 export default function Sequencer() {
   const [isPlaying, setIsPlaying] = useState(false)
   const trackNumber = [...Array(TRACK_COUNT).keys()]
+
   // Sets tempo state used to determine speed of sequencer and animation timeout
   const [tempo, setTempo] = useState(100)
 
   // Sets state for showing flashing colours
-  const [lights, setLights] = useState(false)
+  // const [lights, setLights] = useState(false)
 
   const [isLaserActive, setIsLaserActive] = useState(false) // New state variable
 
+  const [reset, setReset] = useState(false)
+
+  const [selectedBeat, setSelectedBeat] = useState(null)
+
+  // All cell isActive states so we can save
+  const [cellStates, setCellStates] = useState<
+    Array<{ id: string; isActive: boolean }>
+  >([])
+
+  const handleCellStateChange = (cellId: string, isActive: boolean) => {
+    // Find the index of the cell in the cellStates array
+    const cellIndex = cellStates.findIndex((cell) => cell.id === cellId)
+    setSelectedBeat(null)
+    if (cellIndex !== -1) {
+      // If the cell exists in the array, update its isActive property
+      const updatedCellStates = [...cellStates]
+      updatedCellStates[cellIndex] = { ...cellStates[cellIndex], isActive }
+      setCellStates(updatedCellStates)
+    } else {
+      // If the cell doesn't exist in the array, create a new object
+      const newCell = { id: cellId, isActive }
+      setCellStates((prevCellStates) => [...prevCellStates, newCell])
+    }
+  }
+
+  console.log('cellStates:', cellStates)
   let currentStep = 0
   // TODO: Get BPM from tempo slider component
   Tone.Transport.bpm.value = tempo
@@ -56,7 +81,7 @@ export default function Sequencer() {
           Tone.Draw.schedule(function () {
             //this callback is invoked from a requestAnimationFrame
             //and will be invoked close to AudioContext time
-            if (lights) lighting()
+            // if (lights) lighting()
             cell.classList.add('animate')
             setTimeout(() => {
               cell.classList.remove('animate')
@@ -114,7 +139,7 @@ export default function Sequencer() {
   const toggleLaser = () => {
     setIsLaserActive((prevState) => !prevState)
   }
-  console.log('lights', lights)
+  // console.log('lights', lights)
 
   // Set BPM to match tempo slider
   const handleTempoChange = (newTempo: number) => {
@@ -123,6 +148,23 @@ export default function Sequencer() {
 
     setTempo(newTempo)
   }
+
+  function resetCells() {
+    console.log('reset function')
+    setReset(true)
+    setTimeout(() => {
+      setReset(false)
+    }, 100) // Set a timeout to reset the 'reset' state
+  }
+  // console.log('reset state:', reset)
+
+  const handleMenuSelectionChange = async (selection: string) => {
+    const presetBeatArray = await getBeatByName(selection)
+    const presetBeat = presetBeatArray[0]
+    setSelectedBeat(presetBeat)
+    console.log('Presetbeat at client', selectedBeat)
+  }
+
   return (
     <>
       <div className="button-container">
@@ -132,12 +174,22 @@ export default function Sequencer() {
           <Buttons.PlayButton onClick={handlePlay} />
         )}
         <Buttons.RecordButton />
-        <ResetButton />
+        <ResetButton onClick={resetCells} />
         <LaserButton toggleLaser={toggleLaser} />
+        <BeatSelect onMenuSelectionChange={handleMenuSelectionChange} />
         {/* Passing the toggle function */}
       </div>
       {trackNumber.map((track) => {
-        return <Track key={track} trackNumber={track} steps={STEP_COUNT} />
+        return (
+          <Track
+            key={track}
+            trackNumber={track}
+            steps={STEP_COUNT}
+            reset={reset}
+            handleCellStateChange={handleCellStateChange}
+            cellStates={cellStates}
+          />
+        )
       })}
       {isPlaying ? (
         <div className="slider-container no-interaction">
