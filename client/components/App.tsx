@@ -1,6 +1,9 @@
 import { ChakraProvider } from '@chakra-ui/react'
 import Sequencer from './Sequencer'
 import Synth from './Synth'
+
+import BeatPixel from './BeatPixel'
+
 import { Fonts } from './Fonts'
 
 function App() {
@@ -14,6 +17,9 @@ function App() {
           </div>
           <div className="oscillator-container">
             <Synth />
+          </div>
+          <div className="beat-pixel">
+            <BeatPixel />
           </div>
         </div>
       </div>

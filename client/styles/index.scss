@@ -53,9 +53,32 @@ h3 {
   justify-content: center;
 }
 
+.light-up {
+  
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  background-color: yellow; /* Adjust the color as needed */
+  margin-bottom: 10px
+}
+
+.light-down {
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  background-color: hsl(0, 3%, 81%); /* Adjust the color as needed */
+  
+  
+ 
+}
+
+
+
 .track > :nth-child(4n + 1) {
   margin-right: 8px;
 }
+
+
 
 .cell {
   width: 25px;
@@ -121,6 +144,11 @@ h3 {
   background-color: #e65c00;
 }
 
+.pixel-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+}
 
 $brick-peg-size: 15px;
 $brick-wall-thickness: 6px;
@@ -131,7 +159,6 @@ $brick-square:  $brick-peg-size + $brick-wall-thickness * 2;
   flex-direction: row;
   flex-wrap: wrap;
   box-pack: end;
- 
   filter: drop-shadow(6px 6px 4px rgba(0,0,0,0.6)) drop-shadow(0 0 6px rgba(0,0,0,0.5));
 }
 .border {
@@ -284,47 +311,9 @@ $brick-colors: (
 		width: 0;
 		height: 0;
     border-width: 1px;
-		opacity: 0;
-    transform: translateX(-50%) translateY(-50%) rotate(270deg) skew(10deg);
-	}
-}
-@keyframes glow {
-	0% {
-		border-width: 1px;
-	}
-	100% {
-		border-width: 5px;
-	}
-}
-
-
-
-// FONTS ------------------------------------------------
-
-@font-face {
-  font-family: 'F1';
-  src: url('/fonts/F1.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'F2';
-  src: url('/fonts/F2.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'F3';
-  src: url('/fonts/F3.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'F4';
-  src: url('/fonts/F4.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'F5';
-  src: url('/fonts/F5.ttf') format('truetype');
-}
-@font-face {
   font-family: 'F6';
   src: url('/fonts/F6.ttf') format('truetype');
-}
+}}
 @font-face {
   font-family: 'F7';
   src: url('/fonts/F7.ttf') format('truetype');
