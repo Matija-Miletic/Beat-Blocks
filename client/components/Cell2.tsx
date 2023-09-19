@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function Cell2({ trackNumber, cellNumber }: Props) {
-  const [isActive, setIsActive] = useState<boolean>(true)
+  // const isActive = true
 
   // const iconStyle: React.CSSProperties = {
   //   width: '0%',
@@ -22,7 +22,7 @@ export default function Cell2({ trackNumber, cellNumber }: Props) {
     <div className="light-down" style={{ position: 'relative' }}>
       <button
         className="light-down"
-        value={isActive ? 'active' : 'inactive'}
+        value={'active'}
         id={`cell-${trackNumber}-${cellNumber}`}
         style={{ width: '100%', height: '100%', padding: 0 }}
       >
