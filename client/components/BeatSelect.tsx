@@ -26,7 +26,7 @@ export default function BeatSelect({ onMenuSelectionChange }: BeatSelectProps) {
         <p>Error loading preset beats</p>
       </>
     )
-  const none = 'none'
+
   // console.log('beats', beats)
   return (
     <>

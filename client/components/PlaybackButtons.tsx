@@ -6,6 +6,7 @@ import {
   AiOutlineStop,
   AiOutlineSync,
   AiOutlineAudio,
+  AiOutlineSave,
 } from 'react-icons/ai' // Importing additional icons
 
 // Play
@@ -68,6 +69,17 @@ export const LoopButton = () => {
 
 // Record
 export const RecordButton = () => {
+  return (
+    <IconButton
+      variant="outline"
+      colorScheme="pink"
+      aria-label="Record Video"
+      fontSize="20px"
+      icon={<AiOutlineAudio />}
+    />
+  )
+}
+export const SaveButton = () => {
   return (
     <IconButton
       variant="outline"

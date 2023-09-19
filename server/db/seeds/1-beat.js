@@ -4,13 +4,13 @@
  */
 export async function seed(knex) {
   // Deletes ALL existing entries
-  await knex('beats').del()
+
   await knex('beats').insert([
     {
       id: 1,
       name: 'test',
-      cell_states: [
-        { id: 'cell-0-0', isActive: true },
+      cell_states: JSON.stringify([
+        { id: 'cell-4-1', isActive: true },
         { id: 'cell-1-1', isActive: true },
         { id: 'cell-2-2', isActive: true },
         { id: 'cell-2-3', isActive: true },
@@ -21,7 +21,7 @@ export async function seed(knex) {
         { id: 'cell-4-7', isActive: true },
         { id: 'cell-5-8', isActive: true },
         { id: 'cell-4-8', isActive: true },
-      ],
+      ]),
     },
   ])
 }
