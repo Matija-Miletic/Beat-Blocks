@@ -10,7 +10,7 @@ import * as lib from '../../lib/lib.ts'
 export default function Pixel(props: { id: number }) {
   const MIN = 2000
   const MAX = 10000
-  const PIXEL_SIZE = 40
+  const PIXEL_SIZE = 50
 
   const [isSelected, setIsSelected] = useState(false)
 
