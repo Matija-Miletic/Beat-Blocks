@@ -18,9 +18,13 @@ import { saveBeat } from '../apis/beats'
 import { useQueryClient } from '@tanstack/react-query'
 
 interface SaveBeatProps {
-  cellStates: CellState[] // Define the prop type
+  cellStates: CellState[]
+  invalidateBeats: () => void
 }
-export default function SaveBeat({ cellStates }: SaveBeatProps) {
+export default function SaveBeat({
+  cellStates,
+  invalidateBeats,
+}: SaveBeatProps) {
   const [nameInputVis, setNameInputVis] = useState(false)
   const [input, setInput] = useState('')
   const [noName, setNoName] = useState(false)
@@ -37,16 +41,16 @@ export default function SaveBeat({ cellStates }: SaveBeatProps) {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value)
   }
-  const queryClient = useQueryClient()
 
   const handleSubmit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault()
 
     const newBeat = { name: input, cell_states: JSON.stringify(cellStates) }
     saveBeat(newBeat)
-    queryClient.invalidateQueries(['beats'])
+
     setNameInputVis(false)
     setInput('')
+    invalidateBeats()
   }
 
   const handleNoName = () => {
