@@ -7,16 +7,18 @@ body {
 
 h1 {
   font-weight: bold;
-  font-size: 3.5rem;
-  color: rgb(255, 53, 53);
+  font-size: 4rem;
+  font-family: 'F3';
+  color: rgb(170, 30, 30);
   text-align: center;
   padding: 20px;
 }
 
 h2 {
   font-weight: bold;
-  font-size: 2.5rem;
-  color: rgb(255, 53, 53);
+  font-size: 4rem;
+  font-family: 'F13';
+  color: rgb(255, 140, 0);
   text-align: center;
   padding: 20px;
 }
@@ -30,9 +32,32 @@ h2 {
   justify-content: center;
 }
 
+.light-up {
+  
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  background-color: yellow; /* Adjust the color as needed */
+  margin-bottom: 10px
+}
+
+.light-down {
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  background-color: hsl(0, 3%, 81%); /* Adjust the color as needed */
+  
+  
+ 
+}
+
+
+
 .track > :nth-child(4n + 1) {
   margin-right: 8px;
 }
+
+
 
 .cell {
   width: 25px;
@@ -98,6 +123,11 @@ h2 {
   background-color: #e65c00;
 }
 
+.pixel-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+}
 
 $brick-peg-size: 15px;
 $brick-wall-thickness: 6px;
@@ -108,7 +138,6 @@ $brick-square:  $brick-peg-size + $brick-wall-thickness * 2;
   flex-direction: row;
   flex-wrap: wrap;
   box-pack: end;
- 
   filter: drop-shadow(6px 6px 4px rgba(0,0,0,0.6)) drop-shadow(0 0 6px rgba(0,0,0,0.5));
 }
 .border {
@@ -261,17 +290,118 @@ $brick-colors: (
 		width: 0;
 		height: 0;
     border-width: 1px;
-		opacity: 0;
-    transform: translateX(-50%) translateY(-50%) rotate(270deg) skew(10deg);
-	}
+  font-family: 'F6';
+  src: url('/fonts/F6.ttf') format('truetype');
+}}
+@font-face {
+  font-family: 'F7';
+  src: url('/fonts/F7.ttf') format('truetype');
 }
-@keyframes glow {
-	0% {
-		border-width: 1px;
-	}
-	100% {
-		border-width: 5px;
-	}
+@font-face {
+  font-family: 'F8';
+  src: url('/fonts/F8.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F9';
+  src: url('/fonts/F9.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F10';
+  src: url('/fonts/F10.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F11';
+  src: url('/fonts/F11.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F12';
+  src: url('/fonts/F12.ttf') format('truetype');
+}
+// Font 13 is really cool - blocks dropping off
+@font-face {
+  font-family: 'F13';
+  src: url('/fonts/F13.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F14';
+  src: url('/fonts/F14.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F15';
+  src: url('/fonts/F15.ttf') format('truetype');
+}
+
+.font-sample {
+  margin-bottom: 2rem;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.lowercase {
+  text-transform: lowercase;
+}
+
+.F1 .uppercase,
+.F1 .lowercase {
+  font-family: 'F1';
+}
+.F2 .uppercase,
+.F2 .lowercase {
+  font-family: 'F2';
+}
+.F3 .uppercase,
+.F3 .lowercase {
+  font-family: 'F3';
+}
+.F4 .uppercase,
+.F4 .lowercase {
+  font-family: 'F4';
+}
+.F5 .uppercase,
+.F5 .lowercase {
+  font-family: 'F5';
+}
+.F6 .uppercase,
+.F6 .lowercase {
+  font-family: 'F6';
+}
+.F7 .uppercase,
+.F7 .lowercase {
+  font-family: 'F7';
+}
+.F8 .uppercase,
+.F8 .lowercase {
+  font-family: 'F8';
+}
+.F9 .uppercase,
+.F9 .lowercase {
+  font-family: 'F9';
+}
+.F10 .uppercase,
+.F10 .lowercase {
+  font-family: 'F10';
+}
+.F11 .uppercase,
+.F11 .lowercase {
+  font-family: 'F11';
+}
+.F12 .uppercase,
+.F12 .lowercase {
+  font-family: 'F12';
+}
+.F13 .uppercase,
+.F13 .lowercase {
+  font-family: 'F13';
+}
+.F14 .uppercase,
+.F14 .lowercase {
+  font-family: 'F14';
+}
+.F15 .uppercase,
+.F15 .lowercase {
+  font-family: 'F15';
 }
 
 /////////////
@@ -363,4 +493,5 @@ $brick-colors: (
   pointer-events: none;
   opacity: 0.3
 }
+
 

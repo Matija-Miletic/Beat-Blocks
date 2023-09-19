@@ -1,7 +1,14 @@
-import { IconButton } from '@chakra-ui/react'
-import { BsFillTrashFill } from 'react-icons/bs' // Fixed import
+// ResetButton.tsx
+import { IconButton } from '@chakra-ui/react';
+import { BsFillTrashFill } from 'react-icons/bs';
 
-export const ResetButton = ({ onClick }) => {
+
+interface ResetButtonProps {
+  onClick: () => void; // Define the onClick handler
+}
+
+export const ResetButton: React.FC<ResetButtonProps> = ({ onClick }) => {
+
   return (
     <IconButton
       onClick={() => {
@@ -12,6 +19,7 @@ export const ResetButton = ({ onClick }) => {
       aria-label="Refresh tracks"
       fontSize="20px"
       icon={<BsFillTrashFill />}
+      onClick={onClick} // Assign the provided onClick handler
     />
-  )
-}
+  );
+};

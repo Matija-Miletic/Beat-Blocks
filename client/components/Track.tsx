@@ -1,4 +1,7 @@
+
+import Cell2 from './Cell2'
 import Cell from './Cell'
+
 
 interface CellState {
   id: string
@@ -22,12 +25,14 @@ export default function Track({
 }: Props) {
   const cells = [...Array(steps).keys()]
 
+
   return (
-    <div id={`track-${trackNumber}`} className="track">
+<div id={`track-${trackNumber}`} className="track">
       <button style={{ minWidth: '60px', textAlign: 'left' }}>
-        {['808', 'Clap', 'Tap', 'Hihat', 'Snare', 'Kick'][trackNumber]}
+        {['', '808', 'Clap', 'Tap', 'Hihat', 'Snare', 'Kick'][trackNumber]}
       </button>
       {cells.map((cell) => {
+
         return (
           <Cell
             key={`cell-${trackNumber}-${cell}`}
@@ -42,7 +47,17 @@ export default function Track({
             }
           />
         )
+
+
+        if (trackNumber === 0) {
+          return (
+            <Cell2 key={cell} trackNumber={trackNumber} cellNumber={cell} />
+          )
+        } else {
+          return <Cell key={cell} trackNumber={trackNumber} cellNumber={cell} reset={reset} // Pass the handleReset function to Cell />
+        }
+
       })}
     </div>
-  )
+  );
 }

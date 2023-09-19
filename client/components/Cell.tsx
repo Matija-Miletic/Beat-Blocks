@@ -1,5 +1,7 @@
+
+import React, { useState, useEffect } from 'react';
+import { RiCheckboxBlankFill, RiCheckboxBlankLine } from 'react-icons/ri';
 import { Box } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
 import { RiCheckboxBlankFill, RiCheckboxBlankLine } from 'react-icons/ri'
 
 interface Props {
@@ -25,15 +27,16 @@ export default function Cell({
     handleCellStateChange(cellID, newIsActive)
     setIsActive(!isActive)
 
-    setShowImage(true)
+
+    setShowImage(true);
 
     setTimeout(() => {
-      setShowImage(false)
-    }, 3000)
+      setShowImage(false);
+    }, 3000);
 
     setTimeout(() => {
-      setShowImage(false)
-    }, 1000)
+      setShowImage(false);
+    }, 1000);
   }
 
   const iconStyle: React.CSSProperties = {
@@ -43,7 +46,7 @@ export default function Cell({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
-  }
+  };
 
   const trackClassMap: { [key: number]: string } = {
     0: 'b-purple',
@@ -72,13 +75,15 @@ export default function Cell({
       >
         <div style={iconStyle}>
           {isActive ? (
+
             <Box className={`brick 1x1 ${trackClassName}`} />
+
           ) : (
             <RiCheckboxBlankLine size="100%" />
           )}
           {showImage && (
             <img
-              src={`../../public/images/lego${cellNumber}.png`}
+              src={`/images/lego${cellNumber}.png`}
               alt="Small"
               className="animated-image"
               style={{
@@ -94,5 +99,7 @@ export default function Cell({
         </div>
       </button>
     </div>
-  )
-}
+  );
+};
+
+export default Cell;

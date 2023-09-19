@@ -1,7 +1,8 @@
 import { ChakraProvider } from '@chakra-ui/react'
-
 import Sequencer from './Sequencer'
 import Synth from './Synth'
+import BeatPixel from './BeatPixel'
+import { Fonts } from './Fonts'
 
 function App() {
   return (
@@ -15,7 +16,14 @@ function App() {
           <div className="oscillator-container">
             <Synth />
           </div>
+          <div className="beat-pixel">
+            <BeatPixel />
+          </div>
         </div>
+      </div>
+      <div className="fonts-container">
+        <h3>Fonts Showcase:</h3>
+        <Fonts />
       </div>
     </ChakraProvider>
   )
