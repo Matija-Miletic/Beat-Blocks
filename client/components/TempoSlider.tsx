@@ -78,6 +78,7 @@ const TempoSlider: React.FC<TempoSliderProps> = ({
         value={tempo}
         onChange={handleChange}
         position="relative"
+        minW="50px"
       >
         <SliderTrack bg="red.100">
           <Box position="relative" right={10} />
