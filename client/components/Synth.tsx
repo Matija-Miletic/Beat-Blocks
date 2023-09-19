@@ -149,7 +149,7 @@ const SynthComponent = () => {
 
   return (
     <Box>
-      <Heading>~~~ Interactive Synth ~~~</Heading>
+      <h2>~ Interactive Synth ~</h2>
       <Box>
         {/* Dropdown menu to select the synth type */}
 
