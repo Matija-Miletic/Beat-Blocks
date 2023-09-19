@@ -1,7 +1,9 @@
 import { ChakraProvider } from '@chakra-ui/react'
 import Sequencer from './Sequencer'
 import Synth from './Synth'
+
 import BeatPixel from './BeatPixel'
+
 import { Fonts } from './Fonts'
 
 function App() {
@@ -22,7 +24,7 @@ function App() {
         </div>
       </div>
       <div className="fonts-container">
-        <h3>Fonts Showcase:</h3>
+        <h4>Fonts Showcase:</h4>
         <Fonts />
       </div>
     </ChakraProvider>

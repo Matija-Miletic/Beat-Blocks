@@ -1,3 +1,4 @@
+
 import Cell2 from './Cell2'
 import Cell from './Cell'
 
@@ -29,6 +30,7 @@ export default function Track({
         {['', '808', 'Clap', 'Tap', 'Hihat', 'Snare', 'Kick'][trackNumber]}
       </button>
       {cells.map((cell) => {
+
         if (trackNumber === 0) {
           return (
             <Cell2 key={cell} trackNumber={trackNumber} cellNumber={cell} />
@@ -49,6 +51,7 @@ export default function Track({
             />
           )
         }
+
       })}
     </div>
   )
