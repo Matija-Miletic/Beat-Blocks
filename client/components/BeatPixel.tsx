@@ -46,8 +46,6 @@ export default function BeatPixel() {
         // Play sound
         playSound()
       }, 200)
-    } else {
-      setIsRunning(false)
     }
   }, [isRunning])
 
@@ -99,7 +97,7 @@ export default function BeatPixel() {
   return (
     <>
       <h2>Beat Pixel</h2>
-      <button onClick={handleClick}>{isRunning ? 'STOP' : 'START'}</button>
+      <button onClick={handleClick}>START</button>
       <div className="pixel-grid">
         {pixelGrid.map((pixel, index) => {
           return <Pixel key={index} id={pixel} />
