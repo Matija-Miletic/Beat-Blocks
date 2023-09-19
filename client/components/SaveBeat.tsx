@@ -36,7 +36,7 @@ export default function SaveBeat({ cellStates }: SaveBeatProps) {
   const handleSubmit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault()
 
-    if (!input) {
+    if (input === '') {
       // Display an error message to the user
 
       return
