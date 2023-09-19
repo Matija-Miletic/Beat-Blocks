@@ -31,17 +31,22 @@ h2 {
 }
 
 .light-up {
-  background-color: yellow; /* Adjust the color as needed */
+  
   width: 25px;
   height: 25px;
   text-align: center;
+  background-color: yellow; /* Adjust the color as needed */
+  margin-bottom: 10px
 }
 
 .light-down {
   width: 25px;
   height: 25px;
   text-align: center;
-  background-color: rgb(221, 221, 220); /* Adjust the color as needed */
+  background-color: hsl(0, 3%, 81%); /* Adjust the color as needed */
+  
+  
+ 
 }
 
 
