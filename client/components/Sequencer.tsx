@@ -12,6 +12,7 @@ import BeatSelect from './BeatSelect'
 import { getBeatByName } from '../apis/beats'
 import { CellState, SelectedBeat } from '../../models/beats'
 import SaveBeat from './SaveBeat'
+import { useQueryClient } from '@tanstack/react-query'
 
 const TRACK_COUNT = 7
 const STEP_COUNT = 32
@@ -167,6 +168,14 @@ export default function Sequencer() {
     }, 100)
   }
 
+  const [invalidate, setInvalidate] = useState(false)
+  const invalidateBeats = () => {
+    setInvalidate(true)
+    setTimeout(() => {
+      setInvalidate(false)
+    })
+  }
+
   return (
     <>
       <div className="button-container">
@@ -178,8 +187,11 @@ export default function Sequencer() {
         <Buttons.RecordButton />
         <ResetButton onClick={handleReset} />
         <LaserButton toggleLaser={toggleLaser} />
-        <SaveBeat cellStates={cellStates} />
-        <BeatSelect onMenuSelectionChange={handleMenuSelectionChange} />
+        <SaveBeat cellStates={cellStates} invalidateBeats={invalidateBeats} />
+        <BeatSelect
+          onMenuSelectionChange={handleMenuSelectionChange}
+          invalidate={invalidate}
+        />
         {/* Passing the toggle function */}
       </div>
       {trackNumber.map((track) => {

@@ -1,12 +1,17 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { getBeats } from '../apis/beats'
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
 
 interface BeatSelectProps {
   onMenuSelectionChange: (selection: string) => void
+  invalidate: boolean
 }
 
-export default function BeatSelect({ onMenuSelectionChange }: BeatSelectProps) {
+export default function BeatSelect({
+  onMenuSelectionChange,
+  invalidate,
+}: BeatSelectProps) {
+  const queryClient = useQueryClient()
   const {
     data: beats,
     isLoading,
@@ -26,7 +31,9 @@ export default function BeatSelect({ onMenuSelectionChange }: BeatSelectProps) {
         <p>Error loading preset beats</p>
       </>
     )
-
+  if (invalidate) {
+    queryClient.invalidateQueries(['beats'])
+  }
   // console.log('beats', beats)
   return (
     <>
