@@ -24,30 +24,72 @@ export default function BeatPixel() {
   // - Play sound
 
   useEffect(() => {
-    setInterval(() => {
-      removePreviousPixelHighlight()
-      hightlightRandomPixel()
-    }, 1000)
-  })
+    if (isRunning) {
+      setInterval(() => {
+        // Remove previous pixel highlight
+        removePreviousPixelHighlight()
+
+        // Get random pixel ID and set it to prevPixelId
+        const randomPixelId = getRandomPixelId()
+        prevPixelId = randomPixelId
+
+        // Get random color
+        const randomColor = lib.getRandomColor()
+
+        // Highlight new pixel
+        hightlightRandomPixel(randomPixelId)
+        // Change color of new pixel
+        const pixel = document.getElementById(randomPixelId)
+        if (pixel) {
+          pixel.style.backgroundColor = randomColor
+        }
+        // Play sound
+        playSound()
+      }, 200)
+    } else {
+      setIsRunning(false)
+    }
+  }, [isRunning])
 
   function removePreviousPixelHighlight() {
-    // console.log(`Prev Pixel ID: ${prevPixelId}`)
     const prevPixel = document.getElementById(prevPixelId)
     if (prevPixel) {
       prevPixel.style.borderStyle = 'none'
     }
   }
 
-  function hightlightRandomPixel() {
-    const randomPixel = Math.floor(Math.random() * pixelCount)
-    const pixelId = `pixel-${randomPixel}`
-    // console.log(`Prev Pixel ID: ${prevPixelId}`)
-    // console.log(`Current Pixel ID: ${pixelId}`)
-    prevPixelId = pixelId
+  function getRandomPixelId() {
+    return `pixel-${Math.floor(Math.random() * pixelCount).toString()}`
+  }
+
+  function hightlightRandomPixel(id: string) {
+    const pixelId = id
     const pixel = document.getElementById(pixelId)
     if (pixel) {
       pixel.style.border = '2px solid black'
     }
+  }
+
+  function playSound() {
+    Tone.context.resume()
+    const synth = new Tone.Synth({
+      oscillator: {
+        type: 'fatcustom',
+        partials: [0.2, 1, 0, 0.5, 0.1],
+        spread: 40,
+        count: 3,
+      },
+      envelope: {
+        attack: 0.001,
+        decay: 1.6,
+        sustain: 0,
+        release: 1.6,
+      },
+    }).toDestination()
+
+    const randomFrequency = Math.random() * (150 - 20) + 20
+
+    synth.triggerAttackRelease(randomFrequency, '8n')
   }
 
   function handleClick() {
@@ -57,7 +99,7 @@ export default function BeatPixel() {
   return (
     <>
       <h2>Beat Pixel</h2>
-      <button onClick={handleClick}>{isRunning ? 'STOP' : 'RUN'}</button>
+      <button onClick={handleClick}>{isRunning ? 'STOP' : 'START'}</button>
       <div className="pixel-grid">
         {pixelGrid.map((pixel, index) => {
           return <Pixel key={index} id={pixel} />
