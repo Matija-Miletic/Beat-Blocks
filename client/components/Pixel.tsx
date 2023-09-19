@@ -5,7 +5,7 @@ import * as lib from '../../lib/lib.ts'
 export default function Pixel(props: { id: number }) {
   const PIXEL_SIZE = 50
 
-  const [color, setColor] = useState(lib.getRandomColor())
+  const [color] = useState(lib.getRandomColor())
 
   return (
     <div
