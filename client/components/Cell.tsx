@@ -2,28 +2,31 @@
 import React, { useState, useEffect } from 'react';
 import { RiCheckboxBlankFill, RiCheckboxBlankLine } from 'react-icons/ri';
 import { Box } from '@chakra-ui/react'
+import { RiCheckboxBlankFill, RiCheckboxBlankLine } from 'react-icons/ri'
 
 interface Props {
-  trackNumber: number;
-  cellNumber: number;
-  reset: boolean; // Add a reset prop
-  //handleReset() => void
+  trackNumber: number
+  cellNumber: number
+  reset: boolean
+  handleCellStateChange: (cellID: string, newIsActive: boolean) => void
+  isActive: boolean
 }
 
-const Cell: React.FC<Props> = ({ trackNumber, cellNumber, reset }) => {
-  const [isActive, setIsActive] = useState<boolean>(false);
-  const [showImage, setShowImage] = useState<boolean>(false);
-
-  useEffect(() => {
-    
-    if (reset) {
-      
-      setIsActive(false);
-    }
-  }, [reset]); 
+export default function Cell({
+  trackNumber,
+  cellNumber,
+  reset,
+  handleCellStateChange,
+}: Props) {
+  const [isActive, setIsActive] = useState<boolean>(false)
+  const [showImage, setShowImage] = useState<boolean>(false)
+  const cellID = `cell-${trackNumber}-${cellNumber}`
 
   function handleClick() {
-    setIsActive(!isActive);
+    const newIsActive = !isActive
+    handleCellStateChange(cellID, newIsActive)
+    setIsActive(!isActive)
+
 
     setShowImage(true);
 
@@ -54,13 +57,20 @@ const Cell: React.FC<Props> = ({ trackNumber, cellNumber, reset }) => {
     5: 'b-orange',
   }
   const trackClassName = trackClassMap[trackNumber] || 'b-red'
+
+  useEffect(() => {
+    if (reset) {
+      setIsActive(false)
+    }
+  }, [reset])
+
   return (
     <div className="cell" style={{ position: 'relative' }}>
       <button
         className={`cell ${trackClassName}`}
         onClick={handleClick}
         value={isActive ? 'active' : 'inactive'}
-        id={`cell-${trackNumber}-${cellNumber}`}
+        id={cellID}
         style={{ width: '100%', height: '100%', padding: 0 }}
       >
         <div style={iconStyle}>
