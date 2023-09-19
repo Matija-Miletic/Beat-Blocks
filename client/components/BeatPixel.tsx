@@ -31,7 +31,7 @@ export default function BeatPixel() {
   })
 
   function removePreviousPixelHighlight() {
-    console.log(`Prev Pixel ID: ${prevPixelId}`)
+    // console.log(`Prev Pixel ID: ${prevPixelId}`)
     const prevPixel = document.getElementById(prevPixelId)
     if (prevPixel) {
       prevPixel.style.borderStyle = 'none'
@@ -41,8 +41,8 @@ export default function BeatPixel() {
   function hightlightRandomPixel() {
     const randomPixel = Math.floor(Math.random() * pixelCount)
     const pixelId = `pixel-${randomPixel}`
-    console.log(`Prev Pixel ID: ${prevPixelId}`)
-    console.log(`Current Pixel ID: ${pixelId}`)
+    // console.log(`Prev Pixel ID: ${prevPixelId}`)
+    // console.log(`Current Pixel ID: ${pixelId}`)
     prevPixelId = pixelId
     const pixel = document.getElementById(pixelId)
     if (pixel) {
