@@ -1,4 +1,4 @@
-import { ChakraProvider } from '@chakra-ui/react'
+import { Box, ChakraProvider } from '@chakra-ui/react'
 import Sequencer from './Sequencer'
 import Synth from './Synth'
 import BeatPixel from './BeatPixel'
@@ -13,14 +13,20 @@ function App() {
           <div className="sequencer">
             <Sequencer />
           </div>
-          <div className="synth-and-pixel">
-            <div className="oscillator-container">
+
+          <Box
+            w="100%"
+            className="synth-and-pixel"
+            display="flex"
+            justifyContent="space-around"
+          >
+            <Box className="oscillator-container" margin-right="200px">
               <Synth />
-            </div>
-            <div className="beat-pixel">
+            </Box>
+            <Box className="beat-pixel">
               <BeatPixel />
-            </div>
-          </div>
+            </Box>
+          </Box>
         </div>
       </div>
       <div className="fonts-container">

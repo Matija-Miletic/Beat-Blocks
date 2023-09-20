@@ -149,26 +149,28 @@ const SynthComponent = () => {
 
   return (
     <Box>
-      <h2>~ Interactive Synth ~</h2>
-      <Box>
-        {/* Dropdown menu to select the synth type */}
+      <h2>Interactive Synth</h2>
+      <Center>
+        <Box w="250px">
+          {/* Dropdown menu to select the synth type */}
 
-        <label id="select-synth" htmlFor="synthSelect">
-          Select Synth Type:{' '}
-        </label>
-        <Select
-          id="synthSelect"
-          value={selectedSynth}
-          onChange={(e) => setSelectedSynth(e.target.value)}
-        >
-          <option value="Synth">Synth</option>
-          <option value="AMSynth">AMSynth</option>
-          <option value="DuoSynth">DuoSynth</option>
-          <option value="FMSynth">FMSynth</option>
-          <option value="MembraneSynth">MembraneSynth</option>
-          <option value="PluckSynth">PluckSynth</option>
-        </Select>
-      </Box>
+          <label id="select-synth" htmlFor="synthSelect">
+            Select Synth Type:{' '}
+          </label>
+          <Select
+            id="synthSelect"
+            value={selectedSynth}
+            onChange={(e) => setSelectedSynth(e.target.value)}
+          >
+            <option value="Synth">Synth</option>
+            <option value="AMSynth">AMSynth</option>
+            <option value="DuoSynth">DuoSynth</option>
+            <option value="FMSynth">FMSynth</option>
+            <option value="MembraneSynth">MembraneSynth</option>
+            <option value="PluckSynth">PluckSynth</option>
+          </Select>
+        </Box>
+      </Center>
       <Center>
         <Box>
           <Box className="board">
