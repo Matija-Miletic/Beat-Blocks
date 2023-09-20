@@ -94,34 +94,38 @@ export default function BeatPixel() {
 
   return (
     <>
-      <h2>Beat Pixel</h2>
-      {isRunning ? (
-        <IconButton
-          size="lg"
-          variant="outline"
-          colorScheme="teal"
-          aria-label="Play Video"
-          fontSize="30px"
-          margin-bottom="30px"
-          icon={<AiOutlineStop />}
-          onClick={() => setIsRunning(!isRunning)}
-        />
-      ) : (
-        <IconButton
-          size="lg"
-          variant="outline"
-          colorScheme="teal"
-          aria-label="Stop Video"
-          fontSize="30px"
-          icon={<AiFillPlayCircle />}
-          onClick={() => setIsRunning(!isRunning)}
-        />
-      )}
-
-      <Box margin-top="30px" className="pixel-grid">
-        {pixelGrid.map((pixel, index) => {
-          return <Pixel key={index} id={pixel} />
-        })}
+      <Box>
+        <h2 className="beat-pi-head">Beat Pixel</h2>
+        <Box margin-bottom="5px">
+          {isRunning ? (
+            <IconButton
+              size="lg"
+              variant="outline"
+              colorScheme="teal"
+              aria-label="Play Video"
+              fontSize="30px"
+              margin-bottom="5px"
+              icon={<AiOutlineStop />}
+              onClick={() => setIsRunning(!isRunning)}
+            />
+          ) : (
+            <IconButton
+              size="lg"
+              variant="outline"
+              colorScheme="teal"
+              aria-label="Stop Video"
+              fontSize="30px"
+              margin-bottom="5px"
+              icon={<AiFillPlayCircle />}
+              onClick={() => setIsRunning(!isRunning)}
+            />
+          )}
+        </Box>
+        <Box className="pixel-grid">
+          {pixelGrid.map((pixel, index) => {
+            return <Pixel key={index} id={pixel} />
+          })}
+        </Box>
       </Box>
     </>
   )
