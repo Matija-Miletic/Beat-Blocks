@@ -74,7 +74,7 @@ h3 {
   width: 40px;
   height: 40px;
   text-align: center;
-  background-color: #e6d734; /* Adjust the color as needed */
+  background-color: #e0cf4c; /* Adjust the color as needed */
   margin-bottom: 10px
 }
 
@@ -83,7 +83,7 @@ h3 {
   height: 40px;
   text-align: center;
   background-color: hsl(0, 3%, 81%); /* Adjust the color as needed */
-  background: #44946b80;
+  background: #bdbdbd80;
 }
 
 .track > :nth-child(4n + 1) {
@@ -184,6 +184,7 @@ $brick-square:  $brick-peg-size + $brick-wall-thickness * 2;
 }
 
 .brick {
+ 
   color: #f63;
   background-color: currentColor;
   padding: $brick-wall-thickness;
@@ -591,4 +592,19 @@ $brick-colors: (
   gap: 20px; /* Adjust the gap as needed */
 }
 /// 
+.beat-pi-head{
+  margin-bottom:32px;
+}
 
+.header-text {
+  padding-top: 250px;
+  
+  position: relative; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  z-index: 1;
+}
+
+.transparent-brick{
+  opacity: 0.75;
+}
