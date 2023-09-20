@@ -19,7 +19,7 @@ body {
 
 h1 {
   font-weight: bold;
-  font-size: 8rem;
+  font-size: 5rem;
   font-family: 'F15';
   color: rgb(255, 0, 0);
   text-align: center;
@@ -46,6 +46,11 @@ h3 {
   padding: 20px;
 }
 
+.track-instrument-text {
+  font-family: 'F7';
+  color: rgb(255, 0, 0);
+}
+
 .track {
   display: flex;
   flex-direction: row;
@@ -55,8 +60,18 @@ h3 {
   justify-content: center;
 }
 
+.sequencer {
+  background-color: rgba(42, 159, 255, 0.651);
+  column-gap: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 20px;
+  justify-content: center;
+  border-radius: 5%
+}
+
 .light-up {
-  
+
   width: 25px;
   height: 25px;
   text-align: center;
@@ -143,6 +158,7 @@ h3 {
 #synthSelect {
   margin: 5px;
   justify-content: center;
+  background-color: rgba(42, 159, 255, 0.651);
 }
 
 .synth-box:active {
@@ -192,7 +208,7 @@ $brick-square:  $brick-peg-size + $brick-wall-thickness * 2;
 }
 
 .green-brick {
-  color: green;
+  color: rgb(142, 229, 255);
   background-color: currentColor;
   padding: $brick-wall-thickness;
   min-width: $brick-square;
@@ -332,9 +348,39 @@ $brick-colors: (
 		width: 0;
 		height: 0;
     border-width: 1px;
+  }}
+
+// FONTS ==============================================
+
+@font-face {
+  font-family: 'F1';
+  src: url('/fonts/F1.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'F2';
+  src: url('/fonts/F2.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'F3';
+  src: url('/fonts/F3.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'F4';
+  src: url('/fonts/F4.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'F5';
+  src: url('/fonts/F5.ttf') format('truetype');
+}
+
+@font-face {
   font-family: 'F6';
   src: url('/fonts/F6.ttf') format('truetype');
-}}
+}
 @font-face {
   font-family: 'F7';
   src: url('/fonts/F7.ttf') format('truetype');
