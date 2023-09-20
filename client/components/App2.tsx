@@ -15,8 +15,7 @@ function App() {
           <Sequencer />
         </Box>
 
-        {/* <Box className="thing-box"> */}
-        <Flex>
+        <Flex flexDirection="row" alignItems="center">
           <Box className="inner-thing-box">
             <Synth />
           </Box>
@@ -24,7 +23,6 @@ function App() {
             <BeatPixel />
           </Box>
         </Flex>
-        {/* </Box> */}
       </Box>
     </ChakraProvider>
   )
