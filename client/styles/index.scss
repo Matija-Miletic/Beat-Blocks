@@ -19,11 +19,11 @@ body {
 
 h1 {
   font-weight: bold;
-  font-size: 5rem;
-  font-family: 'F15';
+  font-size: 7rem;
+  font-family: 'F3';
   color: rgb(255, 0, 0);
   text-align: center;
-  padding: 20px;
+  padding-top: 200px;
   text-shadow: 2px 2px 5px #fdd835;
 }
 
@@ -61,7 +61,7 @@ h3 {
 }
 
 .sequencer {
-  background-color: rgba(42, 159, 255, 0.651);
+  // background-color: rgba(42, 159, 255, 0.651);
   column-gap: 8px;
   margin-top: 8px;
   margin-bottom: 8px;
@@ -199,20 +199,23 @@ $brick-square:  $brick-peg-size + $brick-wall-thickness * 2;
 }
 
 .green-brick {
-  color: rgb(142, 229, 255);
+  color: rgb(255, 255, 255);
   background-color: currentColor;
   padding: $brick-wall-thickness;
   min-width: $brick-square;
   min-height: $brick-square;
   box-shadow: inset -1px -1px 0 rgba(0,0,0,.2), inset 1px 1px 0 rgba(#fff, .2);
-  background-image: radial-gradient(currentColor $brick-peg-size/2, transparent $brick-peg-size/2 + 1px),
-                      radial-gradient(rgba(#fff, .6) $brick-peg-size/2, transparent $brick-peg-size/2 + 1px),
-                    radial-gradient(rgba(#000, .2) $brick-peg-size/2, transparent $brick-peg-size/2 + $brick-wall-thickness/2),
-                  radial-gradient(rgba(#000, .2) $brick-peg-size/2, transparent $brick-peg-size/2 + $brick-wall-thickness/2);
-  background-size: $brick-square $brick-square;
-  background-position: 0px 0px, -.5px -.5px, 0px 0px, $brick-wall-thickness/2 $brick-wall-thickness/2;
+
+  // Replace the existing background-image radial gradients with the new image
+  background-image: url('public/images/Leshgooo.png');
+
+  // Optional: If you want to control the size of the background image
+  background-size: cover;  // You can use 'cover' or 'contain' as well
+
+  background-position: 0px 0px;  // Adjust this if needed
   background-repeat: repeat;
 }
+
 
 $brick-colors: (
     'red':  #e53935,
