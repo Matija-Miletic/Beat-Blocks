@@ -3,7 +3,7 @@ import * as Tone from 'tone'
 
 import Pixel from './Pixel'
 import * as lib from '../../lib/lib.ts'
-import { Box, Button, IconButton } from '@chakra-ui/react'
+import { Box, IconButton } from '@chakra-ui/react'
 import { AiFillPlayCircle, AiOutlineStop } from 'react-icons/ai'
 
 let prevPixelId = ''
@@ -109,7 +109,7 @@ export default function BeatPixel() {
               onClick={() => setIsRunning(!isRunning)}
             />
           ) : (
-            <IconButton
+            <IconButto
               size="lg"
               variant="outline"
               colorScheme="teal"

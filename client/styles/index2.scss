@@ -1,9 +1,34 @@
+.beat-pi-head{
+  margin-bottom:32px;
+}
+
 .board {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   box-pack: end;
   filter: drop-shadow(6px 6px 4px rgba(0,0,0,0.6)) drop-shadow(0 0 6px rgba(0,0,0,0.5));
+}
+
+$brick-peg-size: 15px;
+$brick-wall-thickness: 6px;
+$brick-square:  $brick-peg-size + $brick-wall-thickness * 2;
+
+.brick {
+ 
+  color: #f63;
+  background-color: currentColor;
+  padding: $brick-wall-thickness;
+  min-width: $brick-square;
+  min-height: $brick-square;
+  box-shadow: inset -1px -1px 0 rgba(0,0,0,.2), inset 1px 1px 0 rgba(#fff, .2);
+  background-image: radial-gradient(currentColor $brick-peg-size/2, transparent $brick-peg-size/2 + 1px),
+                      radial-gradient(rgba(#fff, .6) $brick-peg-size/2, transparent $brick-peg-size/2 + 1px),
+                    radial-gradient(rgba(#000, .2) $brick-peg-size/2, transparent $brick-peg-size/2 + $brick-wall-thickness/2),
+                  radial-gradient(rgba(#000, .2) $brick-peg-size/2, transparent $brick-peg-size/2 + $brick-wall-thickness/2);
+  background-size: $brick-square $brick-square;
+  background-position: 0px 0px, -.5px -.5px, 0px 0px, $brick-wall-thickness/2 $brick-wall-thickness/2;
+  background-repeat: repeat;
 }
 
 
