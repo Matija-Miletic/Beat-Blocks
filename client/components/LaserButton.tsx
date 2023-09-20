@@ -16,7 +16,7 @@ export const LaserButton: React.FC<LaserButtonProps> = ({ toggleLaser }) => {
       fontSize="20px"
       icon={<GiLaserWarning />}
       onClick={toggleLaser} // Toggle laser effect on click
-      backgroundColor={'#fdd835'}
+      backgroundColor= 'white'
     />
   )
 }
