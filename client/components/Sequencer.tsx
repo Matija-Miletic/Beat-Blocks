@@ -11,7 +11,7 @@ import BeatSelect from './BeatSelect'
 import SaveBeat from './SaveBeat'
 import { getBeatByName } from '../apis/beats'
 import { CellState, SelectedBeat } from '../../models/beats'
-import { Center } from '@chakra-ui/react'
+import { Box, Center } from '@chakra-ui/react'
 
 const TRACK_COUNT = 7
 const STEP_COUNT = 16
@@ -222,13 +222,13 @@ export default function Sequencer() {
         )
       })}
       {isPlaying ? (
-        <div className="slider-container no-interaction">
+        <Box w="90%" className="slider-container no-interaction">
           <TempoSlider onChange={handleTempoChange} />
-        </div>
+        </Box>
       ) : (
-        <div className="slider-container">
+        <Box w="90%" className="slider-container">
           <TempoSlider onChange={handleTempoChange} />
-        </div>
+        </Box>
       )}
       {isLaserActive && <Lasers />} {/* Conditionally render based on state */}
     </>
