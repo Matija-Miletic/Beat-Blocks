@@ -45,17 +45,18 @@ const TempoSlider: React.FC<TempoSliderProps> = ({
   const sliderMarks = []
   for (let i = minTempo; i <= maxTempo - 10; i += 10) {
     sliderMarks.push(
-      <SliderMark key={i} value={i} mt="1" ml="2.5" fontSize="sm">
+      <SliderMark color="black" key={i} value={i} mt="1" ml="2.5" fontSize="sm">
         |
       </SliderMark>,
     )
   }
   return (
     <Flex alignItems="center">
-      <Text mb={2} mr={4}>
+      <Text mb={2} mr={4} color="black">
         Tempo: {minTempo} - {maxTempo} BPM
       </Text>
       <NumberInput
+        color="black"
         id={id ? `${id}-number-input` : undefined}
         maxW="100px"
         value={tempo}
@@ -85,7 +86,7 @@ const TempoSlider: React.FC<TempoSliderProps> = ({
 
           <SliderFilledTrack bg="tomato" />
         </SliderTrack>
-        <SliderThumb boxSize={8}>
+        <SliderThumb>
           <Box className="brick 1x1" />
         </SliderThumb>
         {sliderMarks}
