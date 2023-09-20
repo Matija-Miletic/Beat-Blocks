@@ -28,8 +28,10 @@ export default function BeatPixel() {
   const [isRunning, setIsRunning] = useState(false)
 
   useEffect(() => {
+    let interval: string | number | NodeJS.Timeout | undefined = ''
+
     if (isRunning) {
-      setInterval(() => {
+      interval = setInterval(() => {
         // Remove previous pixel highlight
         removePreviousPixelHighlight()
 
@@ -50,7 +52,11 @@ export default function BeatPixel() {
         // Play sound
         playSound()
       }, 200)
+    } else if (!isRunning && interval !== '') {
+      clearInterval(interval)
     }
+    console.log(`Interval: ${interval}`)
+    return () => clearInterval(interval)
   }, [isRunning])
 
   function removePreviousPixelHighlight() {
@@ -84,14 +90,13 @@ export default function BeatPixel() {
     Tone.context.dispose()
   }
 
-  function handleClick() {
-    setIsRunning((prevValue) => !prevValue)
-  }
-
   return (
     <>
       <h2>Beat Pixel</h2>
-      <button className="pixel-control" onClick={handleClick}>
+      <button
+        className="pixel-control"
+        onClick={() => setIsRunning(!isRunning)}
+      >
         {isRunning ? 'STOP' : 'START'}
       </button>
       <div className="pixel-grid">

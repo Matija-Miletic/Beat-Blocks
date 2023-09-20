@@ -573,4 +573,18 @@ $brick-colors: (
   opacity: 0.3
 }
 
+////// styling to help make beatblocks and syth render die by side
+ 
+.app-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.synth-and-pixel {
+  display: flex;
+  flex-direction: row; /* Change to 'row' for horizontal alignment */
+  gap: 20px; /* Adjust the gap as needed */
+}
+/// 
 
