@@ -15,14 +15,14 @@ function App() {
           <Sequencer />
         </Box>
 
-        <Flex flexDirection="row" alignItems="center">
+        <div className="flex-container">
           <Box className="inner-thing-box">
             <Synth />
           </Box>
           <Box className="inner-thing-box">
             <BeatPixel />
           </Box>
-        </Flex>
+        </div>
       </Box>
     </ChakraProvider>
   )

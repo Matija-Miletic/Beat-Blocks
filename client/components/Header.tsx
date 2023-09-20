@@ -2,7 +2,7 @@ import { Box } from '@chakra-ui/react'
 
 export default function Header() {
   return (
-    <Box height="500" display="inline-flex" className="header-constainer">
+    <Box className="header-container">
       <Box
         display="inline-flex"
         position="absolute"
