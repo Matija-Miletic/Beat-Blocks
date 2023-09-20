@@ -61,12 +61,12 @@ export default function Cell({
   }
 
   const trackClassMap: { [key: number]: string } = {
-    0: 'b-purple',
     1: 'b-red',
     2: 'b-yellow',
     3: 'b-green',
     4: 'b-blue',
     5: 'b-orange',
+    6: 'b-purple',
   }
   const trackClassName = trackClassMap[trackNumber] || 'b-red'
   console.log({ trackClassName })
@@ -88,9 +88,14 @@ export default function Cell({
       >
         <div style={iconStyle}>
           {isActive ? (
-            <Box className={`brick 1x1 ${trackClassName}`} />
+            <Box
+              className={`brick 1x1 ${trackClassName}`}
+              transform="scale(1.5)"
+            />
           ) : (
-            <RiCheckboxBlankLine size="100%" />
+            <Box border="1px">
+              <RiCheckboxBlankLine size="100%" />
+            </Box>
           )}
           {showImage && (
             <img

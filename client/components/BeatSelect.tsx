@@ -50,6 +50,7 @@ export default function BeatSelect({
         <MenuList>
           {beats.map((beat) => (
             <MenuItem
+              color="black"
               key={beat}
               onClick={() => {
                 onMenuSelectionChange(beat) // Call the additional function
