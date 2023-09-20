@@ -41,7 +41,7 @@ h3 {
   font-weight: bold;
   font-size: 1.2rem;
   font-family: 'F9';
-  color: rgb(50, 205, 50);
+  color: rgb(205, 50, 50);
   text-align: center;
   padding: 20px;
 }
@@ -49,6 +49,11 @@ h3 {
 .track-instrument-text {
   font-family: 'F7';
   color: rgb(255, 0, 0);
+}
+
+.stupid-text{
+  font-family: 'F9';
+  color:rgb(205, 50, 50);
 }
 
 .track {

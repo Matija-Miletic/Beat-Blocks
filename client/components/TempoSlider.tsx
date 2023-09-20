@@ -52,10 +52,11 @@ const TempoSlider: React.FC<TempoSliderProps> = ({
   }
   return (
     <Flex alignItems="center">
-      <Text mb={2} mr={4} color="black">
+      <Text className="stupid-text" mb={2} mr={4} color="black">
         Tempo: {minTempo} - {maxTempo} BPM
       </Text>
       <NumberInput
+        className="stupid-text"
         color="black"
         id={id ? `${id}-number-input` : undefined}
         maxW="100px"

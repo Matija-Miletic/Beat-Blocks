@@ -8,7 +8,7 @@ export async function seed(knex) {
   await knex('beats').insert([
     {
       id: 1,
-      name: 'test',
+      name: 'Coolest beat ever',
       cell_states: JSON.stringify([
         { id: 'cell-4-1', isActive: true },
         { id: 'cell-1-1', isActive: true },

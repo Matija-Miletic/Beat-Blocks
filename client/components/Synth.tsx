@@ -159,13 +159,19 @@ const SynthComponent = () => {
               htmlFor="synthSelect"
               style={{ color: 'black' }}
             >
-              <Text fontSize="xl" margin="0" padding="0">
+              <Text
+                className="stupid-text"
+                fontSize="md"
+                margin="0"
+                padding="0"
+              >
                 Select Synth Type:
               </Text>
             </label>
           </Box>
           <Box>
             <Select
+              className="stupid-text"
               size="lg"
               id="synthSelect"
               value={selectedSynth}
@@ -210,9 +216,7 @@ const SynthComponent = () => {
               onMouseLeave={stopSynth}
             >
               <Center>
-                <Heading size="sm" color="black">
-                  Press and move mouse to Play
-                </Heading>
+                <h3>Press and move mouse to Play</h3>
               </Center>
             </Box>
             <Box className="brick b-1x12 b-orange"></Box>
