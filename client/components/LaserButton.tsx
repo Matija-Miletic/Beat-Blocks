@@ -1,7 +1,7 @@
 // LaserButton.tsx
 import React from 'react'
 import { IconButton } from '@chakra-ui/react'
-import { GiLaserWarning } from 'react-icons/gi'
+import { GiLaserWarning, GiWhiteBook } from 'react-icons/gi'
 
 interface LaserButtonProps {
   toggleLaser: () => void
@@ -16,6 +16,7 @@ export const LaserButton: React.FC<LaserButtonProps> = ({ toggleLaser }) => {
       fontSize="20px"
       icon={<GiLaserWarning />}
       onClick={toggleLaser} // Toggle laser effect on click
+      backgroundColor={'#fdd835'}
     />
   )
 }

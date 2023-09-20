@@ -71,6 +71,7 @@ export default function SaveBeat({
         aria-label="Save beat"
         fontSize="20px"
         icon={<AiOutlineSave />}
+        backgroundColor={'#fdd835'}
       />
       {nameInputVis && (
         <form onSubmit={handleSubmit}>

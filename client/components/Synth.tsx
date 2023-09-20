@@ -153,7 +153,11 @@ const SynthComponent = () => {
       <Box>
         {/* Dropdown menu to select the synth type */}
 
-        <label id="select-synth" htmlFor="synthSelect">
+        <label
+          id="select-synth"
+          htmlFor="synthSelect"
+          style={{ color: 'black' }}
+        >
           Select Synth Type:{' '}
         </label>
         <Select
@@ -161,12 +165,24 @@ const SynthComponent = () => {
           value={selectedSynth}
           onChange={(e) => setSelectedSynth(e.target.value)}
         >
-          <option value="Synth">Synth</option>
-          <option value="AMSynth">AMSynth</option>
-          <option value="DuoSynth">DuoSynth</option>
-          <option value="FMSynth">FMSynth</option>
-          <option value="MembraneSynth">MembraneSynth</option>
-          <option value="PluckSynth">PluckSynth</option>
+          <option value="Synth" style={{ color: 'black' }}>
+            Synth
+          </option>
+          <option value="AMSynth" style={{ color: 'black' }}>
+            AMSynth
+          </option>
+          <option value="DuoSynth" style={{ color: 'black' }}>
+            DuoSynth
+          </option>
+          <option value="FMSynth" style={{ color: 'black' }}>
+            FMSynth
+          </option>
+          <option value="MembraneSynth" style={{ color: 'black' }}>
+            MembraneSynth
+          </option>
+          <option value="PluckSynth" style={{ color: 'black' }}>
+            PluckSynth
+          </option>
         </Select>
       </Box>
       <Center>
