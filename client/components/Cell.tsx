@@ -84,7 +84,7 @@ export default function Cell({
         onClick={handleClick}
         value={isActive ? 'active' : 'inactive'}
         id={cellID}
-        style={{ width: '100%', height: '100%', padding: 0 }}
+        style={{ width: '80%', height: '80%', padding: 0 }}
       >
         <div style={iconStyle}>
           {isActive ? (

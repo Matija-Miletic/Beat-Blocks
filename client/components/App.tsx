@@ -30,10 +30,10 @@ function App() {
           </Box>
         </div>
       </div>
-      <div className="fonts-container">
+      {/* <div className="fonts-container">
         <h4>Fonts Showcase:</h4>
         <Fonts />
-      </div>
+      </div> */}
     </ChakraProvider>
   )
 }

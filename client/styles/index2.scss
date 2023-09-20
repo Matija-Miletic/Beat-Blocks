@@ -1,0 +1,62 @@
+html, 
+body {
+  font-family: 'F3';
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 7rem;
+  font-family: 'F3';
+  color: rgb(255, 0, 0);
+  text-align: center;
+  padding-top: 200px;
+  text-shadow: 2px 2px 5px #fdd835;
+}
+
+@font-face {
+  font-family: 'F3';
+  src: url('/fonts/F3.ttf') format('truetype');
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 4.5rem;
+  font-family: 'F13';
+  color: rgb(0, 127, 255);
+  text-align: center;
+  padding: 20px;
+  text-shadow: 5px 5px 10px #fdd835;
+}
+
+@font-face {
+  font-family: 'F13';
+  src: url('/fonts/F13.ttf') format('truetype');
+}
+
+.cell {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border: 0.5px ;
+}
+
+.inner-thing-box{
+  background: white;
+  padding: 30px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3); 
+  margin: 10px;
+}
+
+.page{
+  background-image: url("../../public/images/whiteblocks.jpg");
+}
+
+.thing-box{
+  background: white;
+  padding: 30px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3); 
+  margin: 10px;
+}
+
+
+
