@@ -52,6 +52,7 @@ h3 {
 }
 
 .track {
+  // width: 70vw;
   display: flex;
   flex-direction: row;
   column-gap: 8px;
@@ -70,16 +71,16 @@ h3 {
 }
 
 .light-up {
-  width: 25px;
-  height: 25px;
+  width: 40px;
+  height: 40px;
   text-align: center;
-  background-color: #165627; /* Adjust the color as needed */
+  background-color: #e6d734; /* Adjust the color as needed */
   margin-bottom: 10px
 }
 
 .light-down {
-  width: 25px;
-  height: 25px;
+  width: 40px;
+  height: 40px;
   text-align: center;
   background-color: hsl(0, 3%, 81%); /* Adjust the color as needed */
   background: #44946b80;
@@ -90,8 +91,8 @@ h3 {
 }
 
 .cell {
-  width: 25px;
-  height: 25px;
+  width: 40px;
+  height: 40px;
   text-align: center;
   border: 1px ;
 }
@@ -137,7 +138,7 @@ h3 {
   justify-content: center;
   cursor: pointer;
   user-select: none;
-  color: #fff;
+  
   font-size: 18px;
 }
 

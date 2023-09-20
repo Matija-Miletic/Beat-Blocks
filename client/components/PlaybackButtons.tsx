@@ -6,7 +6,7 @@ import {
   AiOutlineStop,
   AiOutlineSync,
   AiOutlineAudio,
-  AiOutlineSave,
+  AiOutlineBulb,
 } from 'react-icons/ai' // Importing additional icons
 
 // Play
@@ -21,7 +21,6 @@ export const PlayButton = (props: {
       fontSize="20px"
       icon={<AiFillPlayCircle />}
       onClick={props.onClick}
-      backgroundColor="white"
     />
   )
 }
@@ -38,7 +37,6 @@ export const PauseButton = (props: {
       fontSize="20px"
       icon={<AiOutlinePause />}
       onClick={props.onClick}
-      backgroundColor="white"
     />
   )
 }
@@ -52,7 +50,6 @@ export const StopButton = () => {
       aria-label="Stop Video"
       fontSize="20px"
       icon={<AiOutlineStop />}
-      backgroundColor="white"
     />
   )
 }
@@ -66,7 +63,6 @@ export const LoopButton = () => {
       aria-label="Loop Video"
       fontSize="20px"
       icon={<AiOutlineSync />}
-      backgroundColor="white"
     />
   )
 }
@@ -80,7 +76,6 @@ export const RecordButton = () => {
       aria-label="Record Video"
       fontSize="20px"
       icon={<AiOutlineAudio />}
-      backgroundColor="white"
     />
   )
 }
@@ -92,7 +87,6 @@ export const SaveButton = () => {
       aria-label="Record Video"
       fontSize="20px"
       icon={<AiOutlineAudio />}
-      backgroundColor="white"
     />
   )
 }
