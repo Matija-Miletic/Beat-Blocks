@@ -100,6 +100,7 @@ export default function BeatPixel() {
         colorScheme="yellow"
         className="pixel-control"
         onClick={() => setIsRunning(!isRunning)}
+        style={{ color: 'black' }}
       >
         {isRunning ? 'STOP' : 'START'}
       </Button>

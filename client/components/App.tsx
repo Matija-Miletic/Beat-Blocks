@@ -7,7 +7,7 @@ import { Fonts } from './Fonts'
 function App() {
   return (
     <ChakraProvider>
-      <div className="app">
+      <div className="green-brick">
         <div className="app-content">
           <h1>Beat Those Blocks!</h1>
           <div className="sequencer">

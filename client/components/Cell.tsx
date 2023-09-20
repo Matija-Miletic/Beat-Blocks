@@ -69,6 +69,7 @@ export default function Cell({
     5: 'b-orange',
   }
   const trackClassName = trackClassMap[trackNumber] || 'b-red'
+  console.log({ trackClassName })
 
   useEffect(() => {
     if (reset) {
