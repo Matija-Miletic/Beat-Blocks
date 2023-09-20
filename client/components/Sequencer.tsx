@@ -84,13 +84,9 @@ export default function Sequencer() {
   useEffect(() => {
     mainLoop.callback = (time) => {
       for (let track = 0; track < trackNumber.length; track++) {
-        //Check cell of each track for current step then play drum part if active
         const cell = document.getElementById(`cell-${track}-${currentStep}`)
         if (track === 0 && cell) {
           Tone.Draw.schedule(function () {
-            //this callback is invoked from a requestAnimationFrame
-            //and will be invoked close to AudioContext time
-
             cell.classList.replace('light-down', 'light-up')
             setTimeout(() => {
               cell.classList.replace('light-up', 'light-down')
@@ -101,10 +97,6 @@ export default function Sequencer() {
             drumPart.player(String(track)).sync().start(time).stop()
 
             Tone.Draw.schedule(function () {
-              //this callback is invoked from a requestAnimationFrame
-              //and will be invoked close to AudioContext time
-
-              // if (lights) lighting()
               cell.classList.add('animate')
               setTimeout(() => {
                 cell.classList.remove('animate')
