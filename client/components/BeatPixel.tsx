@@ -3,6 +3,7 @@ import * as Tone from 'tone'
 
 import Pixel from './Pixel'
 import * as lib from '../../lib/lib.ts'
+import { Button } from '@chakra-ui/react'
 
 let prevPixelId = ''
 
@@ -93,13 +94,16 @@ export default function BeatPixel() {
   return (
     <>
       <h2>Beat Pixel</h2>
-      <button
+
+      <Button
+        marginBottom="15px"
+        colorScheme="yellow"
         className="pixel-control"
         onClick={() => setIsRunning(!isRunning)}
         style={{ color: 'black' }}
       >
         {isRunning ? 'STOP' : 'START'}
-      </button>
+      </Button>
       <div className="pixel-grid">
         {pixelGrid.map((pixel, index) => {
           return <Pixel key={index} id={pixel} />

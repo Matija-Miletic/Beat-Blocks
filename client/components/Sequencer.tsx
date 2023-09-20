@@ -11,6 +11,7 @@ import BeatSelect from './BeatSelect'
 import SaveBeat from './SaveBeat'
 import { getBeatByName } from '../apis/beats'
 import { CellState, SelectedBeat } from '../../models/beats'
+import { Center } from '@chakra-ui/react'
 
 const TRACK_COUNT = 7
 const STEP_COUNT = 16
@@ -189,22 +190,24 @@ export default function Sequencer() {
 
   return (
     <>
-      <div className="button-container">
-        {isPlaying ? (
-          <Buttons.PauseButton onClick={handlePause} />
-        ) : (
-          <Buttons.PlayButton onClick={handlePlay} />
-        )}
-        <Buttons.RecordButton />
-        <ResetButton onClick={handleReset} />
-        <LaserButton toggleLaser={toggleLaser} />
-        <SaveBeat cellStates={cellStates} invalidateBeats={invalidateBeats} />
-        <BeatSelect
-          onMenuSelectionChange={handleMenuSelectionChange}
-          invalidate={invalidate}
-        />
-        {/* Passing the toggle function */}
-      </div>
+      <Center>
+        <div className="button-container">
+          {isPlaying ? (
+            <Buttons.PauseButton onClick={handlePause} />
+          ) : (
+            <Buttons.PlayButton onClick={handlePlay} />
+          )}
+          <Buttons.RecordButton />
+          <ResetButton onClick={handleReset} />
+          <LaserButton toggleLaser={toggleLaser} />
+          <SaveBeat cellStates={cellStates} invalidateBeats={invalidateBeats} />
+          <BeatSelect
+            onMenuSelectionChange={handleMenuSelectionChange}
+            invalidate={invalidate}
+          />
+          {/* Passing the toggle function */}
+        </div>
+      </Center>
       {trackNumber.map((track) => {
         return (
           <Track

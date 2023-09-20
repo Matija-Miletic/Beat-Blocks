@@ -75,7 +75,7 @@ export default function SaveBeat({
       />
       {nameInputVis && (
         <form onSubmit={handleSubmit}>
-          <InputGroup size="md">
+          <InputGroup size="md" w="500px">
             <Input
               type="string"
               pr="4.5rem"

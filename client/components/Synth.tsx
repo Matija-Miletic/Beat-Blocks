@@ -149,8 +149,9 @@ const SynthComponent = () => {
 
   return (
     <Box>
+
       <h2>~ Interactive Synth ~</h2>
-      <Box>
+      <Box w="250px">
         {/* Dropdown menu to select the synth type */}
 
         <label
@@ -185,6 +186,7 @@ const SynthComponent = () => {
           </option>
         </Select>
       </Box>
+
       <Center>
         <Box>
           <Box className="board">
