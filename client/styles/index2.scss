@@ -1,3 +1,19 @@
+.board {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  box-pack: end;
+  filter: drop-shadow(6px 6px 4px rgba(0,0,0,0.6)) drop-shadow(0 0 6px rgba(0,0,0,0.5));
+}
+
+
+
+.button-container button,
+.icon-button {
+  margin: 5px;
+  justify-content: center;
+}
+
 html, 
 body {
   font-family: 'F3';
@@ -44,8 +60,8 @@ h3 {
 }
 
 .cell {
-  width: 40px;
-  height: 40px;
+  width: 100px;
+  height: 60px;
   text-align: center;
   border: 0.5px ;
 }
@@ -79,6 +95,12 @@ h3 {
 
 .page{
   background-image: url("../../public/images/whiteblocks.jpg");
+}
+
+.slider-container {
+  width: 66%;
+  justify-content: center;
+  padding: 20px;
 }
 
 .thing-box{
