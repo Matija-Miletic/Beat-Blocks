@@ -1,25 +1,38 @@
-import { useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as Tone from 'tone'
 
+import Track from './Track'
 import * as Buttons from './PlaybackButtons'
 import { ResetButton } from './ResetButton'
 import { LaserButton } from './LaserButton'
-import Track from './Track'
-import lighting from '../lighting'
-import TempoSlider from './TempoSlider'
 import { Lasers } from './Lasers'
+import TempoSlider from './TempoSlider'
 import BeatSelect from './BeatSelect'
+import SaveBeat from './SaveBeat'
 import { getBeatByName } from '../apis/beats'
 import { CellState, SelectedBeat } from '../../models/beats'
-import SaveBeat from './SaveBeat'
-import { useQueryClient } from '@tanstack/react-query'
+import { Box, Center } from '@chakra-ui/react'
 
 const TRACK_COUNT = 7
-const STEP_COUNT = 32
+const STEP_COUNT = 16
+
+let currentStep = 0
+const trackNumber = [...Array(TRACK_COUNT).keys()]
+
+const drumPart = new Tone.Players({
+  1: '/samples/808.wav',
+  2: '/samples/clap-alt.wav',
+  3: '/samples/percussion-alt.wav',
+  4: '/samples/hihat-alt.wav',
+  5: '/samples/snare-alt.wav',
+  6: '/samples/kick-alt.wav',
+}).toDestination()
+
+const mainLoop = new Tone.Loop()
 
 export default function Sequencer() {
   const [isPlaying, setIsPlaying] = useState(false)
-  const trackNumber = [...Array(TRACK_COUNT).keys()]
+  // const trackNumber = [...Array(TRACK_COUNT).keys()]
 
   // Sets tempo state used to determine speed of sequencer and animation timeout
   const [tempo, setTempo] = useState(100)
@@ -51,7 +64,6 @@ export default function Sequencer() {
       setCellStates((prevCellStates) => [...prevCellStates, newCell])
     }
   }
-  // console.log('cellStates:', cellStates)
 
   const handleMenuSelectionChange = async (selection: string) => {
     const presetBeatArray = await getBeatByName(selection) //gets data from db
@@ -60,77 +72,74 @@ export default function Sequencer() {
       cell_states: JSON.parse(presetBeatArray[0].cell_states),
     }
     setSelectedBeat(presetBeat)
-    // const cellStateArr = JSON.parse(presetBeat.cell_states)
+
     console.log('Presetbeat at client', presetBeat)
   }
+  ///////////////// SEQUENCER CODE ////////////////////////////
 
-  let currentStep = 0
-  // TODO: Get BPM from tempo slider component
+  // let currentStep = 0
 
   Tone.Transport.bpm.value = tempo
 
-  // TODO: add more drum samples => clap, hihat-closed, hihat-open, snare, kick, 808, percussion, melody
-
-  const drumPart = new Tone.Players({
-    0: '/samples/kick-alt.wav',
-    1: '/samples/808.wav',
-    2: '/samples/clap-alt.wav',
-    3: '/samples/percussion-alt.wav',
-    4: '/samples/hihat-alt.wav',
-    5: '/samples/snare-alt.wav',
-  }).toDestination()
-
-  const mainLoop = new Tone.Loop()
-  mainLoop.callback = (time) => {
-    for (let track = 0; track < trackNumber.length; track++) {
-      //Check cell of each track for current step then play drum part if active
-      const cell = document.getElementById(`cell-${track}-${currentStep}`)
-      if (track === 0 && cell) {
-        Tone.Draw.schedule(function () {
-          //this callback is invoked from a requestAnimationFrame
-          //and will be invoked close to AudioContext time
-
-          cell.classList.replace('light-down', 'light-up')
-          setTimeout(() => {
-            cell.classList.replace('light-up', 'light-down')
-          }, 99)
-        }, time)
-      } else if (cell?.getAttribute('value') === 'active') {
-        {
-          drumPart.player(String(track)).sync().start(time).stop()
-
+  useEffect(() => {
+    mainLoop.callback = (time) => {
+      for (let track = 0; track < trackNumber.length; track++) {
+        //Check cell of each track for current step then play drum part if active
+        const cell = document.getElementById(`cell-${track}-${currentStep}`)
+        if (track === 0 && cell) {
           Tone.Draw.schedule(function () {
             //this callback is invoked from a requestAnimationFrame
             //and will be invoked close to AudioContext time
 
-            // if (lights) lighting()
-            cell.classList.add('animate')
+            cell.classList.replace('light-down', 'light-up')
             setTimeout(() => {
-              cell.classList.remove('animate')
+              cell.classList.replace('light-up', 'light-down')
             }, 99)
           }, time)
+        } else if (cell?.getAttribute('value') === 'active') {
+          {
+            drumPart.player(String(track)).sync().start(time).stop()
+
+            Tone.Draw.schedule(function () {
+              //this callback is invoked from a requestAnimationFrame
+              //and will be invoked close to AudioContext time
+
+              // if (lights) lighting()
+              cell.classList.add('animate')
+              setTimeout(() => {
+                cell.classList.remove('animate')
+              }, 99)
+            }, time)
+          }
         }
       }
-
-      //vvvvv ADD CODE BELOW vvvvv
-
-      //^^^^^ ADD CODE ABOVE ^^^^^
+      currentStep < STEP_COUNT - 1 ? currentStep++ : (currentStep = 0)
     }
-    currentStep < STEP_COUNT - 1 ? currentStep++ : (currentStep = 0)
 
-    //vvvvv ADD CODE BELOW vvvvv
+    // Start this outside of the play/pause function otherwise it will start another loop
 
-    //^^^^^ ADD CODE ABOVE ^^^^^
-  }
-  // Start this outside of the play/pause function otherwise it will start another loop
+    mainLoop.interval = '16n'
 
-  mainLoop.interval = '16n'
+    mainLoop.start()
+  })
 
-  mainLoop.start()
+  // startTransportHandler = () => {
+  //   Transport.start("+.2");
+  //   this.setState({
+  //     start: true
+  //   });
+  // };
+  // stopTransportHandler = () => {
+  //   Transport.stop();
+  //   Transport.clear();
+  //   this.setState({
+  //     start: false
+  //   });
+  // };
 
   function handlePlay() {
     // Dispose of previous loop to prevent multiple loops from running
-    mainLoop.dispose()
+    mainLoop.start()
     // Resume audio context on user interaction otherwise audio will not play
     Tone.context.resume()
     setIsPlaying(true)
@@ -139,12 +148,13 @@ export default function Sequencer() {
 
   function handlePause() {
     // Dispose of previous loop to prevent multiple loops from running
-    mainLoop.dispose()
+    // mainLoop.dispose()
+    mainLoop.stop()
     // Resume audio context on user interaction otherwise audio will not play
     // Tone.context.resume()
     setIsPlaying(false)
     drumPart.stopAll()
-    Tone.Transport.pause()
+    Tone.Transport.stop()
   }
 
   // Function to toggle laser state
@@ -163,6 +173,8 @@ export default function Sequencer() {
     console.log('reset has triggered')
     setCellStates([])
     setReset(true)
+    mainLoop.dispose()
+    currentStep = 0
     setTimeout(() => {
       setReset(false)
     }, 100)
@@ -178,22 +190,24 @@ export default function Sequencer() {
 
   return (
     <>
-      <div className="button-container">
-        {isPlaying ? (
-          <Buttons.PauseButton onClick={handlePause} />
-        ) : (
-          <Buttons.PlayButton onClick={handlePlay} />
-        )}
-        <Buttons.RecordButton />
-        <ResetButton onClick={handleReset} />
-        <LaserButton toggleLaser={toggleLaser} />
-        <SaveBeat cellStates={cellStates} invalidateBeats={invalidateBeats} />
-        <BeatSelect
-          onMenuSelectionChange={handleMenuSelectionChange}
-          invalidate={invalidate}
-        />
-        {/* Passing the toggle function */}
-      </div>
+      <Center>
+        <div className="button-container">
+          {isPlaying ? (
+            <Buttons.PauseButton onClick={handlePause} />
+          ) : (
+            <Buttons.PlayButton onClick={handlePlay} />
+          )}
+          <Buttons.RecordButton />
+          <ResetButton onClick={handleReset} />
+          <LaserButton toggleLaser={toggleLaser} />
+          <SaveBeat cellStates={cellStates} invalidateBeats={invalidateBeats} />
+          <BeatSelect
+            onMenuSelectionChange={handleMenuSelectionChange}
+            invalidate={invalidate}
+          />
+          {/* Passing the toggle function */}
+        </div>
+      </Center>
       {trackNumber.map((track) => {
         return (
           <Track
@@ -208,13 +222,13 @@ export default function Sequencer() {
         )
       })}
       {isPlaying ? (
-        <div className="slider-container no-interaction">
+        <Box w="90%" className="slider-container no-interaction">
           <TempoSlider onChange={handleTempoChange} />
-        </div>
+        </Box>
       ) : (
-        <div className="slider-container">
+        <Box w="90%" className="slider-container">
           <TempoSlider onChange={handleTempoChange} />
-        </div>
+        </Box>
       )}
       {isLaserActive && <Lasers />} {/* Conditionally render based on state */}
     </>

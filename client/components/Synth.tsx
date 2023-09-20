@@ -149,26 +149,50 @@ const SynthComponent = () => {
 
   return (
     <Box>
-      <h2>~ Interactive Synth ~</h2>
-      <Box>
-        {/* Dropdown menu to select the synth type */}
-
-        <label id="select-synth" htmlFor="synthSelect">
-          Select Synth Type:{' '}
-        </label>
-        <Select
-          id="synthSelect"
-          value={selectedSynth}
-          onChange={(e) => setSelectedSynth(e.target.value)}
-        >
-          <option value="Synth">Synth</option>
-          <option value="AMSynth">AMSynth</option>
-          <option value="DuoSynth">DuoSynth</option>
-          <option value="FMSynth">FMSynth</option>
-          <option value="MembraneSynth">MembraneSynth</option>
-          <option value="PluckSynth">PluckSynth</option>
-        </Select>
-      </Box>
+      <h2>Interactive Synth</h2>
+      <Center>
+        <Box display="Flex" textAlign="center">
+          {/* Dropdown menu to select the synth type */}
+          <Box>
+            <label
+              id="select-synth"
+              htmlFor="synthSelect"
+              style={{ color: 'black' }}
+            >
+              <Text fontSize="xl" margin="0" padding="0">
+                Select Synth Type:
+              </Text>
+            </label>
+          </Box>
+          <Box>
+            <Select
+              size="lg"
+              id="synthSelect"
+              value={selectedSynth}
+              onChange={(e) => setSelectedSynth(e.target.value)}
+            >
+              <option value="Synth" style={{ color: 'black' }}>
+                Synth
+              </option>
+              <option value="AMSynth" style={{ color: 'black' }}>
+                AMSynth
+              </option>
+              <option value="DuoSynth" style={{ color: 'black' }}>
+                DuoSynth
+              </option>
+              <option value="FMSynth" style={{ color: 'black' }}>
+                FMSynth
+              </option>
+              <option value="MembraneSynth" style={{ color: 'black' }}>
+                MembraneSynth
+              </option>
+              <option value="PluckSynth" style={{ color: 'black' }}>
+                PluckSynth
+              </option>
+            </Select>
+          </Box>
+        </Box>
+      </Center>
       <Center>
         <Box>
           <Box className="board">
@@ -210,8 +234,8 @@ const SynthComponent = () => {
             <SliderTrack bg="red.100">
               <SliderFilledTrack bg="tomato" />
             </SliderTrack>
-            <SliderThumb boxSize={6}>
-              <Box color="tomato" />
+            <SliderThumb>
+              <Box className="brick 1x1" />
             </SliderThumb>
           </Slider>
         </Box>
@@ -221,3 +245,13 @@ const SynthComponent = () => {
 }
 
 export default SynthComponent
+{
+  /* <SliderTrack bg="red.100">
+          <Box position="relative" right={10} />
+
+          <SliderFilledTrack bg="tomato" />
+        </SliderTrack>
+        <SliderThumb>
+          <Box className="brick 1x1" />
+        </SliderThumb> */
+}

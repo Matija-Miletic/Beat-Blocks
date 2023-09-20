@@ -3,6 +3,8 @@ import * as Tone from 'tone'
 
 import Pixel from './Pixel'
 import * as lib from '../../lib/lib.ts'
+import { Box, Button, IconButton } from '@chakra-ui/react'
+import { AiFillPlayCircle, AiOutlineStop } from 'react-icons/ai'
 
 let prevPixelId = ''
 
@@ -93,17 +95,34 @@ export default function BeatPixel() {
   return (
     <>
       <h2>Beat Pixel</h2>
-      <button
-        className="pixel-control"
-        onClick={() => setIsRunning(!isRunning)}
-      >
-        {isRunning ? 'STOP' : 'START'}
-      </button>
-      <div className="pixel-grid">
+      {isRunning ? (
+        <IconButton
+          size="lg"
+          variant="outline"
+          colorScheme="teal"
+          aria-label="Play Video"
+          fontSize="30px"
+          margin-bottom="30px"
+          icon={<AiOutlineStop />}
+          onClick={() => setIsRunning(!isRunning)}
+        />
+      ) : (
+        <IconButton
+          size="lg"
+          variant="outline"
+          colorScheme="teal"
+          aria-label="Stop Video"
+          fontSize="30px"
+          icon={<AiFillPlayCircle />}
+          onClick={() => setIsRunning(!isRunning)}
+        />
+      )}
+
+      <Box margin-top="30px" className="pixel-grid">
         {pixelGrid.map((pixel, index) => {
           return <Pixel key={index} id={pixel} />
         })}
-      </div>
+      </Box>
     </>
   )
 }

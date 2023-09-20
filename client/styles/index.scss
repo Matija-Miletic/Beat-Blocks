@@ -19,11 +19,12 @@ body {
 
 h1 {
   font-weight: bold;
-  font-size: 5rem;
+  font-size: 7rem;
   font-family: 'F3';
   color: rgb(255, 0, 0);
   text-align: center;
-  padding: 20px;
+  padding-top: 200px;
+  text-shadow: 2px 2px 5px #fdd835;
 }
 
 h2 {
@@ -33,15 +34,21 @@ h2 {
   color: rgb(0, 127, 255);
   text-align: center;
   padding: 20px;
+  text-shadow: 5px 5px 10px #fdd835;
 }
 
 h3 {
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 1.2rem;
   font-family: 'F9';
   color: rgb(50, 205, 50);
   text-align: center;
   padding: 20px;
+}
+
+.track-instrument-text {
+  font-family: 'F7';
+  color: rgb(255, 0, 0);
 }
 
 .track {
@@ -53,12 +60,20 @@ h3 {
   justify-content: center;
 }
 
+.sequencer {
+  // background-color: rgba(42, 159, 255, 0.651);
+  column-gap: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 20px;
+  justify-content: center;
+}
+
 .light-up {
-  
   width: 25px;
   height: 25px;
   text-align: center;
-  background-color: yellow; /* Adjust the color as needed */
+  background-color: #165627; /* Adjust the color as needed */
   margin-bottom: 10px
 }
 
@@ -67,24 +82,18 @@ h3 {
   height: 25px;
   text-align: center;
   background-color: hsl(0, 3%, 81%); /* Adjust the color as needed */
-  
-  
- 
+  background: #44946b80;
 }
-
-
 
 .track > :nth-child(4n + 1) {
   margin-right: 8px;
 }
 
-
-
 .cell {
   width: 25px;
   height: 25px;
   text-align: center;
-  border: 1px solid black;
+  border: 1px ;
 }
 
 .app {
@@ -94,6 +103,7 @@ h3 {
   justify-content: center;
   padding: 20px;
   width: 100%;
+  // background-image: './public/images/lego0.png';
 }
 
 .app-content {
@@ -103,6 +113,7 @@ h3 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  // background-image: './public/images/lego0.png';
 }
 
 .button-container button,
@@ -138,6 +149,7 @@ h3 {
 #synthSelect {
   margin: 5px;
   justify-content: center;
+  color: black;
 }
 
 .synth-box:active {
@@ -185,6 +197,25 @@ $brick-square:  $brick-peg-size + $brick-wall-thickness * 2;
   background-position: 0px 0px, -.5px -.5px, 0px 0px, $brick-wall-thickness/2 $brick-wall-thickness/2;
   background-repeat: repeat;
 }
+
+.green-brick {
+  color: rgb(255, 255, 255);
+  background-color: currentColor;
+  padding: $brick-wall-thickness;
+  min-width: $brick-square;
+  min-height: $brick-square;
+  box-shadow: inset -1px -1px 0 rgba(0,0,0,.2), inset 1px 1px 0 rgba(#fff, .2);
+
+  // Replace the existing background-image radial gradients with the new image
+  background-image: url('public/images/Leshgooo.png');
+
+  // Optional: If you want to control the size of the background image
+  background-size: cover;  // You can use 'cover' or 'contain' as well
+
+  background-position: 0px 0px;  // Adjust this if needed
+  background-repeat: repeat;
+}
+
 
 $brick-colors: (
     'red':  #e53935,
@@ -311,9 +342,39 @@ $brick-colors: (
 		width: 0;
 		height: 0;
     border-width: 1px;
+  }}
+
+// FONTS ==============================================
+
+@font-face {
+  font-family: 'F1';
+  src: url('/fonts/F1.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'F2';
+  src: url('/fonts/F2.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'F3';
+  src: url('/fonts/F3.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'F4';
+  src: url('/fonts/F4.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'F5';
+  src: url('/fonts/F5.ttf') format('truetype');
+}
+
+@font-face {
   font-family: 'F6';
   src: url('/fonts/F6.ttf') format('truetype');
-}}
+}
 @font-face {
   font-family: 'F7';
   src: url('/fonts/F7.ttf') format('truetype');

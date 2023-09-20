@@ -1,6 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { getBeats } from '../apis/beats'
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
+import { AiOutlineDown } from 'react-icons/ai'
 
 interface BeatSelectProps {
   onMenuSelectionChange: (selection: string) => void
@@ -38,7 +39,14 @@ export default function BeatSelect({
   return (
     <>
       <Menu>
-        <MenuButton as={Button}>Select preset:</MenuButton>
+        <MenuButton
+          as={Button}
+          colorScheme="yellow"
+          variant="outline"
+          rightIcon={<AiOutlineDown />}
+        >
+          Select preset
+        </MenuButton>
         <MenuList>
           {beats.map((beat) => (
             <MenuItem

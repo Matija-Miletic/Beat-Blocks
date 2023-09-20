@@ -71,10 +71,11 @@ export default function SaveBeat({
         aria-label="Save beat"
         fontSize="20px"
         icon={<AiOutlineSave />}
+        backgroundColor="white"
       />
       {nameInputVis && (
         <form onSubmit={handleSubmit}>
-          <InputGroup size="md">
+          <InputGroup size="md" w="500px">
             <Input
               type="string"
               pr="4.5rem"

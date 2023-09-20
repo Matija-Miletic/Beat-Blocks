@@ -23,7 +23,10 @@ export default function Track({
 
   return (
     <div id={`track-${trackNumber}`} className="track">
-      <button style={{ minWidth: '60px', textAlign: 'left' }}>
+      <button
+        className="track-instrument-text"
+        style={{ minWidth: '60px', textAlign: 'left' }}
+      >
         {['', '808', 'Clap', 'Tap', 'Hihat', 'Snare', 'Kick'][trackNumber]}
       </button>
       {cells.map((cell) => {
