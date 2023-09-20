@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as Tone from 'tone'
 
 import Track from './Track'
@@ -13,7 +13,7 @@ import { getBeatByName } from '../apis/beats'
 import { CellState, SelectedBeat } from '../../models/beats'
 
 const TRACK_COUNT = 7
-const STEP_COUNT = 32
+const STEP_COUNT = 16
 
 let currentStep = 0
 const trackNumber = [...Array(TRACK_COUNT).keys()]
@@ -28,39 +28,6 @@ const drumPart = new Tone.Players({
 }).toDestination()
 
 const mainLoop = new Tone.Loop()
-mainLoop.callback = (time) => {
-  for (let track = 0; track < trackNumber.length; track++) {
-    //Check cell of each track for current step then play drum part if active
-    const cell = document.getElementById(`cell-${track}-${currentStep}`)
-    if (track === 0 && cell) {
-      Tone.Draw.schedule(function () {
-        //this callback is invoked from a requestAnimationFrame
-        //and will be invoked close to AudioContext time
-
-        cell.classList.replace('light-down', 'light-up')
-        setTimeout(() => {
-          cell.classList.replace('light-up', 'light-down')
-        }, 99)
-      }, time)
-    } else if (cell?.getAttribute('value') === 'active') {
-      {
-        drumPart.player(String(track)).sync().start(time).stop()
-
-        Tone.Draw.schedule(function () {
-          //this callback is invoked from a requestAnimationFrame
-          //and will be invoked close to AudioContext time
-
-          // if (lights) lighting()
-          cell.classList.add('animate')
-          setTimeout(() => {
-            cell.classList.remove('animate')
-          }, 99)
-        }, time)
-      }
-    }
-  }
-  currentStep < STEP_COUNT - 1 ? currentStep++ : (currentStep = 0)
-}
 
 export default function Sequencer() {
   const [isPlaying, setIsPlaying] = useState(false)
@@ -113,58 +80,65 @@ export default function Sequencer() {
 
   Tone.Transport.bpm.value = tempo
 
-  // const drumPart = new Tone.Players({
-  //   1: '/samples/808.wav',
-  //   2: '/samples/clap-alt.wav',
-  //   3: '/samples/percussion-alt.wav',
-  //   4: '/samples/hihat-alt.wav',
-  //   5: '/samples/snare-alt.wav',
-  //   6: '/samples/kick-alt.wav',
-  // }).toDestination()
+  useEffect(() => {
+    mainLoop.callback = (time) => {
+      for (let track = 0; track < trackNumber.length; track++) {
+        //Check cell of each track for current step then play drum part if active
+        const cell = document.getElementById(`cell-${track}-${currentStep}`)
+        if (track === 0 && cell) {
+          Tone.Draw.schedule(function () {
+            //this callback is invoked from a requestAnimationFrame
+            //and will be invoked close to AudioContext time
 
-  // const mainLoop = new Tone.Loop()
-  // mainLoop.callback = (time) => {
-  //   for (let track = 0; track < trackNumber.length; track++) {
-  //     //Check cell of each track for current step then play drum part if active
-  //     const cell = document.getElementById(`cell-${track}-${currentStep}`)
-  //     if (track === 0 && cell) {
-  //       Tone.Draw.schedule(function () {
-  //         //this callback is invoked from a requestAnimationFrame
-  //         //and will be invoked close to AudioContext time
+            cell.classList.replace('light-down', 'light-up')
+            setTimeout(() => {
+              cell.classList.replace('light-up', 'light-down')
+            }, 99)
+          }, time)
+        } else if (cell?.getAttribute('value') === 'active') {
+          {
+            drumPart.player(String(track)).sync().start(time).stop()
 
-  //         cell.classList.replace('light-down', 'light-up')
-  //         setTimeout(() => {
-  //           cell.classList.replace('light-up', 'light-down')
-  //         }, 99)
-  //       }, time)
-  //     } else if (cell?.getAttribute('value') === 'active') {
-  //       {
-  //         drumPart.player(String(track)).sync().start(time).stop()
+            Tone.Draw.schedule(function () {
+              //this callback is invoked from a requestAnimationFrame
+              //and will be invoked close to AudioContext time
 
-  //         Tone.Draw.schedule(function () {
-  //           //this callback is invoked from a requestAnimationFrame
-  //           //and will be invoked close to AudioContext time
+              // if (lights) lighting()
+              cell.classList.add('animate')
+              setTimeout(() => {
+                cell.classList.remove('animate')
+              }, 99)
+            }, time)
+          }
+        }
+      }
+      currentStep < STEP_COUNT - 1 ? currentStep++ : (currentStep = 0)
+    }
 
-  //           // if (lights) lighting()
-  //           cell.classList.add('animate')
-  //           setTimeout(() => {
-  //             cell.classList.remove('animate')
-  //           }, 99)
-  //         }, time)
-  //       }
-  //     }
-  //   }
-  //   currentStep < STEP_COUNT - 1 ? currentStep++ : (currentStep = 0)
-  // }
-  // Start this outside of the play/pause function otherwise it will start another loop
+    // Start this outside of the play/pause function otherwise it will start another loop
 
-  mainLoop.interval = '16n'
+    mainLoop.interval = '16n'
 
-  mainLoop.start()
+    mainLoop.start()
+  })
+
+  // startTransportHandler = () => {
+  //   Transport.start("+.2");
+  //   this.setState({
+  //     start: true
+  //   });
+  // };
+  // stopTransportHandler = () => {
+  //   Transport.stop();
+  //   Transport.clear();
+  //   this.setState({
+  //     start: false
+  //   });
+  // };
 
   function handlePlay() {
     // Dispose of previous loop to prevent multiple loops from running
-    mainLoop.dispose()
+    mainLoop.start()
     // Resume audio context on user interaction otherwise audio will not play
     Tone.context.resume()
     setIsPlaying(true)
@@ -173,12 +147,13 @@ export default function Sequencer() {
 
   function handlePause() {
     // Dispose of previous loop to prevent multiple loops from running
-    mainLoop.dispose()
+    // mainLoop.dispose()
+    mainLoop.stop()
     // Resume audio context on user interaction otherwise audio will not play
     // Tone.context.resume()
     setIsPlaying(false)
     drumPart.stopAll()
-    Tone.Transport.pause()
+    Tone.Transport.stop()
   }
 
   // Function to toggle laser state
