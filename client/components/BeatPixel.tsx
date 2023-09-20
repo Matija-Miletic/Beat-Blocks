@@ -101,7 +101,7 @@ export default function BeatPixel() {
             <IconButton
               size="lg"
               variant="outline"
-              colorScheme="teal"
+              colorScheme="red"
               aria-label="Play Video"
               fontSize="30px"
               margin-bottom="5px"
