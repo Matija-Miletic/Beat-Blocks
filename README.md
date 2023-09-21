@@ -13,3 +13,12 @@ A simple step sequencer (and a few other experiments) using React and [Tonejs](h
 - Matija Miletic
 - Kate Hooker
 - Cris Kiri
+
+### Installation:
+Run the following to install necessary packages:
+npm i
+npm i tone
+npm i @chakra-ui/react @emotion/react @emotion/styled framer-motion
+npm install react-icons --save
+npm run knex migrate:latest
+npm run knex seed:run
