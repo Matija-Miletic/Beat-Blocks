@@ -44,15 +44,13 @@ export default function Sequencer() {
 
   const [reset, setReset] = useState(false)
 
-  const [selectedBeat, setSelectedBeat] = useState<null | SelectedBeat>(null)
-
   // All cell isActive states so we can save
   const [cellStates, setCellStates] = useState<CellState[]>([])
 
   const handleCellStateChange = (cellId: string, isActive: boolean) => {
     // Find the index of the cell in the cellStates array
     const cellIndex = cellStates.findIndex((cell) => cell.id === cellId)
-    setSelectedBeat(null)
+
     if (cellIndex !== -1) {
       // If the cell exists in the array, update its isActive property
       const updatedCellStates = [...cellStates]
@@ -65,15 +63,14 @@ export default function Sequencer() {
     }
   }
 
-  const handleMenuSelectionChange = async (selection: string) => {
+  const handleLoadBeat = async (selection: string) => {
     const presetBeatArray = await getBeatByName(selection) //gets data from db
     const presetBeat = {
       ...presetBeatArray[0],
       cell_states: JSON.parse(presetBeatArray[0].cell_states),
     }
-    setSelectedBeat(presetBeat)
 
-    console.log('Presetbeat at client', presetBeat)
+    setCellStates(presetBeat.cell_states)
   }
   ///////////////// SEQUENCER CODE ////////////////////////////
 
@@ -112,8 +109,8 @@ export default function Sequencer() {
 
     mainLoop.interval = '16n'
 
-    mainLoop.start()
-  })
+    // mainLoop.start()
+  }, [reset])
 
   // startTransportHandler = () => {
   //   Transport.start("+.2");
@@ -131,22 +128,24 @@ export default function Sequencer() {
 
   function handlePlay() {
     // Dispose of previous loop to prevent multiple loops from running
+    mainLoop.dispose()
     mainLoop.start()
     // Resume audio context on user interaction otherwise audio will not play
     Tone.context.resume()
     setIsPlaying(true)
-    Tone.Transport.start('+0.1')
+    Tone.Transport.start()
   }
 
   function handlePause() {
     // Dispose of previous loop to prevent multiple loops from running
     // mainLoop.dispose()
     mainLoop.stop()
+    mainLoop.dispose()
     // Resume audio context on user interaction otherwise audio will not play
     // Tone.context.resume()
     setIsPlaying(false)
     drumPart.stopAll()
-    Tone.Transport.stop()
+    Tone.Transport.pause()
   }
 
   // Function to toggle laser state
@@ -156,16 +155,21 @@ export default function Sequencer() {
 
   // Set BPM to match tempo slider
   const handleTempoChange = (newTempo: number) => {
-    console.log(`New Tempo: ${newTempo} BPM`)
     mainLoop.dispose()
     setTempo(newTempo)
   }
 
   const handleReset = () => {
-    console.log('reset has triggered')
-    setCellStates([])
+    setIsPlaying(false)
+    mainLoop.stop()
+
+    drumPart.stopAll()
+    Tone.Transport.cancel()
     setReset(true)
+    setCellStates([])
+
     mainLoop.dispose()
+
     currentStep = 0
     setTimeout(() => {
       setReset(false)
@@ -179,7 +183,7 @@ export default function Sequencer() {
       setInvalidate(false)
     })
   }
-
+  console.log(cellStates)
   return (
     <>
       <Center>
@@ -194,10 +198,9 @@ export default function Sequencer() {
           <LaserButton toggleLaser={toggleLaser} />
           <SaveBeat cellStates={cellStates} invalidateBeats={invalidateBeats} />
           <BeatSelect
-            onMenuSelectionChange={handleMenuSelectionChange}
+            onMenuSelectionChange={handleLoadBeat}
             invalidate={invalidate}
           />
-          {/* Passing the toggle function */}
         </div>
       </Center>
       {trackNumber.map((track) => {
@@ -209,7 +212,6 @@ export default function Sequencer() {
             reset={reset}
             handleCellStateChange={handleCellStateChange}
             cellStates={cellStates}
-            selectedBeat={selectedBeat}
           />
         )
       })}

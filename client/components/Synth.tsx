@@ -234,7 +234,7 @@ const SynthComponent = () => {
             max={10}
             step={0.1} // Adjust the step as needed
             onChange={handleDistortionChange}
-            margin-bottom="15px"
+            
           >
             <SliderTrack bg="red.100">
               <SliderFilledTrack bg="tomato" />

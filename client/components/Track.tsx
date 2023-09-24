@@ -8,7 +8,6 @@ interface Props {
   reset: boolean
   handleCellStateChange: (cellID: string, newIsActive: boolean) => void
   cellStates: CellState[] // Use CellState[] to define it as an array of objects
-  selectedBeat: SelectedBeat | null
 }
 
 export default function Track({
@@ -17,7 +16,6 @@ export default function Track({
   reset,
   handleCellStateChange,
   cellStates,
-  selectedBeat,
 }: Props) {
   const cells = [...Array(steps).keys()]
 
@@ -41,13 +39,8 @@ export default function Track({
               trackNumber={trackNumber}
               cellNumber={cell}
               reset={reset}
-              selectedBeat={selectedBeat}
               handleCellStateChange={handleCellStateChange}
-              isActive={
-                cellStates.find(
-                  (cellState) => cellState.id === `cell-${trackNumber}-${cell}`,
-                )?.isActive || false
-              }
+              cellStates={cellStates}
             />
           )
         }

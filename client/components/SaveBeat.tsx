@@ -5,8 +5,6 @@ import {
   InputGroup,
   InputRightElement,
   Box,
-  FormHelperText,
-  FormErrorMessage,
   Alert,
   AlertIcon,
   Stack,
@@ -15,7 +13,6 @@ import { AiOutlineSave } from 'react-icons/ai'
 import { CellState } from '../../models/beats'
 import { useState } from 'react'
 import { saveBeat } from '../apis/beats'
-import { useQueryClient } from '@tanstack/react-query'
 
 interface SaveBeatProps {
   cellStates: CellState[]
@@ -61,7 +58,6 @@ export default function SaveBeat({
     }, 1000)
   }
 
-  console.log('noName', noName)
   return (
     <>
       <IconButton

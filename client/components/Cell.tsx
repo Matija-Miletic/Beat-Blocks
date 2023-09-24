@@ -1,39 +1,33 @@
 import React, { useState, useEffect } from 'react'
 import { Box } from '@chakra-ui/react'
 import { RiCheckboxBlankFill, RiCheckboxBlankLine } from 'react-icons/ri'
-import { SelectedBeat } from '../../models/beats'
+import { CellState } from '../../models/beats'
 
 interface Props {
   trackNumber: number
   cellNumber: number
   reset: boolean
   handleCellStateChange: (cellID: string, newIsActive: boolean) => void
-  isActive: boolean
-  selectedBeat: SelectedBeat | null
+  cellStates: CellState[]
 }
 
 export default function Cell({
   trackNumber,
   cellNumber,
   reset,
-  selectedBeat,
   handleCellStateChange,
+  cellStates,
 }: Props) {
   const [showImage, setShowImage] = useState<boolean>(false)
   const cellID = `cell-${trackNumber}-${cellNumber}`
-
   // Use a state variable to manage the isActive state based on selectedBeat
   const [isActive, setIsActive] = useState<boolean>(false)
 
   useEffect(() => {
-    // When selectedBeat changes, update the isActive state based on the cell_states
-    if (selectedBeat) {
-      const presetBeat = selectedBeat.cell_states.find(
-        (cellState) => cellState.id === cellID,
-      )
-      setIsActive(presetBeat ? presetBeat.isActive : false)
-    }
-  }, [selectedBeat, cellID])
+    // When selectedBeat changes, update the isActive state
+    const beatState = cellStates.find((cellState) => cellState.id === cellID)
+    setIsActive(beatState ? beatState.isActive : false)
+  }, [cellStates, cellID])
 
   function handleClick() {
     const newIsActive = !isActive
@@ -69,7 +63,7 @@ export default function Cell({
     6: 'b-purple',
   }
   const trackClassName = trackClassMap[trackNumber] || 'b-red'
-  console.log({ trackClassName })
+  // console.log({ trackClassName })
 
   useEffect(() => {
     if (reset) {
