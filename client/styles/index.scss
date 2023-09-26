@@ -5,29 +5,102 @@ body {
   font-family: 'Montserrat', sans-serif;
 }
 
+// COLOURS:
+// Hot Pink: color: rgb(255, 20, 147);
+// Electric Blue: color: rgb(0, 127, 255);
+// Neon Green: color: rgb(57, 255, 20);
+// Bright Yellow: color: rgb(255, 255, 0);
+// Neon Orange: color: rgb(255, 65, 0);
+// Vivid Purple: color: rgb(148, 0, 211);
+// Bright Red: color: rgb(255, 0, 0);
+// Turquoise: color: rgb(64, 224, 208);
+// Lime Green: color: rgb(50, 205, 50);
+// Electric Cyan: color: rgb(0, 255, 255);
+
 h1 {
   font-weight: bold;
-  font-size: 3rem;
-  color: black;
+  font-size: 7rem;
+  font-family: 'F3';
+  color: rgb(255, 0, 0);
+  text-align: center;
+  padding-top: 200px;
+  text-shadow: 2px 2px 5px #fdd835;
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 4.5rem;
+  font-family: 'F13';
+  color: rgb(0, 127, 255);
+  text-align: center;
+  padding: 20px;
+  text-shadow: 5px 5px 10px #fdd835;
+}
+
+h3 {
+  font-weight: bold;
+  font-size: 1.2rem;
+  font-family: 'F9';
+  color: rgb(205, 50, 50);
+  text-align: center;
+  padding: 20px;
+}
+
+.track-instrument-text {
+  font-family: 'F7';
+  color: rgb(255, 0, 0);
+}
+
+.stupid-text{
+  font-family: 'F9';
+  color:rgb(205, 50, 50);
 }
 
 .track {
+  // width: 70vw;
   display: flex;
   flex-direction: row;
   column-gap: 8px;
   margin-top: 8px;
   margin-bottom: 8px;
+  justify-content: center;
+}
+
+.sequencer {
+  // background-color: rgba(42, 159, 255, 0.651);
+  column-gap: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 20px;
+  justify-content: center;
+}
+
+.light-up {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  background-color: #e0cf4c; /* Adjust the color as needed */
+  margin-bottom: 10px
+}
+
+.light-down {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  background-color: hsl(0, 3%, 81%); /* Adjust the color as needed */
+  background: #bdbdbd80;
+}
+
+.track > :nth-child(4n + 1) {
+  margin-right: 8px;
 }
 
 .cell {
   width: 40px;
   height: 40px;
   text-align: center;
-  border: 1px solid black;
+  border: 1px ;
 }
-
-
-/* New or Updated Styles */
 
 .app {
   display: flex;
@@ -35,30 +108,508 @@ h1 {
   align-items: center;
   justify-content: center;
   padding: 20px;
+  width: 100%;
+  // background-image: './public/images/lego0.png';
+}
+
+.app-content {
+  z-index: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  // background-image: './public/images/lego0.png';
 }
 
 .button-container button,
 .icon-button {
   margin: 5px;
+  justify-content: center;
 }
 
 .slider-container {
-  width: 66%;  /* 2/3 of the screen */
+  width: 66%;
+  justify-content: center;
+  padding: 20px;
+}
 
 .synth-box {
   width: 50vw;
-  height: 50vw; /* Set the height equal to the width to create a square */
-  background-color: #3498db; /* Example background color */
+  height: 30vw;
+  background-color: #3498db;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   user-select: none;
-  color: #fff; /* Text color */
-  font-size: 18px; /* Text font size */
+  
+  font-size: 18px;
+}
+
+#select-synth {
+  margin: 5px;
+  justify-content: center;
+}
+
+#synthSelect {
+  margin: 5px;
+  justify-content: center;
+  color: black;
 }
 
 .synth-box:active {
-  background-color: #2980b9; /* Change background color when clicked */
+  background-color: #e65c00;
+}
 
+.pixel-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+}
+
+$brick-peg-size: 15px;
+$brick-wall-thickness: 6px;
+$brick-square:  $brick-peg-size + $brick-wall-thickness * 2;
+
+.board {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  box-pack: end;
+  filter: drop-shadow(6px 6px 4px rgba(0,0,0,0.6)) drop-shadow(0 0 6px rgba(0,0,0,0.5));
+}
+.border {
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(12 * #{$brick-square} + 2 * #{$brick-wall-thickness});
+  height: calc(12 * #{$brick-square} + 2 * #{$brick-wall-thickness});
+  background-color: transparent; /* Adjust this to your background color */
+  border: 1px solid #f63; /* Border color matches brick color */
+}
+
+.brick {
+ 
+  color: #f63;
+  background-color: currentColor;
+  padding: $brick-wall-thickness;
+  min-width: $brick-square;
+  min-height: $brick-square;
+  box-shadow: inset -1px -1px 0 rgba(0,0,0,.2), inset 1px 1px 0 rgba(#fff, .2);
+  background-image: radial-gradient(currentColor $brick-peg-size/2, transparent $brick-peg-size/2 + 1px),
+                      radial-gradient(rgba(#fff, .6) $brick-peg-size/2, transparent $brick-peg-size/2 + 1px),
+                    radial-gradient(rgba(#000, .2) $brick-peg-size/2, transparent $brick-peg-size/2 + $brick-wall-thickness/2),
+                  radial-gradient(rgba(#000, .2) $brick-peg-size/2, transparent $brick-peg-size/2 + $brick-wall-thickness/2);
+  background-size: $brick-square $brick-square;
+  background-position: 0px 0px, -.5px -.5px, 0px 0px, $brick-wall-thickness/2 $brick-wall-thickness/2;
+  background-repeat: repeat;
+}
+
+.green-brick {
+  color: rgb(255, 255, 255);
+  background-color: currentColor;
+  padding: $brick-wall-thickness;
+  min-width: $brick-square;
+  min-height: $brick-square;
+  box-shadow: inset -1px -1px 0 rgba(0,0,0,.2), inset 1px 1px 0 rgba(#fff, .2);
+
+  // Replace the existing background-image radial gradients with the new image
+  background-image: url('public/images/Leshgooo.png');
+
+  // Optional: If you want to control the size of the background image
+  background-size: cover;  // You can use 'cover' or 'contain' as well
+
+  background-position: 0px 0px;  // Adjust this if needed
+  background-repeat: repeat;
+}
+
+
+$brick-colors: (
+    'red':  #e53935,
+'pink':  #d81b60,
+'purple':  #8e24aa,
+'deep-purple':  #5e35b1,
+'indigo':  #3949ab,
+'blue':  #1e88e5,
+'light-blue':  #039be5,
+'cyan':  #00acc1,
+'teal':  #00897b,
+'green':  #43a047,
+'light-green':  #7cb342,
+'lime':  #c0ca33,
+'yellow':  #fdd835,
+'amber':  #ffb300,
+'orange':  #fb8c00,
+'deep-orange':  #f4511e,
+'brown':  #6d4c41,
+'grey':  #757575,
+'blue-grey':  #546e7a
+);
+
+@each $name, $color in $brick-colors {
+    .b-#{$name} {
+        color: $color;
+    }
+}
+
+@for $x from 1 through 12 {
+    @for $y from 1 through 12 {
+        .b-#{$x}x#{$y} {
+            width: $brick-peg-size * $x + (($brick-wall-thickness*2) * $x);
+            height: $brick-peg-size * $y + (($brick-wall-thickness*2) * $y);
+        }
+    }
+}
+
+// LASERS -------------------------------------------
+
+.stage {
+  z-index: -1;
+  position: absolute;
+  top: -200px;
+  right: -200px;
+  bottom: -200px;
+  left: -200px;
+  overflow: hidden;
+  background-color: black;
+  filter: blur(3.2px) brightness(1.4) contrast(15);
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    background: black;
+    border-radius: 50%;
+    box-shadow: 0 0 10px black, 0 0 20px black, 0 0 40px black, 0 0 70px black, 0 0 100px black, 0 0 140px black, 0 0 180px black, 0 0 230px black;
+    transform: translateX(-50%) translateY(-50%);
+  }
+}
+.diamond-lines {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  &::before, &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    display: block;
+    width: 100%;
+    height: 0;
+    border: 1px solid #fff;
+    box-shadow: 0 0 2px rgb(69, 192, 255), 0 0 5px rgb(69, 192, 255);
+    animation-name: glow;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  &::after {
+    top: 0;
+    left: 50%;
+    height: 100%;
+    width: 0;
+  }
+	div {
+		position: absolute;
+    left: 50%;
+    top: 50%;
+		width: 1000px;
+		height: 500px;
+    border: 6px solid #fff;
+    transform: translateX(-50%) translateY(-50%) rotate(90deg) skew(75deg);
+		animation-duration: 20s;
+		animation-name: move;
+		animation-timing-function: cubic-bezier(0.06,0.22,0.19,0.99);
+		animation-iteration-count: infinite;
+		box-shadow: 0 0 5px rgb(69, 192, 255), 0 0 15px rgb(69, 192, 255);
+		opacity: 0;
+		@for $i from 1 through 10 {
+			&:nth-child(#{$i}) {
+				animation-delay: #{$i*2}s;
+			}
+		}
+	}
+}
+@keyframes move{
+	0% {
+		width: 1000px;
+		height: 1000px;
+		opacity: 0;
+    transform: translateX(-50%) translateY(-50%) rotate(0deg) skew(70deg);
+	}
+	15% {
+		opacity: 1;
+   }
+	40% {
+		opacity: 1;
+   }
+	100% {
+		width: 0;
+		height: 0;
+    border-width: 1px;
+  }}
+
+// FONTS ==============================================
+
+@font-face {
+  font-family: 'F1';
+  src: url('/fonts/F1.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'F2';
+  src: url('/fonts/F2.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'F3';
+  src: url('/fonts/F3.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'F4';
+  src: url('/fonts/F4.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'F5';
+  src: url('/fonts/F5.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'F6';
+  src: url('/fonts/F6.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F7';
+  src: url('/fonts/F7.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F8';
+  src: url('/fonts/F8.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F9';
+  src: url('/fonts/F9.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F10';
+  src: url('/fonts/F10.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F11';
+  src: url('/fonts/F11.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F12';
+  src: url('/fonts/F12.ttf') format('truetype');
+}
+// Font 13 is really cool - blocks dropping off
+@font-face {
+  font-family: 'F13';
+  src: url('/fonts/F13.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F14';
+  src: url('/fonts/F14.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'F15';
+  src: url('/fonts/F15.ttf') format('truetype');
+}
+
+.font-sample {
+  margin-bottom: 2rem;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.lowercase {
+  text-transform: lowercase;
+}
+
+.F1 .uppercase,
+.F1 .lowercase {
+  font-family: 'F1';
+}
+.F2 .uppercase,
+.F2 .lowercase {
+  font-family: 'F2';
+}
+.F3 .uppercase,
+.F3 .lowercase {
+  font-family: 'F3';
+}
+.F4 .uppercase,
+.F4 .lowercase {
+  font-family: 'F4';
+}
+.F5 .uppercase,
+.F5 .lowercase {
+  font-family: 'F5';
+}
+.F6 .uppercase,
+.F6 .lowercase {
+  font-family: 'F6';
+}
+.F7 .uppercase,
+.F7 .lowercase {
+  font-family: 'F7';
+}
+.F8 .uppercase,
+.F8 .lowercase {
+  font-family: 'F8';
+}
+.F9 .uppercase,
+.F9 .lowercase {
+  font-family: 'F9';
+}
+.F10 .uppercase,
+.F10 .lowercase {
+  font-family: 'F10';
+}
+.F11 .uppercase,
+.F11 .lowercase {
+  font-family: 'F11';
+}
+.F12 .uppercase,
+.F12 .lowercase {
+  font-family: 'F12';
+}
+.F13 .uppercase,
+.F13 .lowercase {
+  font-family: 'F13';
+}
+.F14 .uppercase,
+.F14 .lowercase {
+  font-family: 'F14';
+}
+.F15 .uppercase,
+.F15 .lowercase {
+  font-family: 'F15';
+}
+
+/////////////
+@keyframes moveDown {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(200px); /* Adjust the distance to move */
+  }
+}
+
+.animate {
+  
+  position: absolute;
+  width: 80px;
+  height: auto;
+  animation: moveDown 1s, fadeOut 1s forwards;
+  top: 0;
+  left: 0;
+}
+
+
+@keyframes moveDown {
+  0% {
+    transform: translateY(0); /* Start with no vertical translation */
+    opacity: 1; /* Fully visible */
+  }
+  100% {
+    transform: translateY(100px); /* Move downward by 100px */
+    opacity: 0; /* Fully transparent */
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1; /* Start with full visibility */
+  }
+  100% {
+    opacity: 0; /* Fade out to fully transparent */
+  }
+}
+
+.red {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 0, 0, 0.5); /* Red color with transparency */
+  pointer-events: none; /* Allow clicks to pass through to elements beneath the overlay */
+}
+
+.blue {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(38, 0, 255, 0.5); /* Red color with transparency */
+  pointer-events: none; /* Allow clicks to pass through to elements beneath the overlay */
+}
+
+.green {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(37, 209, 97, 0.5); /* Red color with transparency */
+  pointer-events: none; /* Allow clicks to pass through to elements beneath the overlay */
+}
+
+.yellow {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 238, 0, 0.5); /* Red color with transparency */
+  pointer-events: none; /* Allow clicks to pass through to elements beneath the overlay */
+}
+
+.no-interaction {
+  pointer-events: none;
+  opacity: 0.3
+}
+
+////// styling to help make beatblocks and syth render die by side
+ 
+.app-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.synth-and-pixel {
+  display: flex;
+  flex-direction: row; /* Change to 'row' for horizontal alignment */
+  gap: 20px; /* Adjust the gap as needed */
+}
+/// 
+.beat-pi-head{
+  margin-bottom:32px;
+}
+
+.header-text {
+  padding-top: 250px;
+  
+  position: relative; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  z-index: 1;
+}
+
+.transparent-brick{
+  opacity: 0.75;
 }

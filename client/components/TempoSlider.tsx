@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Slider,
   SliderTrack,
@@ -12,27 +12,53 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  SliderMark,
+  Image,
 } from '@chakra-ui/react'
 
-const TempoSlider = ({ onChange }) => {
-  const [tempo, setTempo] = React.useState(40) // default tempo
+interface TempoSliderProps {
+  id?: string
+  bpm?: number
+  onChange?: (value: number) => void
+}
+
+const TempoSlider: React.FC<TempoSliderProps> = ({
+  id,
+  bpm = 100,
+  onChange,
+}) => {
+  const [tempo, setTempo] = React.useState<number>(bpm) // Initialize tempo with bpm prop
   const minTempo = 40
   const maxTempo = 240
   const stepTempo = 10
 
-  const handleChange = (value) => {
+  useEffect(() => {
+    setTempo(bpm)
+  }, [bpm])
+
+  const handleChange = (value: number) => {
     setTempo(value)
     if (onChange) {
       onChange(value)
     }
   }
-
+  const sliderMarks = []
+  for (let i = minTempo; i <= maxTempo - 10; i += 10) {
+    sliderMarks.push(
+      <SliderMark color="black" key={i} value={i} mt="1" ml="2.5" fontSize="sm">
+        |
+      </SliderMark>,
+    )
+  }
   return (
     <Flex alignItems="center">
-      <Text mb={2} mr={4}>
+      <Text className="stupid-text" mb={2} mr={4} color="black">
         Tempo: {minTempo} - {maxTempo} BPM
       </Text>
       <NumberInput
+        className="stupid-text"
+        color="black"
+        id={id ? `${id}-number-input` : undefined}
         maxW="100px"
         value={tempo}
         onChange={(valueStr, valueNum) => handleChange(valueNum)}
@@ -44,6 +70,7 @@ const TempoSlider = ({ onChange }) => {
         </NumberInputStepper>
       </NumberInput>
       <Slider
+        id={id ? `${id}-slider` : undefined}
         ml={4}
         flex="1"
         defaultValue={minTempo}
@@ -52,12 +79,18 @@ const TempoSlider = ({ onChange }) => {
         step={stepTempo}
         value={tempo}
         onChange={handleChange}
+        position="relative"
+        minW="50px"
       >
         <SliderTrack bg="red.100">
           <Box position="relative" right={10} />
+
           <SliderFilledTrack bg="tomato" />
         </SliderTrack>
-        <SliderThumb boxSize={6} />
+        <SliderThumb>
+          <Box className="brick 1x1" />
+        </SliderThumb>
+        {sliderMarks}
       </Slider>
     </Flex>
   )

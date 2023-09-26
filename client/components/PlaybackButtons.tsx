@@ -1,14 +1,18 @@
 import { IconButton } from '@chakra-ui/react'
+import { MouseEventHandler } from 'react'
 import {
   AiFillPlayCircle,
   AiOutlinePause,
   AiOutlineStop,
   AiOutlineSync,
   AiOutlineAudio,
+  AiOutlineBulb,
 } from 'react-icons/ai' // Importing additional icons
 
 // Play
-export const PlayButton = () => {
+export const PlayButton = (props: {
+  onClick: MouseEventHandler<HTMLButtonElement> | undefined
+}) => {
   return (
     <IconButton
       variant="outline"
@@ -16,12 +20,15 @@ export const PlayButton = () => {
       aria-label="Play Video"
       fontSize="20px"
       icon={<AiFillPlayCircle />}
+      onClick={props.onClick}
     />
   )
 }
 
 // Pause
-export const PauseButton = () => {
+export const PauseButton = (props: {
+  onClick: MouseEventHandler<HTMLButtonElement> | undefined
+}) => {
   return (
     <IconButton
       variant="outline"
@@ -29,6 +36,7 @@ export const PauseButton = () => {
       aria-label="Pause Video"
       fontSize="20px"
       icon={<AiOutlinePause />}
+      onClick={props.onClick}
     />
   )
 }
@@ -61,6 +69,17 @@ export const LoopButton = () => {
 
 // Record
 export const RecordButton = () => {
+  return (
+    <IconButton
+      variant="outline"
+      colorScheme="pink"
+      aria-label="Record Video"
+      fontSize="20px"
+      icon={<AiOutlineAudio />}
+    />
+  )
+}
+export const SaveButton = () => {
   return (
     <IconButton
       variant="outline"

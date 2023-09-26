@@ -1,33 +1,38 @@
-import { ChakraProvider } from '@chakra-ui/react'
+import { Box, ChakraProvider } from '@chakra-ui/react'
 import Sequencer from './Sequencer'
-import * as Buttons from './PlaybackButtons'
-import { ResetButton } from './ResetButton'
-import TempoSlider from './TempoSlider'
-import Oscillator from './Freeform'
+import Synth from './Synth'
+import BeatPixel from './BeatPixel'
+// import { Fonts } from './Fonts'
+import Header from './Header'
 
 function App() {
-  const handleTempoChange = (newTempo: number) => {
-    console.log(`New Tempo: ${newTempo} BPM`)
-  }
-
   return (
     <ChakraProvider>
-      <div className="app">
-        <h1>Beat Those Blocks!</h1>
-        <div className="button-container">
-          <Buttons.PlayButton />
-          <Buttons.PauseButton />
-          <Buttons.StopButton />
-          <Buttons.LoopButton />
-          <Buttons.RecordButton />
+      <div className="app-content">
+        <Header />
+        <div className="sequencer">
+          <Sequencer />
         </div>
-        <Sequencer />
-        <div className="slider-container">
-          <TempoSlider onChange={handleTempoChange} />
-        </div>
-        <ResetButton />
-        <Oscillator />
+
+        <Box
+          w="100%"
+          className="synth-and-pixel"
+          display="flex"
+          justifyContent="space-around"
+        >
+          <Box className="oscillator-container" margin-right="200px">
+            <Synth />
+          </Box>
+          <Box className="beat-pixel">
+            <BeatPixel />
+          </Box>
+        </Box>
       </div>
+
+      {/* <div className="fonts-container">
+        <h4>Fonts Showcase:</h4>
+        <Fonts />
+      </div> */}
     </ChakraProvider>
   )
 }
